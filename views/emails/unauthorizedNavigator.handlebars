@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avvimo</title>
+    <style type="text/css">
+    *{
+      margin: 0; 
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body{
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      font-family: Tahoma;
+      display:flex;
+      align-content: center;
+      justify-content: center;
+      line-height: 1.5;
+    }
+    .container{
+      max-width: 420px;
+      text-align:center;
+      background: #f6f7fd;
+    }
+    .email-logo{
+      color: #fff;
+      width: 100%;
+      font-size: 30px;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 20px;
+      margin-bottom: 10px;
+    }
+    footer{
+      background: #f6f7fd;
+      padding: 15px;
+    }
+    a{
+      color: #000;
+      text-decoration: none;
+    }
+    .name{margin: 30px 20px 0 20px;}
+    button{
+      outline: none; 
+      border: none;
+    }
+    .email-text{
+      padding:10px 20px;
+      font-size: 15px;
+    }
+    .cordial-greetings{
+      margin: 20px;
+      font-size: 14px;
+    }
+    .email-title{margin: 30px 20px;}
+    .location{font-size: 12px;}
+    .logo-wrap{
+      display: flex;
+      height: 100%;
+      align-items: center;
+      text-align: center;
+    }
+    .social-media button{
+      width:45px;
+      height: 45px;
+      margin: 2px;
+      border-radius: 60%;
+      background: #061b26;
+    }
+    .primary-color{
+      background: #cc6c3c;
+      color: #fff;
+    }
+    .btn-link{
+      padding:13px 20px;
+      border-radius: 3px ;
+      margin:30px 20px;
+    }
+    .img{
+      height:30px;
+      max-width:150px;
+    }
+    .email-links button{
+      color: #cc6c3c;
+      margin: 10px 4px;
+      background-color: transparent;
+    }
+    .trigger-link{color: #cc6c3c;}
+    .location{margin: 20px 20px 0 20px;}
+    .email-copy-rights{
+      font-size: 12px;
+      margin:0 0 20px 0;
+    }
+    .body{
+      margin:10px;
+      padding: 10px;
+      border-radius: 10px;
+      background:#fff;
+    }
+  </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="email-logo">
+          <div style="text-align: center;" class="logo-wrap">
+            <img  class="img" src="{{logo}}" alt="logo" />
+          </div>
+        </div>
+      </div>
+      <div class="body">
+        
+        <h2 class="email-title">Uma tentativa de entrar no admin!</h2>
+        <div class="email-body">
+          <p class="email-text">Você recebeu este e-mail porque alguem não autorizado tentou entrar na area de administração com o e-mail: {{owner.email}}.</p>
+          <a class="" href="{{link}}" target="_blank">
+            <button class="btn-link primary-color">Ver alertas</button>
+          </a>
+          <p class="email-text">Se você achar que isso não compromete o sistema, pode ignorar este e-mail.</p>
+          <p class="cordial-greetings">Obrigado, atenciosamente equipe {{companyName}}.</p>
+        </div>
+      <footer>
+        <div class="location">{{location}} </div>
+        <p class="email-copy-rights">© Copyrights {{year}} {{companyName}}, Todos os direitos reservados.</p>
+        <div class="email-links">
+          <a class="" href="{{baseLink}}/">
+            <button>Casa</button>
+          </a>
+          <a class="" href="{{baseLink}}/contact-us">
+            <button>contacte-nos</button>
+          </a>
+          <a class="" href="{{baseLink}}/terms-condition">
+            <button>Termos</button>
+          </a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

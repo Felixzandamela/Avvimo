@@ -1,0 +1,73 @@
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Sacar</title>
+  </head>
+  <body>
+    <main id="layout" class="layout flex_b">
+      {{>_aside}}
+      <section class="a_sec">
+        {{>_layout-nav}}
+        <div class="main_wrap">
+        <div class="mr5-a flex_c_c padd10-a">
+          <div class="flex_b a_form_container br30  a_container">
+            <div class="form_card_a f_card">
+              <h4 class="padd10-a m5-a">Saque</h4>
+              <div class="input_card">
+                <div class="input_wrap br6-a flex_b_c">
+                  <input min="50" max="{{user.balance}}" class="input" id="amounts"  name="amounts" type="number"/>
+                  <label for="amounts">Valor</label>
+                </div>
+                <div class="label_error"></div>
+              </div>
+              <div class="container-gateways padd5-a flex_wrap">
+                {{#each gateways}}
+                <div class="wrap-radio-card">
+                  <input accesskey="{{name}}" class="btnGateway" type="radio" id="{{_id}}" name="gateway" value="{{_id}}" />
+                  <label class="" for="{{_id}}">
+                    <div class="i-radio-card br6-a flex_c_c">
+                      <h5>{{name}}</h5>
+                      <div class="radio-img-wrap">
+                        <img class="radio-img" src="{{src}}" alt="{{name}}"/>
+                      </div>
+                    </div>
+                  </label>
+                </div>
+                {{/each}}
+              </div>
+              <div class="input_card">
+                <div class="input_wrap accountnumber br6-a flex_b_c">
+                  <div  class="input_right_box flex_c_c">258</div>
+                  <input accesskey="" title="withdraw" class="input accountnumber" id="accounts"  name="accounts" type="number"/>
+                  <label for="accounts">Número da conta</label>
+                </div>
+                <div class="label_error"></div>
+              </div>
+            </div>
+            <input class="hasMadeDeposits" value="843434027" type="hidden"/>
+            <input class="hasMadeDeposits" value="843434028" type="hidden"/>
+            
+            <form id="form" action="/cabinet/newwithdraw" method="post"  class="form_card_b flex_b f_card">
+              <h4 class="padd10-a m5-a">Sumário</h4>
+              <input id="amount" name="amount" type="hidden"/>
+              <input id="account" name="account" type="hidden"/>
+              <input id="gateway" name="gateway" type="hidden"/>
+              
+              <div class="form_card_c">
+                <div class="flex_b_c f-row"><div>Valor a sacar:</div><div id="val">0</div></div> 
+                <div class="flex_b_c f-row"><div>Taxas:</div><div id="fees">0</div></div> 
+                <div class="flex_b_c f-row"><div>Total a receber:</div><div id="totalReceivable">0</div></div> 
+                <div class="flex_b_c f-row"><div>Período da transação:</div><div id="expireDay">48 horas</div></div>
+              </div>
+              <div class="input_card">
+                <button id="submitBtn" type="button" class="br6-a primary-btn"><div id="btnText">Continuar</div>{{>_minloader}}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        </div>
+        <script src="/js/withdraw.js"></script>
+        <script src="/js/gre.js"></script>
+      </section>
+      {{>_profile}}
+      <script type="text/javascript" src="/js/layout.js"></script>
+    </main>
+  </body>

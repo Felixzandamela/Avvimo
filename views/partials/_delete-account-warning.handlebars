@@ -1,0 +1,16 @@
+
+<form action="/auth/account_action" method="post" class="padd15-a">
+  <input type="hidden" value="{{user._id}}" name="_id"/>
+  <input type="hidden" value="false" name="type"/>
+  <div class="padd10-a br6-a g_warning flex_e">
+    <div class="br60 icon_wrap">
+    </div>
+          <div class="padd10-l">
+            <h3 class="m5-b">Importante</h3>
+            <p>Sua conta foi agendado para ser deletado em <b>{{user.cronTodelete.fullDate}}</b>, se você clicou no botão <b>"deletar conta"</b> por engano, por favor clique no botão cancelar em baixo para cancelar este evento.</p>
+            <div class="flex_e_c m5-t">
+             <button class="white-btn br4-a padd8-15 m5-l">Não quero deletar</button>
+            </div>
+          </div>
+        </div>
+      </form>

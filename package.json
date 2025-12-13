@@ -1,0 +1,38 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@handlebars/allow-prototype-access": "^1.0.5",
+    "bcryptjs": "^3.0.2",
+    "body-parser": "^2.2.0",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.7",
+    "cropperjs": "^1.5.13",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "express-handlebars": "^8.0.3",
+    "express-session": "^1.17.3",
+    "firebase": "^10.12.2",
+    "fs": "^0.0.1-security",
+    "handlebars": "^4.7.8",
+    "helmet": "^8.1.0",
+    "mongoose": "^8.17.0",
+    "node-cron": "^4.2.1",
+    "node-sessionstorage": "^1.0.0",
+    "nodemailer": "^7.0.5",
+    "nodemailer-express-handlebars": "^6.1.0",
+    "nodemailer-smtp-transport": "^2.4.2",
+    "passport": "^0.6.0",
+    "passport-local": "^1.0.0",
+    "vhost": "^3.0.2"
+  }
+}

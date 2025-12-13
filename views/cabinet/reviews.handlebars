@@ -1,0 +1,82 @@
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Critícas</title>
+  </head>
+  <body>
+    <main id="layout" class="layout flex_b">
+      {{>_aside}}
+      <section class="a_sec">
+        {{>_layout-nav}}
+        <div id="main_wrap" class="main_wrap">
+          <header class="a_sec_header padd5-a flex_b_c">
+            <h1 class="page-title">Critícas</h1>
+            <div class="">
+              <form method="get" action="/reviews" class="a_selection_wrap flex_wrap">
+                <input type="hidden" name="page" value="0"/>
+                <div class="a_selection">
+                  <div accesskey="statusReviews" class="selection reviews select a_container br6-a">
+                    <div class="flex_b_c selected_wrap">
+                      <div class="flex_b_c">
+                        <i class="bi bi-circle"></i>
+                        <p id="statusReviews" class="selected ellipsis">Por banidos</p>
+                      </div>
+                      <i class="bi bi-chevron-down arrow"></i>
+                    </div>
+                    <div class="selection_card a_container br6-a">
+                      <label><div class="flex_s_c"><input accesskey="Todos" value="" name="makePublic" type="radio" class="input_radio_menu statusReviews"/> Todos</div></label>
+                      <label><div class="flex_s_c"><input accesskey="Revisados" value="true" name="makePublic" type="radio" class="input_radio_menu statusReviews"/>Revisados</div></label>
+                      <label><div class="flex_s_c"><input accesskey="Não revisados" value="false" name="makePublic" type="radio" class="input_radio_menu statusReviews"/>Não revisados</div></label>
+                    </div>
+                  </div>
+                </div>
+                <div class="padd5-a a_selection last"><button class="br6-a go primary-btn"><i class="bi bi-filter"></i></button></div>
+              </form>
+              <div class="s_cards flex_c_c padd10-r">
+                <p id="reviewsToUpdate"></p>
+                <div id="closeSelection" class="btn_circle br60 flex_c_c m5-l"><svg class="" fill="currentColor" opacity="1.0" baseProfile="full" width="24" height="24" viewBox="0 0 24.00 24.00"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg></div>
+              </div>
+            </div>
+          </header>
+          <div class="a_catalgos">
+            {{#if datas.datas}}
+            <div  class="flex_wrap padd5-a">
+              {{#each datas.datas}}
+              <div class="flex_s padd10-a a_catalgo">
+                <div class="a_catalgo_img">
+                  <img src="{{owner.src}}" class="br60"/>
+                </div>
+                <div class="a_catalgo_body padd10-l flex_b">
+                  <div class="reviewViewBtn">
+                    <h4 class="eli">{{owner.name}}</h4>
+                    <div accesskey="{{stars.default}}" class="flex_s card_stars"></div>
+                    <p class="ellipsis_3_line m5-t">{{text}}</p>
+                    <h5 class="a_body_time padd10-t">{{date.fullDate}}</h5>
+                  </div>
+                  <input  value="{{_id}}" type="checkbox" class="input_check"/>
+                </div>
+                {{>_reviewView}}
+              </div>
+              {{/each}}
+            </div>
+            {{else}}
+              {{>_empty_card}}
+            {{/if}}
+            {{>_pagination}}
+          </div>
+          
+          <div class="a_bottom a_container flex_c_c">
+            <form method="post" action="/reviews/update">
+              <input type="hidden" class="ids" name="ids"/>
+              <input type="hidden" value="false" name="makePublic"/>
+              <button class="white-btn br4-a padd10-a">Inrevisar</button>
+            </form>
+            <form method="post" action="/reviews/update">
+              <input type="hidden" class="ids" name="ids"/>
+              <input type="hidden" value="true" name="makePublic"/>
+              <button class="primary-btn br4-a padd10-a">Revisar</button>
+            </form>
+          </div>
+        </div>
+      </section>
+      {{>_profile}}
+      <script type="text/javascript" src="/js/layout.js"></script>
+    </main>

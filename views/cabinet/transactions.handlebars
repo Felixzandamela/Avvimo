@@ -1,0 +1,107 @@
+    <link rel="stylesheet" href="/css/style.css">
+    <title>{{title}}</title>
+  </head>
+  <body>
+    <main id="layout" class="layout flex_b">
+      {{>_aside}}
+      <section class="a_sec">
+        {{>_layout-nav}}
+        <div class="main_wrap">
+          <header class="a_sec_header padd5-lr">
+            <div class="a_sec_header_wrap flex_b_c">
+              <h1 class="page-title">{{title}}</h1>
+              <div  class="flex_b_c">
+                <form class="flex_wrap a_selection_wrap" method="get" action="/{{mode}}/transactions/{{type}}">
+                <input type="hidden" name="page" value="0"/>
+                {{#if isAdmin}}
+                <div class="a_selection">
+                  <div  class="selection a_container br6-a">
+                    <div class="flex_b_c selected_wrap">
+                      <div class="flex_b_c">
+                        <i class="bi bi-search"> </i>
+                        <input name="_id" value="" placeholder="Por ID" type="text" class="a_transactions_search"></input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="a_selection">
+                  <div  class="selection a_container br6-a">
+                    <div class="flex_b_c selected_wrap">
+                      <div class="flex_b_c">
+                        <i class="bi bi-search"> </i>
+                        <input name="owner" value="" placeholder="Por usuarío" type="text" class="a_transactions_search"></input>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {{/if}}
+                {{>_transStatus}}
+                {{>_dateStatus}}
+              <div class="padd5-a a_selection last">
+                <button class="br6-a go primary-btn"><i class="bi bi-filter"></i></button>
+              </div>
+            </form>
+            {{#if isAdmin}}
+             {{else}}
+            <div class="flex_c_c">
+              <a href="/cabinet/fleets" class="a plus-fixed">
+                <div class="primary-btn  padd8-15 br4-a flex_c_c"> <p class="">Depositar</p>
+                <div class="btn_plus flex_c_c">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                  </svg>
+                </div>
+              </div>
+            </a>
+          </div>
+            {{/if}}
+          </div>
+        </div>
+        </header>
+        <div class="transactions_conteiner padd15-lr">
+          <div class="transactions_wrap a_container br10-a">
+            {{#if datas.datas}}
+            {{#each datas.datas}}
+            <div  class="">
+              <div class="dateOf">{{date}}</div>
+                {{#each datas}} 
+                  <a class="a" href="/{{mode}}/transactions/{{transaction_type}}/view?id={{_id}}">
+                    <div class="transaction_wrap {{status}}">
+                      <div class="transaction_card padd15-a">
+                        <div class="transaction_header flex_b_c">
+                          <div class="left flex_s_c">
+                            <i class="{{icon}}"></i>
+                            <div>
+                              <div class="top">{{types}}</div>
+                              <p class="{{status}}">{{status}}</p>
+                            </div>
+                          </div>
+                        <div class="right flex_e_c">
+                          <div>
+                            <div class="top">{{amount.numberSeparotor.b}} MZN</div>
+                            <p>{{gateway.name}}</p>
+                          </div>
+                          <i class="bi bi-chevron-down"></i>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                {{/each}}
+              </div>
+            {{/each}}
+            {{>_pagination}}
+            {{else}}
+              {{>_empty_card}}
+            {{/if}}
+          </div>
+        </div>
+        {{#if isCabinet}}
+        {{>_invite}}
+        {{/if}}
+        </div>
+      </section>
+      {{>_profile}}
+      <script type="text/javascript" src="/js/layout.js"></script>
+    </main>

@@ -1,0 +1,21 @@
+  <nav class="a_nav a_container flex_c_c">
+  <div class="a_nav_wrap flex_b_c">
+    <div class="flex_s_c">
+      <div class="a_btn_Nav"><div></div><div></div><div></div></div>
+    </div>
+    <div class="flex_c_c a_nav-item">
+      <div class="btn_circle m5-lr themeBtn flex_c_c br60">
+        <i class="bi bi-sun"></i>
+        <i class="bi bi-moon"></i>
+      </div>
+      <div class="btn_circle m5-lr flex_c_c br60">
+        <i class="bi bi-bell"></i>
+        <div class="float_counter br4-a flex_c_c">8</div>
+      </div>
+      <div class="avatar a_toggle-profile m5-l flex_c_c br60">
+        <img class="br60" src="{{user.src}}">
+        {{#if user.isBanned}}<div class="isBanned br60 flex_c_c"><i class="bi bi-exclamation"></i></div>{{/if}}
+      </div>
+    </div>
+  </div>
+</nav>

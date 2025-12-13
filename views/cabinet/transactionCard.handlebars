@@ -1,0 +1,187 @@
+    <link rel="stylesheet" href="/css/style.css">
+    <title>{{types}} - {{datas._id}}</title>
+  </head>
+  <body>
+    <main id="layout" class="layout flex_b">
+      {{>_aside}}
+      <section class="a_sec">
+        {{>_layout-nav}}
+        <div class="main_wrap">
+         <div class="mr5-a flex_c_c padd10-a">
+          <div class="flex_b a_form_container br30  a_container">
+            <div class="form_card_a f_card">
+              <div class="modal_header padd15-a flex_b_c">
+          <div class="flex_s_c modal">
+            <i style="font-size:1.5rem" class="bi bi-plus-circle"></i>
+            <div class="left padd10-l">
+              <h5 class="ellipsis">{{datas.type}}</h5>
+              <p class="{{datas.status}}">{{datas.status}}</p>
+            </div>
+          </div>
+          <div id="back" class="flex_b_c back"><svg fill="currentColor" opacity="1.0" base-profile="full" width="24" height="24" view-box="0 0 24.00 24.00"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg></div>
+        </div>
+        
+         <div class="flex_c_c">
+        <div class="m5-bt flex_c_c">
+          <img width="30px" style="width:26px,margin-right:10px" src="{{datas.src}}" class="br4-a"/>
+          <p>{{datas.gateway.name}}</p>
+        </div>
+      </div>
+      
+      <div class="flex_c_c pdd10_a">
+        <small style="margin-right:10px">{{datas.account}}</small>
+        <div class="btn_copy copyBtn">
+          <i id="iconCopy"  class="bi bi-copy"></i>
+          <div class="valueToCopy">{{datas.account}}</div>
+        </div>
+      </div>
+      {{#if datas.shows}}
+       <div class="warning_box padd10-a">
+        <div class="warning_wrap padd10-a flex_s m5-a br4-a">
+          <i class="bi bi-exclamation-square"></i>
+          <p>{{datas.shows}}</p>
+        </div>
+      </div>
+      {{/if}}
+      {{#if datas.gateway.paymentInstantly}}
+      {{else}}
+       <div class="padd10-a">
+        <div class="p_payment">
+          <p class="m5-a"><b>1.</b> Envie o dinheiro para a conta abaixo</p>
+          <div class="flex_b_c m5-a">
+            <div class=""><b>Conta:</b> {{datas.account}}</div>
+            <div class="btn_copy copyBtn">
+          <i id="iconCopy"  class="bi bi-copy"></i>
+          <div class="valueToCopy">{{datas.account}}</div>
+        </div>
+          </div>
+          <div class="flex_b_c m5-a">
+            <div class=""><b>Valor a enviar:</b> {{datas.amount.numberSeparotor.b}}</div>
+            <div class="btn_copy copyBtn">
+          <i id="iconCopy"  class="bi bi-copy"></i>
+          <div class="valueToCopy">{{datas.amount}}</div>
+        </div>
+          </div>
+          <div class="m5-a"><b>Nome:</b> {{datas.gateway.owner}}</div>
+          <p class="m5-a padd10-b"><b>2.</b>Envia uma captura de tela de prova de pagamento no <a href="/support" class="a a_default">Chat</a></p>
+          <div class="g_warning br4-a padd10-a flex_s m5-a">
+             <i class="bi bi-exclamation-square"></i>
+            <div class="padd10-l">
+              <h4>Importante</h4>
+              <p class="m5-t">Se o número da conta do comprovante de pagamento não for o mesmo usado neste depósito, seu depósito não será aprovado</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      {{/if}}
+    
+             </div>
+            <div class="form_card_b flex_b f_card">
+             
+              <div class="form_card_c">
+                <div class="flex_b_c f-row"><div>Valor:</div><div id="val">{{datas.amount.numberSeparotor.b}}</div></div>
+                {{#if datas.deposits}}
+                   <div class="flex_b_c f-row"><div>Total retorno:</div><div>{{datas.totalIncome.numberSeparotor.b}}</div></div> 
+                <div class="flex_b_c f-row"><div>Frota:</div><div>{{datas.fleet.name}}</div></div> 
+                <div class="flex_b_c f-row"><div>Retorno em:</div><div>{{datas.expireAt.fullDate}}</div></div> 
+               
+                {{else}}
+                <div class="flex_b_c f-row"><div>Taxas:</div><div>{{datas.fees.numberSeparotor.b}}</div></div> 
+                <div class="flex_b_c f-row"><div>Total a receber:</div><div>{{datas.totalReceivable.numberSeparotor.b}}</div></div> 
+                {{/if}}
+                <div class="flex_b_c f-row"><div>ID:</div><div class="flex_b_c">{{datas._id}}
+                 <div class="btn_copy copyBtn padd10-l">
+          <i id="iconCopy"  class="bi bi-copy"></i>
+          <div class="valueToCopy">{{datas._id}}</div>
+        </div>
+                </div></div> 
+                <div class="flex_b_c f-row"><div>Data:</div><div>{{datas.date.fullDate}}</div></div>
+              </div>
+             
+              {{#if isAdmin}}
+              
+                <a href="/admin/transactions/deposits?owner={{datas.from}}" class="a a_default flex_e_c padd10-r m5-a">Ver a origem</a>
+          <a href="/admin/users?_id={{datas.owner._id}}" class="a transaction_owner_details flex_s">
+            <div class="transaction_owner_avatar">
+             <img width="32px" src="{{datas.owner.src}}" class="br60"/>
+            </div>
+            <div class="left_t_details">
+              <h4>{{datas.owner.name}}</h4>
+              <p class="">ID: {{datas.owner._id}}</p>
+            </div>
+          </a>
+               <div id="a_action_t" class="flex_wrap padd10-a">
+             {{#each btns}}
+             <div class="a_action_wrap">
+                  <div accesskey="{{action}}" class="a_action_li {{action}}"><i class="{{icon}}"></i>{{value}}</div>
+                </div>
+               {{/each}}
+            </div>
+            
+            
+            <div id="transaction_action" class="transaction_action padd10-a">
+              <div class="transaction_action_wrap m5-a br6-a">
+                <div class="flex_b_c m5-a">
+                  <h3>Tens certeza que deseja realizar esta ação?</h3>
+                  <svg class="tcancel btn_circle" fill="currentColor" opacity="1.0" baseProfile="full" width="24" height="24" viewBox="0 0 24.00 24.00"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+                </div>
+                <div class="padd5-a">
+                  <div class="warning_important_wrap flex_s padd10-a">
+                    <i class="bi bi-exclamation-square"></i>
+                    <p id="parag"></p>
+                  </div>
+                </div>
+                <form action="/admin/transaction/update?_id={{datas._id}}" class="">
+                  <div class="flex_e_c  m5-a">
+                    <div>Valor</div>
+                    <input type="hidden" id="type" value="{{datas.transaction_type}}" />
+                    <input type="hidden" name="status" id="status" value="" />
+                    <div class="min_input_amount br6-a">
+                      <input value="{{datas.amount.default}}" name="amount" class="input" type="number"/>
+                    </div>
+                  </div>
+               
+                 
+                <div class="flex_e padd10-t m5-a">
+                  <button type="button" class="btn tcancel transparent-btn padd8-15 m5-r br4-a">Canselar</button>
+                  <button id="submitBtn" type="button" class="btn padd8-15 m5-l br4-a"><div id="btnText">Continuar</div> {{>_minloader}}</button>
+                </div>
+                 </form>
+              </div>
+            </div>
+             
+              {{else}}
+              {{#if datas.deposits}}
+              {{#if datas.showsBtn.default}}
+              <a href="/cabinet/payment?_id{{datas._id}}" class="a">
+              <div class="input_card">
+                <button id="submitBtn" type="button" class="br6-a primary-btn"><div id="btnText">Continuar</div>{{>_minloader}}</button>
+              </div>
+              </a>
+              {{/if}}
+              
+              {{#if datas.showsBtn.status}}
+              <a href="/cabinet/payment?_id{{datas._id}}" class="a">
+              <div class="input_card">
+                <button id="submitBtn" type="button" class="br6-a danger-btn"><div id="btnText">Tentar novamente</div>{{>_minloader}}</button>
+              </div>
+              </a>
+              {{/if}}
+              
+              {{/if}}
+              {{#if datas.contact_us}}
+              <div class="input_card">
+                <a class="a" href="/support">
+                  <button id="submitBtn" type="button" class="br6-a transparent-btn-br"><div id="btnText">Contacte-nos</div>{{>_minloader}}</button>
+                </a>
+              </div>
+              {{/if}}
+              {{/if}}
+            </div>
+          </div>
+        </div>
+        </div>
+      </section>
+      {{>_profile}}
+      <script type="text/javascript" src="/js/layout.js"></script>
+    </main>

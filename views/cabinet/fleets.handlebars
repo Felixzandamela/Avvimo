@@ -1,0 +1,42 @@
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Frotas</title>
+  </head>
+  <body>
+    <main id="layout" class="layout flex_b">
+      {{>_aside}}
+      <section class="a_sec">
+        {{>_layout-nav}}
+        <div class="main_wrap">
+        {{#if admin}}
+        <header class="a_sec_header padd5-lr flex_b_c">
+          <h1 class="page-title">Frotas</h1>
+          <div class="flex_c_c">
+            <a href="/admin/fleets/action?type=set" class="a plus-fixed">
+              <div class="primary-btn  padd8-15 br4-a flex_c_c"> <p class="">Nova frota</p>
+              <div class="btn_plus flex_c_c">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                </svg>
+              </div>
+              </div>
+            </a>
+          </div>
+        </header>
+        {{else}}
+          <div class="features-header padd10-a">
+            <div class="title">A escolha perfeita para <span>pessoas de negócios</span> como você.</div>
+            <p class="features-paragraph m5-a">Escolhe uma frota de investimento que melhor se adequa ao teu perfil pra começar.</p>
+          </div>
+        {{/if}}
+        {{#if fleets}}
+          {{>_fleets_container}}
+        {{else}}
+          {{>_empty_card}}
+        {{/if}}
+        </div>
+      </section>
+      {{>_profile}}
+      <script type="text/javascript" src="/js/layout.js"></script>
+    </main>
+  </body>

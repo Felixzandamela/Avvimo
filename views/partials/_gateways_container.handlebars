@@ -1,0 +1,63 @@
+<div class="packages_container flex_wrap">
+  {{#each gateways}}
+    <div class="package_wrap">
+      <div class="package_card a_container br10-a">
+        <div class="flex_b">
+          <div class="package_header_container">
+            <img src="{{src}}" alt="gateway" />
+          </div>
+          <div class="pakage_header_details">
+            <h3>{{name}}</h3>
+            <div class="amount">{{account}}<span></span></div>
+            <p></p>
+          </div>
+        </div>
+        <div class="package_body">
+          <div class="flex_b padd5-tb">
+            <div>Proprietário:</div> 
+            <p>{{owner}}<span></span></p>
+          </div>
+          <div class="flex_b padd5-tb">
+            <div>Pagamentos estantaneo: </div> 
+            <p>{{paymentInstantly}}<span></span></p>
+          </div>
+          <div class="flex_b padd5-tb">
+            <div>Mostrar para o público: </div> 
+            <p>{{status}}<span></span></p>
+          </div>
+            <div class="flex_wrap padd10-tb">
+              <a href="/admin/gateways/action?type=update&id={{id}}" class="a m5-r">
+                <div class="padd10-a br4-a update-btn"> Atualizar</div>
+              </a>
+              <div class="m5-l alertEvent">
+                <div class="padd10-a br4-a danger-btn">Excluir</div>
+              </div>
+            </div>
+          <form action="/admin/gateways/action?type=delete&id={{id}}" method="post" class="a_alert alertBox flex_c_c">
+      <div class="a_alert_container a_container br6-a padd10-a">
+        <div class="a_alert_header padd10-lr padd10-b">
+           <h3>Deletar gateway {{name}}?</h3>
+        </div>
+        <div class="padd10-a">
+          <p></p>
+           <div class="a_alert_warning flex_s br4-a padd10-a">
+            <i class="bi bi-exclamation-square"></i>
+            <p>Ao deletar este gateway tambem os deposítos, comissões, registro de saques feitos nese gateway seram deletados</p>
+          </div>
+        </div>
+        <div class="a_alert_btns m5-a flex_e_c">
+          <div class="m5-a">
+            <button type="button" class="transparent-btn canselAlert br4-a">Canselar</button>
+          </div>
+           <div class="m5-a ">
+            <button class="danger-btn br4-a">Deletar</button>
+          </div>
+        </div> 
+      </div>
+    </form>
+
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>

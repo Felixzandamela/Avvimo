@@ -1,0 +1,49 @@
+
+ <title>Cadastre-se e comece a investir agora</title>
+</head>
+
+<body class="light_mode">
+<section class="sec_forms flex_c_c">
+  <div class="form_header flex_c_c">
+    <div class="form_quote_box">
+      <p> <i class="bi bi-quote"></i> {{quote.text}}</p>
+      <h3>{{quote.owner}}</h3>
+    </div>
+  </div>
+  <form id="form" action="/auth/login" method="post" accept-charset="utf-8" class="form flex_c_c">
+    <div class="form_wrap">
+      <div class="form_head flex_c_c">
+        <a class="a" href="{{baseUrl}}">
+          <div class="logo flex_c_c br60">
+            <img height="45px" width="45px" src="/imgs/logo1.png" alt="Logo"/>
+          </div>
+        </a>
+        <h1 class="formTitle">Bem vindo de volta</h1>
+        <p class="form_subtitle">Ao Conectar-se, você concorda com a nossa <a href="/privacy-policy" class="a_default">Política de Privacidade</a> </p>
+      </div>
+      <div class="input_card">
+        <div class="input_wrap br6-a flex_b_c">
+          <input value="felixjuliaozandamela@gmail.com" class="input" id="email"  name="username" type="email"/>
+          <label for="email">Email</label>
+        </div>
+        <div class="label_error"></div>
+      </div>
+      <div class="input_card">
+        <div class="input_wrap br6-a flex_b_c">
+          <input value="felix111" class="input password" id="password"  name="password" type="password"/>
+          <label for="password">Senha</label>
+          <div class="password_eye brb-l padd10-a  flex_c_c"><i id="toggleEye" class="bi bi-eye"></i></div>
+        </div>
+        <div class="label_error"></div>
+      </div>
+      <div class="flex_e_c left_link"><a href="/auth/request-reset-password" class="a_default">Esqueceu sua senha?</a></div>
+      <div class="input_card">
+        <button id="submitBtn" type="button" class="br6-a primary-btn">
+          <div id="btnText">Conecte-se</div>{{>_minloader}}
+        </button>
+      </div>
+      <div class="bottom_link">Não tens uma conta? <a href="/auth/sign-up" class="a_default">Inscrever-se agora</a></div>
+    </div>
+  </form>
+  </section>
+  <script src="/js/gre.js"></script>

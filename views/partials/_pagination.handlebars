@@ -1,0 +1,14 @@
+<div class="paginator flex_e_c">
+  <div class="counter" >Total pagínas: {{datas.pageDetails.totalPages}}</div>
+ {{#if datas.previousPage.no}}
+  <a href="{{datas.previousPage.href}}" class="a"><button  class="primary-btn br4-a flex_c_c"><i class="bi bi-chevron-double-left"></i></button></a>
+  {{else}}
+  <button disabled="true" class="primary-btn br4-a flex_c_c"><i class="bi bi-chevron-double-left"></i></button>
+  {{/if}}
+  <div class="flex_c_c pageNumber">{{datas.page}}</div>
+  {{#if datas.nextPage.no}}
+  <a href="{{datas.nextPage.href}}" class="a" ><button  class="primary-btn br4-a flex_c_c"><i class="bi bi-chevron-double-right"></i></button></a>
+  {{else}}
+  <button disabled="true"  class="primary-btn br4-a flex_c_c"><i class="bi bi-chevron-double-right"></i></button>
+  {{/if}}
+</div>

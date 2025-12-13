@@ -1,0 +1,72 @@
+<div class="packages_container flex_wrap">
+  {{#each fleets}}
+    <div class="package_wrap">
+      <div class="package_card a_container br10-a">
+        {{#if distac}}
+          <div class="distac"></div>
+        {{/if}}
+        <div class="flex_b">
+          <div class="package_header_container">
+            <img src="{{src}}" alt="fleet" />
+          </div>
+          <div class="pakage_header_details">
+            <h3>{{name}}</h3>
+            <div class="amount">+{{percentage.default}}<span>%</span></div>
+            <p>Do seu dinheiro em {{maturity.default}} dias úteis</p>
+          </div>
+        </div>
+        <div class="package_body">
+          <div class="flex_b padd5-tb">
+            <div>Mínimo:</div> 
+            <p>{{min.numberSeparotor.b}}<span>MZN</span></p>
+          </div>
+          <div class="flex_b padd5-tb">
+            <div>Maxíma:</div> 
+            <p>{{max.numberSeparotor.b}}<span>MZN</span></p>
+          </div>
+          {{#if admin}}
+            <div class="flex_wrap padd10-tb">
+              <a href="/admin/fleets/action?type=update&id={{id}}" class="a m5-r">
+                <div class="padd10-a br4-a update-btn"> Atualizar</div>
+              </a>
+              <div class="m5-l alertEvent">
+                <div class="padd10-a br4-a danger-btn">Excluir</div>
+              </div>
+            </div>
+            {{else}}
+              <div class="action flex_c_c">
+              <a href="/cabinet/deposit?fleetId={{id}}" class="a">
+                <button class="primary-btn br4-a padd8-15">Investir agora
+                  <i class="bi bi-arrow-right"></i>
+                </button>
+              </a>
+            </div>
+          {{/if}}
+          <form action="/admin/fleets/action?type=delete&id={{id}}" method="post" class="a_alert alertBox flex_c_c">
+      <div class="a_alert_container a_container br6-a padd10-a">
+        <div class="a_alert_header padd10-lr padd10-b">
+           <h3>Deletar frota {{name}}?</h3>
+        </div>
+        <div class="padd10-a">
+          <p></p>
+           <div class="a_alert_warning flex_s br4-a padd10-a">
+            <i class="bi bi-exclamation-square"></i>
+            <p>Ao deletar esta frota tambem os deposítos feitos nessa frota seram deletados</p>
+          </div>
+        </div>
+        <div class="a_alert_btns m5-a flex_e_c">
+          <div class="m5-a">
+            <button type="button" class="transparent-btn canselAlert br4-a">Canselar</button>
+          </div>
+           <div class="m5-a ">
+            <button class="danger-btn br4-a">Deletar</button>
+          </div>
+        </div> 
+      </div>
+    </form>
+
+        </div>
+      </div>
+    </div>
+  {{/each}}
+</div>

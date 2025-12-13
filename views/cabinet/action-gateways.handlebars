@@ -1,0 +1,70 @@
+    <link rel="stylesheet" href="/css/style.css">
+    <title>{{text}}</title>
+  </head>
+  <body>
+    <main id="layout" class="layout flex_b">
+      {{>_aside}}
+      <section class="a_sec">
+        {{>_layout-nav}}
+         <div class="main_wrap">
+         <div class="mr5-a flex_c_c padd10-a">
+          <form action="/admin/gateways/action?type={{type}}&id={{id}}" method="post" id="form" class="flex_b a_form_container br30  a_container" accept-charset="utf-8">
+            <div class="form_card_a f_card">
+              <h4 class="padd10-a m5-a">{{text}}</h4>
+              <div class="input_card flex_c_c">
+                <div class="modal_avatar flex_c_c">
+                  <div class="avatar br60 flex_c_c">
+                    <img id="src_img" src="{{item.src}}" class="br60" alt="img">
+                    {{>_cropper-img}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div  class="form_card_b flex_b f_card">
+              
+    <div class="input_card">
+      <div class="input_wrap br6-a flex_b_c">
+        <input value="{{item.name}}" class="input" id="name"  name="name" type="text"/>
+        <label for="name">Nome</label>
+      </div>
+      <div class="label_error"></div>
+    </div>
+    <div class="input_card">
+      <div class="input_wrap br6-a flex_b_c">
+        <input value="{{item.account}}" class="input" id="account"  name="account" type="number"/>
+        <label for="account">Conta</label>
+      </div>
+      <div class="label_error"></div>
+    </div>
+     <div class="input_card">
+      <div class="input_wrap br6-a flex_b_c">
+        <input value="{{item.owner}}" class="input" id="owner"  name="owner" type="text"/>
+        <label for="name">Nome do proprietario</label>
+      </div>
+      <div class="label_error"></div>
+    </div>
+  
+   <div class="input_card flex_b_c">
+      <p>Pagamento intantaneo</p>
+      <input value="{{item.paymentInstantly}}" id="paymentInstantly" type="checkbox" name="paymentInstantly" class="inputs pt-PT checkboxs"/>
+    </div>
+   
+    <div class="input_card flex_b_c">
+      <p>Mostrar para o público</p>
+      <input value="{{item.status}}" id="status" type="checkbox" name="status" class="inputs pt-PT checkboxs"/>
+    </div>
+   
+              <div class="input_card">
+                <button id="submitBtn" type="button" class="br6-a primary-btn"><div id="btnText">Continuar</div>{{>_minloader}}</button>
+              </div>
+            </div>
+          </form>
+        </div>
+        </div>
+       
+      </section>
+      {{>_profile}}
+       <script type="text/javascript" src="/js/gre.js"></script>
+      <script type="text/javascript" src="/js/layout.js"></script>
+    </main>
+  </body>

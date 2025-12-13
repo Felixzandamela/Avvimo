@@ -1,0 +1,115 @@
+    <link rel="stylesheet" href="/css/style.css">
+      <script src="https://code.highcharts.com/highcharts.js"></script>
+ 
+    <title>Painel</title>
+  </head>
+  <body>
+    <main id="layout" class="layout flex_b">
+      {{>_aside}}
+      <section class="a_sec">
+        {{>_layout-nav}}
+        <div class="main_wrap">
+          <header class="a_sec_header flex_b_c padd5-lr">
+              <h1 class="page-title">Painel</h1>
+            {{#if isAdmin}}
+            {{else}}
+            <div class="flex_c_c padd10-a">
+              <a href="/fleets" class="a">
+                <button class="primary-btn btn32 br4-a padd15-lr flex_c_c"> <p class="padd10-r">Depositar</p>
+                <div class="flex_c_c">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                  </svg>
+                </div>
+              </button>
+            </a>
+          </div>
+            {{/if}}
+        </header>
+        <div class="padd5-a flex_wrap">
+          <div class="padd10-a a_card_wrap">
+            <div class="a_card a_container br6-a padd15-a">
+              <div class="a_box_header flex_b">
+                <div class="a_box_num m5-b">{{user.balance.numberSeparotor.b}}<span>MZN</span></div>
+                <div class="a_box_icon flex_c_c br60">
+                  <i class="bi bi-currency-dollar"></i>
+                </div>
+              </div>
+              <div class="flex_b">
+                <div class="a_box_in">
+                  <div class="a_box_title padd5-b">Saldo disponível</div>
+                  <div class="percentage">
+                    <div class="br4-a up flex_s_c"><i class="bi bi-graph-up-arrow m5-r"></i>100%</div>
+                    <p class="padd5-t">Agora</p>
+                  </div>
+                </div>
+                <div class="a_box_in">
+                  <div class="balance-o"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {{#each cards}}
+            <div class="padd10-a a_card_wrap">
+            <div class="a_card a_container br6-a padd15-a">
+          <div class="a_box_header flex_b">
+             <div class="a_box_num m5-b">{{total.numberUnits}}<span>MZN</span></div>
+            
+            <div style="background:rgba({{color}},0.20); color:rgb({{color}});" class="a_box_icon flex_c_c br60">
+            <i class="{{percentageDetails.fieldIcon}}"></i>
+          </div>
+          </div>
+          <div class="flex_b">
+          <div class="a_box_in">
+            <div class="a_box_title padd5-b">{{field.external}}({{datas.length}})</div>
+            <div class="percentage">
+            <div class="br4-a {{percentageDetails.arrow}} flex_s_c"><i class="bi bi-graph-{{percentageDetails.arrow}}-arrow m5-r"></i>{{percentageDetails.percentage}}%</div>
+            <p class="padd5-t">{{#if percentageDetails.period}}Esta semana{{else}}Este mês{{/if}} <span class="p_span"> ({{percentageDetails.total.numberSeparotor.b}})</span></p>
+          </div>
+          </div>
+          <div class="a_box_in">
+          <div accesskey='{{last12Months}}' class="a_box_chart"></div>
+          </div>
+        </div>
+      </div>
+        
+      </div>
+          {{/each}}
+        </div>
+        
+        <div class="padd15-a wrap-c">
+      <div class="a_container br6-a">
+          <div class="wrap_header flex_b_c padd15-a">
+            <div class="a_box_icon m5-r flex_c_c br60"><i class="bi bi-currency-dollar"></i></div>
+            <div class="left m5-l">
+              <div class="flex_b">
+                <h3 class="title">Ganhos</h3>
+                <div class="percentage">
+                  <div class="br4-a {{earns.percentageDetails.arrow}} flex_s_c"><i class="bi bi-graph-{{earns.percentageDetails.arrow}}-arrow m5-r"></i>{{earns.percentageDetails.percentage}}%</div>
+                </div>
+              </div>
+              <div class="flex_b">
+              <div class="amount">{{earns.total.numberUnits}} MZN</div>
+                 <p class="">{{#if earns.percentageDetails.period}}Esta semana{{else}}Este mês{{/if}}</p>
+              </div>
+            </div>
+          </div>
+        
+        <div  class="chart_wrap padd10-a">
+           <div id="earns_tool" class="chart_tool m5-a"></div>
+          <div title="{{user.name}}" accesskey='{{earns.last12Months}}' class="chart"></div>
+        </div>
+      </div>
+    </div>
+   
+   
+        {{#if user.cronTodelete.fullDate}}
+          {{>_delete-account-warning}}
+        {{/if}}
+        {{>_invite}}
+        </div>
+      </section>
+      {{>_profile}}
+      <script type="text/javascript" src="/js/layout.js"></script>
+    </main>

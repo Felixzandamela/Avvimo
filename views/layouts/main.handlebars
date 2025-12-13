@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content=" #293042" />
+  <meta name="autor" content="Félix Julião Zamdamela"/>
+  <meta property="og:image" content="/imgs/logo1.png">
+  <link rel="shortcut icon" href="/imgs/logo1.png">
+  <link rel="stylesheet" href="/css/style.css">
+  <meta name="description" content="Join to the huge bitcoins miners investment">
+  <meta property="og:description" content="Join to the huge bitcoins miners investment">
+  <meta name="keywords" content="Investment, Hyip, Get money, How to earn money online, Earn money for free">
+  <meta property="og:title" content="Avvimo:Investimentos Online">
+  
+  {{{body}}}
+  {{#if error}}
+  <div id="alert_card" class="alert_card">
+    <div class="alert_body a_container br4-a padd10-a">
+      <div class="alert_header flex-sb"><div></div>
+      <button class="close-alert-btn  btn_circle br60 a_container"><i class="bi bi-x"></i></button>
+      </div>
+      <div class="alert_msg flex_s">
+        <i class="bi bi-exclamation-circle"></i>
+        <p class="padd10-l">{{error}}</p>
+      </div>
+    </div>
+  </div>
+  {{/if}}
+  {{#if success}}
+  <div id="alert_card" class="alert_card">
+    <div class="alert_body a_container br4-a padd10-a">
+      <div class="alert_header flex-sb"><div></div>
+      <button class="close-alert-btn  btn_circle br60 a_container"><i class="bi bi-x"></i></button>
+      </div>
+      <div class="alert_msg flex_s">
+        <i class="bi bi-check2-circle"></i>
+        <p class="padd10-l">{{success_msg}}</p>
+      </div>
+    </div>
+  </div>
+  {{else}}
+  {{/if}}
+  <div id="scrollToTop" class="scrollToTop br4-a flex_c_c"><i class="bi bi-arrow-up"></i></div>
+  <script src="/js/index.js"></script>
+  </body>
+<html>

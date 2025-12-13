@@ -1,0 +1,77 @@
+<aside id="a_aside" class="a_aside">
+  <div class="a_aside_box">
+    <div class="a_aside_logo flex_b_c">
+      <a href="/" class="a flex_s_c">
+        <div class="flex_c_c a_logo">
+          <img height="40px" width="40px" src="/imgs/logo1.png" alt="Logo" />
+        </div>
+        <div class="a_aside_logo_text">Avvimo</div>
+      </a>
+    </div>
+    <div class="a_aside_scroll">
+      <div class="a_aside_wrap">
+        {{#each asideLinks}}
+        <a href="{{link}}" class="a aside_link">
+          <div class="a_aside_items">
+            <div class="flex_b_c a_btn">
+              <div class="flex_c_c"><i class="{{icon}}"> </i><p>{{title}}</p></div>
+            </div>
+          </div> 
+        </a>
+        {{/each}}
+        
+        <div class="aside_link alertEvent">
+          <div class="a_aside_items">
+            <div class="flex_b_c a_btn">
+              <div class="flex_c_c"><i class="bi  bi-box-arrow-right"> </i><p>Sair</p></div>
+            </div>
+          </div> 
+        </div>
+        
+        
+      </div>
+      {{#if isAdmin}}
+      {{else}}
+      <div class="padd10-a mr5-a">
+        <div class="a_aside_card br6-a padd10-a">
+          <div style="font-size:4rem">
+            <i class="bi bi-link-45deg"></i>
+          </div>
+          <p class="padd10-tb">Compartilhe com seus amigos e ganhe 5% por cada frota adquirida por seu amigo.</p>
+          <button id="both" class="white-btn copyBtn padd8-15 br4-a">Convidar  <i id="iconCopy" class="bi bi-link-45deg"></i></button>
+          <div class="valueToCopy">{{baseUrl}}/ref?upline={{user._id}}</div>
+        </div>
+      </div>
+      {{/if}}
+    </div>
+    <div class="a_shrunken_box flex_b_c">
+      <div class="a_shrunken_box_title padd5-lr">Encolhido</div>
+      <div class="flex_c_c padd5-lr">
+        <input id="shrunkenBtn" class="a_inputs" type="checkbox"/>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<form action="/auth/logout" method="get" class="a_alert alertBox flex_c_c">
+      <div class="a_alert_container a_container br6-a padd10-a">
+        <div class="a_alert_header padd10-lr padd10-b">
+           <h3>Sair?</h3>
+        </div>
+        <div class="padd10-a">
+          <p></p>
+           <div class="a_alert_warning flex_s br4-a padd10-a">
+            <i class="bi bi-exclamation-square"></i>
+            <p>Tens certeza que deseja sair?</p>
+          </div>
+        </div>
+        <div class="a_alert_btns m5-a flex_e_c">
+          <div class="m5-a">
+            <button type="button" class="transparent-btn canselAlert br4-a">Canselar</button>
+          </div>
+           <div class="m5-a ">
+            <button class="danger-btn br4-a">Sair</button>
+          </div>
+        </div> 
+      </div>
+    </form>

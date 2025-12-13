@@ -1,0 +1,42 @@
+  <div class="">
+     <link rel="stylesheet" href="/css/cropper.min.css"/>
+    <script  type="text/javascript" src="/js/cropper.js"></script>
+      <label for="input_imge">
+                    
+         <div class="label_input_file br60 flex_c_c">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-camera-fill" view-box="0 0 16 16">
+            <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+            <path d="M2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2zm.5 2a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm9 2.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z"/>
+          </svg>
+        </div>
+        <input class="input_imge" type="file" id="input_imge" accept="image/*"/>
+      <input value="{{item.src}}" id="src" name="src" type="hidden"/>
+      </label>
+    <div id="imagePopup" class="popUp flex_c_c">
+   
+          <div class="card_popup a_container">
+  <div class="modal_header padd15-a flex_b_c">
+    <h4>Imagem</h4>
+    <div id="close_popup" class="flex_b_c"><svg class="a_close_popup" fill="currentColor" opacity="1.0" baseProfile="full" width="24" height="24" viewBox="0 0 24.00 24.00"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg></div>
+  </div>
+          <div class="modal_body">
+           <div class="a_cropper_container flex_c_c">
+            <div>
+            <img id="cropper-img"  class="cropper-img"/>
+          </div>
+          </div> 
+          <div class="input_card">
+          <div id="img_error" class="img_error"> </div>
+          </div>
+           <div class="input_card">
+      <button id="imageBtn" type="button" class="br6-a primary-btn">Salvar</button>
+    </div>
+          </div>
+            
+          </div>
+ 
+       
+        </div>
+         </div>
+ <script type="text/javascript" src="/js/cropper-img.js"></script> 
+      

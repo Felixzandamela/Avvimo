@@ -1,0 +1,310 @@
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <link rel="stylesheet" href="/public/css/style.css">
+  <title>Painel</title>
+</head>
+
+<body>
+<main id="layout" class="layout flex_b">
+<aside id="a_aside" class="a_aside">
+  <div class="a_aside_box">
+    <div class="a_aside_logo flex_b_c">
+      <a href"/" class="a flex_s_c">
+        <div class="flex_c_c a_logo">
+          <img height="40px" width="40px" src="https://i.imgur.com/3znKRGu.png" alt="Logo" />
+        </div>
+        <div class="a_aside_logo_text">Avvimo</div>
+      </a>
+    </div>
+    <div class="a_aside_scroll">
+      <div class="a_aside_wrap">
+        <a href="register.html" class="a aside_link">
+          <div class="a_aside_items">
+            <div class="flex_b_c a_btn">
+              <div class="flex_c_c"><i class="bi bi-grid"> </i><p>Painel</p></div>
+            </div>
+          </div> 
+        </a>
+      </div>
+      <div class="padd10-a mr5-a">
+        <div class="a_aside_card br6-a padd10-a">
+          <div style="font-size:4rem">
+            <i class="bi bi-link-45deg"></i>
+          </div>
+          <p class="padd10-tb">Compartilhe com seus amigos e ganhe 5% por cada frota adquirida por seu amigo.</p>
+          <button id="both" class="white-btn copyBtn padd8-15 br4-a flex_c_c"> a <i id="iconCopy" class="bi bi-link-45deg"></i></button>
+          <div class="valueToCopy">Hello</div>
+        </div>
+      </div>
+    </div>
+    <div class="a_shrunken_box flex_b_c">
+      <div class="a_shrunken_box_title padd5-lr">Encolhido</div>
+      <div class="flex_c_c padd5-lr">
+        <input id="shrunkenBtn" class="a_inputs" type="checkbox"/>
+      </div>
+    </div>
+  </div>
+</aside>
+
+   
+    <section class="a_sec">
+      <nav class="a_nav a_container flex_c_c">
+         <div class="a_nav_wrap flex_b_c">
+           <div class="flex_s_c">
+            <div class="a_btn_Nav"><div></div><div></div><div></div></div>
+               
+         </div>
+        
+        <div class="flex_c_c a_nav-item">
+            
+                <div class="btn_circle m5-lr themeBtn flex_c_c br60">
+                  <i class="bi bi-sun"></i>
+                  <i class="bi bi-moon"></i>
+                  </div>
+                <div class="btn_circle m5-r flex_c_c br60">
+                  <i class="bi bi-bell"></i>
+                   <div class="float_counter br4-a flex_c_c">8</div> </div>
+                <div class="avatar a_toggle-profile m5-l flex_c_c br60">
+                    <img class="br60" src="/public/imgs/avatar.png">
+                    <div class="flex_c_c" style={colour}></div>
+                    <div class="isBanned br60 flex_c_c"><i class="bi bi-exclamation"></i></div>
+                </div>
+              </div>
+              </div>
+      </nav>
+      <div id="main_wrap" class="main_wrap">
+        <header class="a_sec_header flex_b_c padd5-a">
+        <h1 class="page-title">Critícas</h1>
+        
+          <div class="">
+            <form method="get" action="/reviews" class="a_selection_wrap flex_wrap">
+            <input type="hidden" name="page" value="0"/>
+             <div class="a_selection">
+    <div accesskey="statusReviews" class="selection reviews select a_container br6-a">
+      <div class="flex_b_c selected_wrap">
+        <div class="flex_b_c">
+          <i class="bi bi-circle"></i>
+          <p id="statusReviews" class="selected ellipsis">Por banidos</p>
+        </div>
+        <i class="bi bi-chevron-down arrow"></i>
+      </div>
+      <div class="selection_card a_container br6-a">
+      <label>
+        <div class="flex_s_c">
+          <input accesskey="Todos" value="" name="makePublic" type="radio" class="input_radio_menu statusReviews"/>
+          Todos
+        </div>
+      </label>
+      <label>
+        <div class="flex_s_c">
+          <input accesskey="Revisados" value="true" name="makePublic" type="radio" class="input_radio_menu statusReviews"/>
+          Banidos
+        </div>
+      </label>
+      <label>
+        <div class="flex_s_c">
+          <input accesskey="Não revisados" value="false" name="makePublic" type="radio" class="input_radio_menu statusReviews"/>
+          Não banidos
+        </div>
+      </label>
+    </div>
+  </div>
+</div>
+             <div class="padd5-a a_selection last">
+                <button class="br6-a go primary-btn"><i class="bi bi-filter"></i></button>
+              </div>
+              </form>
+            <div class="s_cards flex_c_c padd10-r">
+             <p id="reviewsToUpdate"></p>
+             <div id="closeSelection" class="btn_circle br60 flex_c_c m5-l">
+            <svg class="" fill="currentColor" opacity="1.0" baseProfile="full" width="24" height="24" viewBox="0 0 24.00 24.00"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+            </div>
+            </div>
+        </div>
+        
+      </header>
+    <div class="padd5-a flex_wrap">
+         
+
+            <div class="padd10-a a_card_wrap">
+            <div class="a_card a_container br6-a padd15-a">
+          <div class="a_box_header flex_b">
+             <div class="a_box_num m5-b">122,22<span>MZN</span></div>
+            
+            <div class="a_box_icon flex_c_c br60">
+            <i class="bi bi-currency-dollar"></i>
+          </div>
+          </div>
+          <div class="flex_b">
+          <div class="a_box_in">
+            <div class="a_box_title padd5-b">Saldo disponível</div>
+            <div class="percentage">
+            <div class="br4-a up flex_s_c"><i class="bi bi-graph-up-arrow m5-r"></i>100%</div>
+            <p class="padd5-t">Agora</p>
+          </div>
+          </div>
+          <div class="a_box_in">
+          <div class="balance-o"></div>
+          </div>
+        </div>
+      </div>
+        
+      </div>
+      
+      <div class="padd10-a a_card_wrap">
+        <div class="a_card a_container flex_b br6-a padd15-a">
+          <div class="a_box_in">
+            <div class="a_box_num m5-b">122,24 Mil<span></span></div>
+            <p class="padd15-b a_card_field">Saldo</p>
+            <div class="percentage flex_s_c"><span class="br4-a padd5-a down m5-r">-12%<i class="bi bi-arrow-up"></i> </span>Este mes</div>
+          </div>
+          <div class="a_box_icon br60">
+            <i class="bi bi-currency-dollar"></i>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    <div class="padd15-a wrap-c">
+      <div class="a_container br6-a">
+          <div class="wrap_header flex_b_c padd15-a">
+            <div class="a_box_icon m5-r flex_c_c br60"><i class="bi bi-currency-dollar"></i></div>
+            <div class="left m5-l">
+              <div class="flex_b">
+                <h3 class="title">Ganhos</h3>
+                <div class="percentage">
+                  <div class="br4-a up flex_s_c"><i class="bi bi-graph-up-arrow m5-r"></i>12%</div>
+                </div>
+              </div>
+              <div class="flex_b">
+              <div class="amount">100,000.00 MT </div>
+               <p class="mr">Esta semana</p>
+              </div>
+            </div>
+          </div>
+        
+        <div  class="chart_wrap padd10-a">
+           <div class="chart_tool m5-a">
+            
+            <h4 class="title">Bravo!</h4>
+            <p class="m5-t padd10-r subtitle">Mais ganhos este mes do que mess passado</p>
+            </div>
+          <div id="chart" class="chart"></div>
+        </div>
+      </div>
+    </div>
+    <script>
+      console.log(chart)
+    </script>
+
+          </section>
+       <section id="a_sec_profile" class="a_sec_profile">
+          <div class="a_container">
+            <div class="a_header_profile flex_b_c">
+              <div class="a_toggle-profile a_back_btn flex_c_c">
+                <svg fill="currentColor" opacity="1.0" base-profile="full" width="26" height="26" view-box="0 0 24.00 24.00"><path d="M20 11v2H7.99l5.505 5.505-1.414 1.414L4.16 12l7.92-7.92 1.414 1.415L7.99 11H20z" /></svg>
+              </div>
+              <div class="pro-btns flex_c_c">
+                <a href="/cabinet/dashboard/withdraw" class="a"><button class="button withdrawals-btn br4-a">Sacar</button></a>
+                <a href="/cabinet/packages" class="a"><button class="button primary-btn br4-a">Depositar</button></a>
+              </div>
+            </div>
+            <div class="a_profile_wrap">
+              <div class="a_avatar_card flex_c_c">
+                <div class="avatar_box">
+                   <div class="avatar m5-l flex_c_c br60">
+                    <img class="br60" src="/public/imgs/avatar.png">
+                    <div class="flex_c_c abrev" style={{user.colour}}></div>
+                     <div>
+                    <label htmlFor="input_imge">
+                    
+         <div class="label_input_file br60 flex_c_c">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-camera-fill" view-box="0 0 16 16">
+            <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+            <path d="M2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2zm.5 2a.5.5 0 1 1 0-1 .5.5 0 0 1 0 1zm9 2.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0z"/>
+          </svg>
+        </div>
+        <input class="input_imge" type="file" id="input_imge" accept="image/*"/>
+      </label>
+                      </div>
+                    <div class="isBanned br60 flex_c_c"><i class="bi bi-exclamation"></i></div>
+                </div>
+                </div>
+                <div class="a_profile_name flex_c_c">{{user.name}} <a href="/update?field=name" class="a updateProfile  a_edit_name"><i class="bi bi-pen-fill"></i></a></div>
+                
+              </div>
+              <div class="balance-card-o">
+                <div class="a_balance-card padd10-tb">
+                  <div class="title">Saldo disponível</div>
+                  <p>MZN {{user.balance}}</p>
+                </div>
+              </div>
+              <div class="a_prof_box">
+                <div class="a_prof_box_title">Informação de usuário}</div>
+                <div class="flex_s a_activity system">
+                  <div class="flex_c_c a_activity_icon br60"><i class="bi bi-envelope"></i></div>
+                  <div class="">
+                    <p>Email</p>
+                    <div class="a_activity_p">{{user.name}}</div>
+                  </div>
+                </div>
+                <div class="flex_s a_activity system">
+                  <div class="flex_c_c a_activity_icon br60"><i class="bi bi-telephone"></i></div>
+                  <div style="width:100%;" class="flex_b">
+                    <div class="">
+                      <p>Número de Telefone</p>
+                      <div class="a_activity_p">{{#if user.phoneNumber}} {{user.phoneNumber}} {{else}} Ainda não fornecido {{/if}}</div>
+                    </div>
+                    <div class="btn_circle br60 flex_c_c"><a href="/update?field=phoneNumber" class="a updateProfile  editNameBtn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="" viewBox="0 0 16 16"><path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/></svg></a></div>
+                  </div>
+                </div>
+                <div class="flex_s a_activity create">
+                  <div class="flex_c_c a_activity_icon br60"><i class="bi bi-calendar2-date"></i></div>
+                  <div class="">
+                    <p>Membro desde</p>
+                    <div class="a_activity_p">{{user.date}}</div>
+                  </div>
+                </div>
+                <div class="flex_s a_activity delete">
+                  <div class="flex_c_c a_activity_icon br60"><i class="bi bi-geo-alt"></i></div>
+                  <div class="">
+                    <p>Localização</p>
+                    <div class="a_activity_p">{{user.location}}</div>
+                  </div>
+                </div>
+                <div class="flex_s a_activity update">
+                  <div class="flex_c_c a_activity_icon br60"><i class="bi bi-fingerprint"></i></div>
+                  <div class="">
+                    <p>ID do perfil</p>
+                    <div class="a_activity_p flex_b_c">
+                      <div>{{user._id}}</div>
+                    </div>
+                  </div>
+                </div>
+                <div class="a_prof_box">
+                  <div class="flex_b_c a_prof_box_title">
+                    <div class="">Configurações</div>
+                    <div class="flex_c_c"></div>
+                  </div>
+                  <a href="/cabinet/dashboard/update?field=password" class="a">
+                    <div class="flex_s center a_activity">
+                      <div class="flex_c_c a_activity_icon"><i class="bi bi bi-lock"></i></div>
+                      <div class="pdd10-l">
+                        <p>Trocar senha</p>
+                      </div>
+                    </div>
+                  </a>
+                  <a class="a" href="/auth/logout">
+                  <div class="flex_s center a_activity delete">
+                    <div class="flex_c_c a_activity_icon"><i class="bi bi-box-arrow-right"></i></div>
+                    <div class="pdd10-l"><p>Sair</p></div>
+                  </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        
+<script type="text/javascript" src="public/js/layout.js"></script>
+  </main>
+</body>
