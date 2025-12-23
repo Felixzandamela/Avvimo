@@ -1,5 +1,6 @@
 
 const express = require("express");
+
 const bcrypt = require("bcryptjs");
 function joinZero(number){return(number < 10 ? "0" + number : number).toString();}
 
@@ -57,6 +58,20 @@ const collections = {
   }
 } 
 
+function _defineProperty (obj,target={}){
+  for(key in obj){
+    Object.defineProperty(target,key,{
+      value: obj[key],
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  }
+  return target;
+}
+module.exports._defineProperty = function(obj,target){
+  return _defineProperty(obj,target);
+}
 
 function numberSeparotor (number, float){
   let num = float ? parseFloat(number || 0).toFixed(2) : number || 0;
@@ -191,10 +206,14 @@ const transformDatas = async function(item,internal,nester){
     }else if(name == "ids"){
       newDatas[name] = datas[name].split(">>>");
     }else if(/^(date|expireAt|cronTodelete)$/i.test(name)){
-      newDatas[name] = internal && datas[name] ? formatDate(datas[name]) : /^(expireAt|cronTodelete)$/i.test(name)? expireDay(datas[name]) : getTime().fullDate;
+      if(internal){
+        newDatas[name] = Array.isArray(datas[name]) && datas[name].length > 0 ? formatDate(datas[name]) : null;
+      }else{
+        newDatas[name] = /^(expireAt|cronTodelete)$/i.test(name)? expireDay(datas[name]) : getTime().fullDate;
+      }
     }else if(typeof isBoolean(datas[name]) == "boolean"){
       newDatas[name] = isBoolean(datas[name]);
-    }else if(!isNaN(datas[name]) && datas[name]){
+    }else if(!isNaN(datas[name]) && datas[name] || typeof datas[name] == "number"){
       newDatas[name] = internal? transformNumber(datas[name]) : parseFloat(datas[name]);
     }else{
       newDatas[name] = datas[name];

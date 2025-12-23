@@ -116,11 +116,13 @@ try{
 try{
   if(document.querySelectorAll(".checkboxs")){
     const checkboxs = [...document.querySelectorAll(".checkboxs")];
+    
     checkboxs.forEach((checkbox, key)=>{
       checkbox.addEventListener("change",()=>{
-        checkbox.value = checkbox.checked? "true" :"false";
+        checkbox.value = checkbox.checked? "true" : "false";
+        document.getElementById(checkbox.accessKey).value = checkbox.checked ? "true" : "false";
       });
-      checkbox.checked =   checkbox.value == "true"? true : false; 
+      checkbox.checked = checkbox.value == "true" ? true : false; 
     });
   }
 }catch(error){};

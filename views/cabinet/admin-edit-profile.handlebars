@@ -52,11 +52,14 @@
               </div>
               <div class="input_card flex_b_c">
                  <p>Banido</p>
-                 <input value="{{isBanned}}" id="isBanned" type="checkbox" name="isBanned" class="inputs pt-PT checkboxs"/>
+                 <input type="hidden" name="isBanned" id="isBanned" value="{{isBanned}}"/>
+                 <input value="{{isBanned}}" accesskey="isBanned" type="checkbox" class="inputs pt-PT checkboxs"/>
               </div>
               <div class="input_card flex_b_c">
                  <p>É admin</p>
-                 <input  value="{{isAdmin}}" id="isAdmin" type="checkbox" name="isAdmin" class="inputs pt-PT checkboxs"/>
+                  <input type="hidden" name="isAdmin" id="isAdmin" value="{{isAdmin}}"/>
+                 <input  value="{{isAdmin}}" accesskey="isAdmin" type="checkbox" class="inputs pt-PT checkboxs"/>
+                
               </div>
               <div class="input_card">
                 <button id="submitBtn" type="button" class="br6-a primary-btn"><div id="btnText">Continuar</div>{{>_minloader}}</button>

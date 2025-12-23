@@ -17,7 +17,11 @@
         <div class="a_avatar_card flex_c_c">
           <div class="avatar_box">
             <div class="avatar m5-l flex_c_c br60">
+              {{#if user.src}}
               <img class="br60" src="{{user.src}}"/> 
+              {{else}}
+                {{>_avatar}}
+              {{/if}}
               <div>
                 <a href="/cabinet/edit-profile" class="a updateProfile">
                   <div class="label_input_file br60 flex_c_c">
@@ -143,7 +147,7 @@
         </div> 
       </div>
     </form>
-     <form action="/auth/account_action" method="post" class="a_alert alertBox flex_c_c">
+     <form action="/cabinet/account_action" method="post" class="a_alert alertBox flex_c_c">
        <input type="hidden" value="{{user._id}}" name="_id"/>
        <input type="hidden" value="true" name="type"/>
       <div class="a_alert_container a_container br6-a padd10-a">

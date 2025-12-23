@@ -1,4 +1,5 @@
 const express = require("express");
+const storage = require('node-sessionstorage');
 const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
 const auth =  express.Router();
 const bodyParser = require('body-parser');
@@ -207,23 +208,23 @@ auth.post("/account_action", urlencodedParser, async(req,res)=>{
     redirect: `/cabinet/dashboard`,
     collection: "users",
     data:{
-      cronTodelete: type? expireDay(30) : ""
+      cronTodelete: type? expireDay(30) : []
     }
   }
   
-  console.log("/account_action")
-  
-  console.log(datas)
   const account = await Actions.get("users",_id);
   if(account){
-    const result = await Actions.update(_id,datas);
-    if(result.type == "success"){
+    const results = await Actions.update(_id,datas);
+    if(results){
       if(type){
         const send = await sendEmail(account, "requestdeleteaccount");
+         req.flash(results.type, results.text);
+         res.redirect(302,results.redirect);
+      }else{
+        req.flash(results.type, results.text);
+        res.redirect(302,results.redirect);
       }
     }
-    req.flash(results.type, results.text);
-    res.redirect(302,results.redirect);
   }else{
     req.flash("error", "Este usuarío não está disponível");
     res.redirect(datas.redirect);
@@ -241,7 +242,9 @@ auth.post('/login', urlencodedParser, (req, res, next) => {
     }
     req.logIn(user, (err) => {
       if(err) { return next(err); }
-      return res.redirect(`/cabinet/dashboard`);
+      const redirectTo = storage.getItem("redirectTo");
+      const go = !redirectTo ? "/cabinet/dashboard" : redirectTo;
+      return res.redirect(go);
     });
   })(req, res, next);
 });

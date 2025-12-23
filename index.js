@@ -4,6 +4,8 @@ const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-acce
 const Handlebars = require('handlebars');
 const {engine}= require('express-handlebars');
 //*const useragent = require('express-useragent');
+const storage = require('node-sessionstorage')
+
 const session = require('express-session');
 const passport = require('passport')
 require("./middlewares/passport-config")(passport);
@@ -26,25 +28,33 @@ const {Actions} = require('./middlewares/action');
 const _host = process.env.HOST;
 const company = process.env.COMPANY;
 
-const {asideLinks,transformDatas} = require("./middlewares/utils");
+const {asideLinks,transformDatas,_defineProperty} = require("./middlewares/utils");
+const {getFleets} = require("./middlewares/getFleets");
+
 const DATABASE = process.env.DATABASE;
 mongoose.Promise = global.Promise;
-mongoose.connect(DATABASE).then(() => {
+mongoose.connect(DATABASE).then(async() => {
   console.log("DB conectado com sucesso!");
-
-  mongoose.connection.db.stats((err, stats) => {
-    if (err) {
-      console.log(err);
-    } else {
-      
-      console.log(stats)
-      console.log(`Tamanho do banco de dados: ${stats.dataSize} bytes`);
-      console.log(`Tamanho do armazenamento do banco de dados: ${stats.storageSize} bytes`);
-    }
-  });
+   const db = mongoose.connection.db; // scale para KB, MB, etc.
+  const stats = await db.command({ dbStats: 1, scale: 1024 * 1024 }); // escala para MB
+  let total = parseFloat(process.env.STORAGESIZE), used = stats.storageSize < 5? 20 : stats.storageSize;
+  const dbStorage = {
+    total: parseFloat(process.env.STORAGESIZE),
+    used: {
+      number: used,
+      percentage: parseFloat((used / total) * 100).toFixed(2)
+    },
+    free: {
+      number: total - used,
+      percentage: parseFloat(((total - used) / total) * 100).toFixed(2),
+    },
+    showWarning: (((total - used) / total) * 100) < 10 ? true : false
+  }
+  storage.setItem("dbStorage",dbStorage);
 }).catch((erro) => {
   console.log("Ops ocorreu um erro :" + erro);
 });
+
 const jsonParser = bodyParser.json();
 var urlencodedParser = bodyParser.urlencoded({ extended: true })
 const protoAccess = {handlebars: allowInsecurePrototypeAccess(Handlebars)};
@@ -74,33 +84,46 @@ app.use(flash());
 
 //middlewares
 app.use(async(req, res, next)=>{
-  const isAdmin = req.user && req.user.isAdmin;
-  const mode = isAdmin ? "admin" : "cabinet";
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   res.locals.baseUrl = `${req.protocol}://${_host}`;
-  res.locals.authBaseUrl = `${req.protocol}://auth.${_host}`;
-  res.locals.cabinetBaseUrl = `${req.protocol}://cabinet.${_host}`;
   res.locals.company = company;
-  res.locals.user = req.user ? await transformDatas(req.user,true) : null;
-  res.locals.asideLinks = asideLinks(mode);
-  res.locals.mode = mode;
-  res.locals.isAdmin = isAdmin;
-  console.log(req.user)
+  res.locals.user = req.user? await transformDatas(_defineProperty(req.user._doc),true) : null;
+  res.locals.storage = storage.getItem("dbStorage");
   next();
 });
 
-/*
+app.use('/admin', (req, res, next) => {
+  const isAdmin = true;
+  res.locals.asideLinks = asideLinks("admin");
+  res.locals.mode = "admin";
+  res.locals.isAdmin = isAdmin;
+  next();
+});
+
+// Executar uma função em caminhos que começam com /api
+app.use('/cabinet', (req, res, next) => {
+  const isAdmin = false;
+  res.locals.asideLinks = asideLinks("cabinet");
+  res.locals.mode = "cabinet";
+  res.locals.isAdmin = isAdmin;
+  next();
+});
+
+async function gb(){
+  console.log(await getFleets());
+}
+gb()
 
 app.use(helmet());
 app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://unpkg.com","https://cdnjs.cloudflare.com","https://code.highcharts.com"],
+      scriptSrc: ["'self'", "blob:", "'unsafe-inline'", "https://unpkg.com","https://cdnjs.cloudflare.com","https://code.highcharts.com"],
       styleSrc: ["'self'", "'unsafe-inline'","https://cdn.jsdelivr.net","https://googleapis.com","https://unpkg.com", "https://cdnjs.cloudflare.com"],
       fontSrc: ["'self'", "https://cdn.jsdelivr.net","https://googleapis.com","https://cdnjs.cloudflare.com"],
-      imgSrc: ["'self'", "'unsafe-inline'", "'https://example.com'"],
+      imgSrc: ["'self'","data:", "'unsafe-inline'", "'https://example.com'"],
       connectSrc: ["'self'", "https://code.highcharts.com"],
       frameSrc: ["'self'", "https://code.highcharts.com"],
       objectSrc: ["'self'", "https://code.highcharts.com"]                
@@ -114,21 +137,20 @@ app.use((req, res, next) => {
   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
   next();
 });
-*/
 
 app.use("/cabinet", cabinet);
 app.use("/admin", admin);
 app.use("/auth",auth); /*vhost("auth.localhost",*/ 
 app.use(index);
-
+/*
 const options = { 
   key: fs.readFileSync("server.key"), 
   cert: fs.readFileSync("server.cert"), 
 }; 
-
+*/
 const port = process.env.Port || 8089;
 app.listen(port, () => {
-  https.createServer(options, app);
+  //https.createServer(options, app);
   const ip = getIPAddress();
   console.log(`listening at ${ip}`);
 });

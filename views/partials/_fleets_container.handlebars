@@ -2,8 +2,8 @@
   {{#each fleets}}
     <div class="package_wrap">
       <div class="package_card a_container br10-a">
-        {{#if distac}}
-          <div class="distac"></div>
+        {{#if distack}}
+          <div class="distac flex_c_c">Popular</div>
         {{/if}}
         <div class="flex_b">
           <div class="package_header_container">
@@ -26,7 +26,7 @@
           </div>
           {{#if admin}}
             <div class="flex_wrap padd10-tb">
-              <a href="/admin/fleets/action?type=update&id={{id}}" class="a m5-r">
+              <a href="/admin/fleets/action?type=update&_id={{_id}}" class="a m5-r">
                 <div class="padd10-a br4-a update-btn"> Atualizar</div>
               </a>
               <div class="m5-l alertEvent">
@@ -35,14 +35,14 @@
             </div>
             {{else}}
               <div class="action flex_c_c">
-              <a href="/cabinet/deposit?fleetId={{id}}" class="a">
+              <a href="/cabinet/deposit?fleetId={{_id}}" class="a">
                 <button class="primary-btn br4-a padd8-15">Investir agora
                   <i class="bi bi-arrow-right"></i>
                 </button>
               </a>
             </div>
           {{/if}}
-          <form action="/admin/fleets/action?type=delete&id={{id}}" method="post" class="a_alert alertBox flex_c_c">
+          <form action="/admin/fleets/action?type=delete&_id={{_id}}" method="post" class="a_alert alertBox flex_c_c">
       <div class="a_alert_container a_container br6-a padd10-a">
         <div class="a_alert_header padd10-lr padd10-b">
            <h3>Deletar frota {{name}}?</h3>

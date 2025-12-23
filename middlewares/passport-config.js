@@ -1,11 +1,9 @@
-require("../models/users")
+const {Actions} = require("./action");
 const bcrypt = require('bcryptjs');
-const mongoose = require('mongoose');
-const Users = mongoose.model('users')
 const localStrategy = require("passport-local").Strategy;
 
 module.exports =  function(passport, req, res, next){
- const user = {
+  /*const user = {
         _id:"2edzddy5rt34ygfhhi53escgegryghtrghghrc",
           name:"albino",
           src:"/imgs/avatar.png",
@@ -24,14 +22,13 @@ module.exports =  function(passport, req, res, next){
           email:"felixjuliaozandamela@gmail.com",
           password:'$2b$15$d652.BPz6EqMH0fR0B0DT.1qBre51FPNaHEvv3w0MBSFMEymEuAR6'
         }
- 
+ */
   passport.use( new localStrategy( async (username, password, done)=>{
     try{
-      //let user = await  Users.findOne({ email: username }).exec();
+      let [user] = await  Actions.get("users",{ email: username });
       if(!user){return done(null, false, {message:"Não há usuarío registrado com esse email!"});}
       const same = await bcrypt.compare(password, user.password);
       if(!same){return done(null, false, {message:"Senha incorrecta!"});}
-      console.log(user)
       return done(null, user);
     }catch(error){
       console.log(error);
@@ -42,7 +39,12 @@ module.exports =  function(passport, req, res, next){
   passport.serializeUser((user, done)=>{
     done(null, user._id);
   });
-  passport.deserializeUser((id, done) => {
-  done(null, user);
-});
+  passport.deserializeUser(async(id, done) => {
+    let user = await  Actions.get("users",id);
+    if(user){
+      done(null, user);
+    }else{
+      done(null, false);
+    }
+  });
 }

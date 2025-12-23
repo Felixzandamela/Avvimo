@@ -1,34 +1,19 @@
 const express = require("express");
-const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
-const Handlebars = require('handlebars');
-const {engine}= require('express-handlebars');
-const path = require('path');
-const admin = express();
+const admin = express.Router();
 const bodyParser = require('body-parser');
-const jsonParser = bodyParser.json();
-const urlencodedParser = bodyParser.urlencoded({ extended: true });
+const urlencodedParser = bodyParser.urlencoded({limit: '50mb', extended: true });
 const {asideLinks,transformDatas,sortByDays, objRevised, statusIcons, propertysLength,msgsStatus, formatDate} = require('../middlewares/utils');
 const {pagination} = require('../middlewares/pagination');
 const {Actions} = require('../middlewares/action');
 const transactions = require('./transactions');
-const protoAccess = {handlebars: allowInsecurePrototypeAccess(Handlebars)};
-admin.engine('handlebars', engine(protoAccess));
-admin.set('view engine', 'handlebars');
-admin.set('views', './views');
-admin.use(express.static(path.join(__dirname,"public")));
-
-admin.use((req, res, next)=>{
-  res.locals.isAdmin = true;
-  res.locals.asideLinks = asideLinks("admin");
-  next();
-});
-
+const {getFleets} = require("../middlewares/getFleets");
+const {confirmDeposit} = require("../middlewares/transactions-actions");
 const alertDatas = {
   type:"error",
   title:"Erro!",
   texts: "Houve um erro, por favor tente mais tarde. Se o erro persistir, por favor contacte-nos atrás dos nossos canaís.",
   btnTitle: "Painel",
-  redirectTo: "/dashboard"
+  redirectTo: "/admin/dashboard"
 }
 
 const transTypes = {
@@ -38,14 +23,14 @@ const transTypes = {
 }
 
 admin.get('/', (req, res) => {
-  res.redirect("/dashboard");
+  res.redirect("/admin/dashboard");
 });
 admin.get('/dashboard', (req, res) => {
-  res.status(200).render("cabinet/dashboard");
+  res.status(200).render("cabinet/ad-dashboard");
 });
 
 admin.get('/fleets', urlencodedParser, async (req, res) => {
-    const datas = await Actions.get("fleets");
+    const datas = await getFleets("admin");
     res.status(200).render("cabinet/fleets",{admin:true, fleets:datas});
 });
 
@@ -56,14 +41,13 @@ admin.get("/gateways", async (req,res)=>{
 
 admin.get('/:collection/action', urlencodedParser, async (req, res) => {
   const type = !req.query.type ? "set" : req.query.type;
-  const id = !req.query.id ? "" : req.query.id;
+  const _id = !req.query._id ? "" : req.query._id;
   const collection = req.params.collection;
   let itemToUpdate;
+  
   if(type == "update"){
-    let item = await Actions.get(collection,id);
-    if(typeof item == "object"){
-      itemToUpdate = item
-    }
+    let item = await Actions.get(collection,_id);
+    if(item){itemToUpdate = item;}
   }
   const d = {
     text:{
@@ -85,15 +69,15 @@ admin.get('/:collection/action', urlencodedParser, async (req, res) => {
     admin:true,
     text:d.text[type][collection],
     type:type,
-    id: id,
+    _id: _id,
     view: d.view[collection],
     item: itemToUpdate
   }
   if(type == "update" && !datas.item){
     const data = {
-      texts:`Este ${collection} com id ${id} está indisponível. Por favor tente mais tarde`,
+      texts:`Este ${collection} com id ${_id} está indisponível. Por favor tente mais tarde`,
       btnTitle: "Voltar atrás",
-      redirectTo: `/${collection}`
+      redirectTo: `/admin/${collection}`
     }
     const d = objRevised(alertDatas,data);
     res.status(404).render("cabinet/catchs",d);
@@ -104,31 +88,25 @@ admin.get('/:collection/action', urlencodedParser, async (req, res) => {
 
 
 admin.post('/:collection/action', urlencodedParser,async (req, res) => {
-  const {type,id} = req.query;
+  const {type,_id} = req.query;
   const collection = req.params.collection;
   const bodys = await transformDatas(req.body);
   const datas = {
     type:type,
-    redirect:`/${collection}`,
+    redirect:`/admin/${collection}`,
     collection:collection,
     data:bodys
   }
   var results;
   if(!Actions[type]){
     req.flash("error", "Acão indisponível");
-    res.status(404).redirect(`/${collection}`);
+    res.status(404).redirect(`/admin/${collection}`);
   }else{
-    switch(type){
-      case "set":
-        results = await Actions.set(datas,{name:bodys.name});
-        break;
-      default:
-        results = await Actions[type](id,datas);
-      break;
-    }
+    const arg = type == "set"? [datas,{name:bodys.name}] : [_id,datas];
+    const [first,second] = arg;
+    results = await Actions[type](first,second);
   }
   if(results){
-    console.log(results)
     req.flash(results.type, results.text);
     res.redirect(results.redirect);
   }
@@ -137,45 +115,17 @@ admin.post('/:collection/action', urlencodedParser,async (req, res) => {
 
 
 admin.get("/users", urlencodedParser, async(req,res)=>{
-  const link = {path:`/users`,queryString: req.query ? `${new URLSearchParams(req.query).toString()}` : ''};
+  const link = {path:`/admin/users`,queryString: req.query ? `${new URLSearchParams(req.query).toString()}` : ''};
   const body = await transformDatas(req.query);
   let querys = propertysLength(body) > 0 ? body : null;
   let results = await Actions.get("users", querys);
-  let a = [{
-  _id:"btry44",
-      name:"Antonio",
-      email:"wf@gmail",
-  isAdmin:false,
-  isBanned:false,
-  upline:"5y",
-  balance:200,
-  date:["09",10,2025,"12:33:33"]
-},{
-  _id:"56765dsw7",
-  name:"Antonio",
-  email:"a@gmail",
-  balance:100,
-  isAdmin:true,
-  upline:"fff",
-  isBanned:false,
-  date:["09",10,2025,"12:33:33"]
-},{
-  name:"Antonio",
-  email:"f@gmail",
-  _id:"4dr5ub4",
-  balance:209,
-  isAdmin:false,
-  upline:"",
-  isBanned:true,
-  date:["09","09",2025,"12:33:33"]
-}];
-  if(a){
-    for(let k in a){
-      a[k] = await transformDatas(a[k],true);
+  
+  if(results){
+    for(let k in results){
+      results[k] = await transformDatas(results[k]._doc,true);
     }
-    console.log(a)
-    a.sort(sortByDays);
-    const datas= (pagination(a,!body.page?0:body.page, link, false));
+    results.sort(sortByDays);
+    const datas= (pagination(results,!body.page?0:body.page, link, false));
     res.render("cabinet/users", {datas:datas});
   }else{
     res.render("cabinet/users", {datas:null});
@@ -190,7 +140,7 @@ admin.get("/users/edit-profile", async(req,res)=>{
   }else{
     const data = {
       texts:`Este usuarío com id ${_id} está indisponível. Por favor tente mais tarde`,
-      redirectTo:"/users",
+      redirectTo:"/admin/users",
       btnTitle:"Voltar atrás"
     }
     const d = objRevised(alertDatas,data);
@@ -203,7 +153,7 @@ admin.post("/users/edit-profile", urlencodedParser, async(req,res)=>{
   const bodys = await transformDatas(req.body);
   const datas = {
     type: "update",
-    redirect:`/users`,
+    redirect:`/admin/users`,
     collection:"users",
     data:bodys
   }
@@ -249,7 +199,7 @@ const c = [{
   date:["09","09",2025,"12:33:33"]
 }];
 admin.get("/reviews", urlencodedParser, async (req,res)=>{
-  const link = {path:`/reviews`,queryString: req.query ? `${new URLSearchParams(req.query).toString()}` : ''};
+  const link = {path:`/admin/reviews`,queryString: req.query ? `${new URLSearchParams(req.query).toString()}` : ''};
   const body = await transformDatas(req.query);
   let querys = propertysLength(body) > 0 ? body : null;
 
@@ -265,9 +215,71 @@ admin.get("/reviews", urlencodedParser, async (req,res)=>{
   }
 });
 
+admin.get("/transactions/:type/view",  urlencodedParser, async (req,res)=>{
+  const {type} = req.params;
+  const {_id} = req.query;
+  let datas = await Actions.get(type,_id,["fleet","gateway","owner"]);
+  if(datas){
+    const isDeposit = type === "deposits" && datas.status === "Emprogresso" && datas.expireAt.secondsLength >= 0;
+    const nesterDatas ={
+      isAdmin: true,
+      shows: msgsStatus(datas.status,type),
+      paymentyInfo: !/^(Anulado|Emprogresso|Comcluido)$/i.test(datas.status),
+      [type]: true,
+      transaction_type:type,
+      type: transTypes[type],
+      contact_us: /^(Rejeitado|Anulado)$/i.test(datas.status),
+    }
+    if(type === "deposits"){
+      nesterDatas.showsBtn = {
+        default: datas.status === "Pendente" && type === "deposits" && datas.gateway.paymentInstantly ? true : false,
+        status: datas.status === "Rejeitado" && type === "deposits" && datas.gateway.paymentInstantly ? true : false
+      }
+    }
+    const showBtns = /^(Comcluido|Anulado)$/i.test(datas.status) ||  datas.expireAt.secondsLength > 0 ;
+    
+    const btnsArray = [
+      {value: isDeposit === "Emprogresso"? "Confirmar" : "Processar", action: isDeposit ? isDeposit : "Comcluido", icon:"bi bi-check-circle"},
+      {value: "Rejeitar",action:"Rejeitado",icon:"bi bi-slash-circle"},
+      {value: "Anular",action:"Anulado",icon:"bi bi-arrow-left-circle"}
+    ];
+    let a =  await transformDatas(datas._doc,true);
+    a = objRevised(a,nesterDatas);
+   
+    res.render("cabinet/transactionCard",{ btns: !showBtns? null : btnsArray ,datas:a});
+  }else{
+    const g = {
+      btnTitle: "Voltar atrás",
+      redirectTo: null,
+      texts: "Essa transação esta indisponível"
+    }
+    const datas = objRevised(alertDatas,g);
+    res.render("cabinet/catchs",datas);
+  }
+});
+
+admin.post("/transaction/:type/action", urlencodedParser, async(req,res)=>{
+  const type = req.params.type;
+  const {_id} = req.query;
+  const bodys = await transformDatas(req.body);
+  const datas = {
+    type: "update",
+    redirect: _id ? `/admin/transactions/${type}/view?_id=${_id}` : `/admin/transactions/${type}`,
+    collection:"users",
+    data:bodys
+  }
+  switch(bodys.status){
+    case "Emprogresso":
+      if(type === "deposits"){
+        let results = await confirmDeposit(bodys);
+        console.log(results)
+      }
+    break;
+  }
+});
 
 
-admin.use('/transactions', transactions)
+//admin.use('/transactions', transactions)
 
 
 

@@ -1032,21 +1032,19 @@ input::placeholder{color: var(--s-color);}
   display:flex;
   flex-direction: column;
 }
-
-
 .distac{
-  height:0;
+  height:25px;
   width: 110px;
   color:#fff;
   z-index: 1;
+  background: red;
   position: absolute;
-  border-bottom: 25px  red solid;
-  border-left: 25px solid transparent;
-  border-right: 25px solid transparent;
-  left: -10px;
-  top: 33px;
-  transform: rotate(-45deg);
+  left: -20px;
+  top: 22px;
   font-weight:bold;
+  transform: rotate(-45deg);
+  webkit-clip-path: polygon(23% 0%, 77% 0%, 100% 100%, 0% 100%);
+  clip-path: polygon(23% 0%, 77% 0%, 100% 100%, 0% 100%);
 }
 
 .package_header_container, .card_header_container{
@@ -1201,7 +1199,7 @@ input::placeholder{color: var(--s-color);}
 .inputs[type="checkbox"] {
   -webkit-appearance: none;
   -moz-appearance: none;
-  appearance: none;.          
+  appearance: none;         
   margin: auto;
   outline: none;
   height: 2.6em;
@@ -2128,3 +2126,54 @@ input[type="checkbox"], input[type="radio"]{
   .fo_card, .features-card{ width: 25%!important;}
   .features-card{width: 50%!important;}
 }
+
+  .storage_widths{width: 100%;min-width: 100%;}
+  .storage_wrap .a_container{
+    font-weight: 500;
+    font-size: 1rem;
+    padding: 20px;
+    height: 100%;
+  }
+  .warning_storange{font-weight:500;}
+  .warning_storange ,.storage_wrap{flex-grow: 1;}
+  .warning_storange .a_container{
+    position: relative;
+    height: 100%;
+    background-position: right;
+    background-repeat: no-repeat;
+    background-image: url("/imgs/w_storange.png");
+  }
+  .av{
+    z-index: 1;
+    position: relative;
+    background-image: linear-gradient(to right,  #fff , transparent);
+    background-image: -o-linear-gradient(to right,  #fff , transparent);
+    padding: 20px;
+    height: 100%;
+  }
+  
+  .dark .av{
+    background-image: linear-gradient(to right,  #293042 , transparent);
+    background-image: -o-linear-gradient(to right,  #293042 , transparent);
+  }
+
+  .warning_storange a, .warning_storange .title{color:#FF6F00;}
+  .storage_dotes{color: var(--s-color);} 
+  .storage_widths .used, .storage_widths .free{
+    height: 8px;
+    padding-inline: 2px;
+  }
+  .used div, .free div{
+    width:100%;
+    height: 100%;
+  }
+  .storage_dotes .used, .storage_dotes .free{
+    height: 10px;
+    min-width: 10px;
+  }
+  .used div{background: var(--main-color);}
+  .free div{background: var(--border);}
+ 
+ @media screen and (min-width:500px){
+    .warning_storange ,.storage_wrap{width:50%}
+ }

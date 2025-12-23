@@ -1,3 +1,4 @@
+const {getTime} = require('../middlewares/utils');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Gateways = new Schema({
@@ -20,16 +21,17 @@ const Gateways = new Schema({
   paymentInstantly:{
     type:Boolean,
     default:false,
-    require:true,
+    require:false,
   },
   status:{
     type:Boolean,
     default:true,
-    required:true,
+    required:false,
   },
   date:{
     type:Array,
-    required:true
+    required:true,
+    default: getTime().fullDate
   }
 });
 mongoose.model("gateways", Gateways);

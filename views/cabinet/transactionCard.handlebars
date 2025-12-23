@@ -1,5 +1,5 @@
     <link rel="stylesheet" href="/css/style.css">
-    <title>{{types}} - {{datas._id}}</title>
+    <title>{{datas.type}} - {{datas._id}}</title>
   </head>
   <body>
     <main id="layout" class="layout flex_b">
@@ -23,7 +23,7 @@
         
          <div class="flex_c_c">
         <div class="m5-bt flex_c_c">
-          <img width="30px" style="width:26px,margin-right:10px" src="{{datas.src}}" class="br4-a"/>
+          <img width="30px" style="width:26px,margin-right:10px" src="{{datas.gateway.src}}" class="br4-a"/>
           <p>{{datas.gateway.name}}</p>
         </div>
       </div>
@@ -45,6 +45,9 @@
       {{/if}}
       {{#if datas.gateway.paymentInstantly}}
       {{else}}
+      {{#if datas.isAdmin}}
+      {{else}}
+      {{#if datas.paymentyInfo}}
        <div class="padd10-a">
         <div class="p_payment">
           <p class="m5-a"><b>1.</b> Envie o dinheiro para a conta abaixo</p>
@@ -74,6 +77,8 @@
         </div>
       </div>
       {{/if}}
+      {{/if}}
+      {{/if}}
     
              </div>
             <div class="form_card_b flex_b f_card">
@@ -89,13 +94,14 @@
                 <div class="flex_b_c f-row"><div>Taxas:</div><div>{{datas.fees.numberSeparotor.b}}</div></div> 
                 <div class="flex_b_c f-row"><div>Total a receber:</div><div>{{datas.totalReceivable.numberSeparotor.b}}</div></div> 
                 {{/if}}
+                 <div class="flex_b_c f-row"><div>Data:</div><div>{{datas.date.fullDate}}</div></div>
                 <div class="flex_b_c f-row"><div>ID:</div><div class="flex_b_c">{{datas._id}}
                  <div class="btn_copy copyBtn padd10-l">
           <i id="iconCopy"  class="bi bi-copy"></i>
           <div class="valueToCopy">{{datas._id}}</div>
         </div>
                 </div></div> 
-                <div class="flex_b_c f-row"><div>Data:</div><div>{{datas.date.fullDate}}</div></div>
+               
               </div>
              
               {{#if isAdmin}}
@@ -103,7 +109,11 @@
                 <a href="/admin/transactions/deposits?owner={{datas.from}}" class="a a_default flex_e_c padd10-r m5-a">Ver a origem</a>
           <a href="/admin/users?_id={{datas.owner._id}}" class="a transaction_owner_details flex_s">
             <div class="transaction_owner_avatar">
+              {{#if datas.owner.src}}
              <img width="32px" src="{{datas.owner.src}}" class="br60"/>
+              {{else}}
+              {{>_avatar}}
+             {{/if}}
             </div>
             <div class="left_t_details">
               <h4>{{datas.owner.name}}</h4>
@@ -113,7 +123,7 @@
                <div id="a_action_t" class="flex_wrap padd10-a">
              {{#each btns}}
              <div class="a_action_wrap">
-                  <div accesskey="{{action}}" class="a_action_li {{action}}"><i class="{{icon}}"></i>{{value}}</div>
+                  <div accesskey="{{action}}" class="flex_s_c a_action_li {{action}}"><i class="{{icon}}"></i>{{value}}</div>
                 </div>
                {{/each}}
             </div>
@@ -131,9 +141,10 @@
                     <p id="parag"></p>
                   </div>
                 </div>
-                <form action="/admin/transaction/update?_id={{datas._id}}" class="">
+                <form method="post" action="/admin/transaction/{{datas.transaction_type}}/action?_id={{datas._id}}" class="">
                   <div class="flex_e_c  m5-a">
                     <div>Valor</div>
+                    <input type="hidden" name="_id" value="{{datas._id}}"/>
                     <input type="hidden" id="type" value="{{datas.transaction_type}}" />
                     <input type="hidden" name="status" id="status" value="" />
                     <div class="min_input_amount br6-a">
@@ -144,7 +155,7 @@
                  
                 <div class="flex_e padd10-t m5-a">
                   <button type="button" class="btn tcancel transparent-btn padd8-15 m5-r br4-a">Canselar</button>
-                  <button id="submitBtn" type="button" class="btn padd8-15 m5-l br4-a"><div id="btnText">Continuar</div> {{>_minloader}}</button>
+                  <button id="submitBtn"  class="btn padd8-15 m5-l br4-a"><div id="btnText">Continuar</div> {{>_minloader}}</button>
                 </div>
                  </form>
               </div>

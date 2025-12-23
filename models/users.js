@@ -31,7 +31,9 @@ const Users = new Schema({
   },
   email:{
     type: String,
-    required:true
+    required:true,
+    lowercase:true,
+    unique:true
   },
   password:{
     type:String,
@@ -72,8 +74,10 @@ const Users = new Schema({
     require: false,
   },
   cronTodelete:{
-    type:Array,
-    require:false
+    type: Array,
+    require:false,
+    default:[]
   }
 });
 mongoose.model("users", Users);
+//dule.exports = mongoose.model('User');

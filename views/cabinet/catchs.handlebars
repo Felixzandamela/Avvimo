@@ -12,9 +12,13 @@
               <h1>{{title}}</h1>
               <p>{{texts}}</p>
               <div class="padd10-a">
+                {{#if redirectTo}}
                 <a class="a" href="{{redirectTo}}">
                   <button class="primary-btn br4-a padd8-15">{{btnTitle}} </button>
                 </a>
+                {{else}}
+                <button id="back" class="primary-btn br4-a padd8-15">{{btnTitle}} </button>
+                {{/if}}
               </div>
             </div>
         </div>

@@ -8,7 +8,7 @@
           </div>
           <div class="pakage_header_details">
             <h3>{{name}}</h3>
-            <div class="amount">{{account}}<span></span></div>
+            <div class="">{{account}}<span></span></div>
             <p></p>
           </div>
         </div>
@@ -26,14 +26,14 @@
             <p>{{status}}<span></span></p>
           </div>
             <div class="flex_wrap padd10-tb">
-              <a href="/admin/gateways/action?type=update&id={{id}}" class="a m5-r">
+              <a href="/admin/gateways/action?type=update&_id={{_id}}" class="a m5-r">
                 <div class="padd10-a br4-a update-btn"> Atualizar</div>
               </a>
               <div class="m5-l alertEvent">
                 <div class="padd10-a br4-a danger-btn">Excluir</div>
               </div>
             </div>
-          <form action="/admin/gateways/action?type=delete&id={{id}}" method="post" class="a_alert alertBox flex_c_c">
+          <form action="/admin/gateways/action?type=delete&_id={{_id}}" method="post" class="a_alert alertBox flex_c_c">
       <div class="a_alert_container a_container br6-a padd10-a">
         <div class="a_alert_header padd10-lr padd10-b">
            <h3>Deletar gateway {{name}}?</h3>

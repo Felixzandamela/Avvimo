@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function (){
   let cropper;
   input_imge.addEventListener("change", ()=>{
     const file=event.target.files[0];
-    const reader=new FileReader();
+    const reader= new FileReader();
     if(!/^image\/(jpeg|png|gif|bmp)$/.test(file.type)) {
       alert("Imagem não suportada");
       return;
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function (){
     reader.onload=()=>{
       imagePopup.style.display = "flex";
       cropperImg.onload = initCropper;
-      cropperImg.setAttribute('src', reader.result);
+      cropperImg.src = reader.result;
     };
   });
   const initCropper = () => {

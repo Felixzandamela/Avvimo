@@ -1,5 +1,6 @@
 const {organizeByDate} = require('./organizeByDate');
-module.exports.pagination = function(items, page, link, organize){ 
+module.exports.pagination = function(datas, page, link, organize){
+  let items = datas ? datas : [];
   var page = page || 1, pageSize = 50, offset = (page - 1) * pageSize, pageDatas = items.slice(offset).slice(0, pageSize), totalPages = Math.ceil(items.length / pageSize);
   var previousPage = page - 1 ? page - 1 : null, nextPage = (totalPages > page) ? page + 1 : null;
   return {
