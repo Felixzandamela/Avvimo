@@ -130,10 +130,11 @@ admin.get("/users", urlencodedParser, async(req,res)=>{
   }
 });
 
-admin.get("/users/edit-profile", async(req,res)=>{
+admin.get("/users/edit-profile", urlencodedParser, async(req,res)=>{
   const {_id} = req.query;
   const item = await Actions.get("users",_id);
   if(item){
+    console.log(item)
     res.render("cabinet/admin-edit-profile", item);
   }else{
     const data = {

@@ -33,7 +33,7 @@ const Withdrawals = new Schema({
   gateway:{
     type: Schema.Types.ObjectId,
     required: true,
-    ref:"gateway"
+    ref:"gateways"
   },
   date:{
     type: Array,

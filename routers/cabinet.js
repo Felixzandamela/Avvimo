@@ -195,18 +195,7 @@ cabinet.post("/newwithdraw", urlencodedParser, async (req,res)=>{
     data: withdraw
   }
   try{
-    console.log(accounts)
-    const d = {
-      amountMatch:bodys.amount > user.balance,
-      amountPass50: bodys.amount < 50,
-      accountMadeDeposit : accounts.length <=0,
-      isGatawayCurrect: !gateway || isGatawayCurrect(gateway.name, bodys.account)  
-    }
-    
-    console.log(d)
     if(bodys.amount > user.balance || bodys.amount  < 50 || account.length <= 0 ||  isGatawayCurrect(gateway.name, bodys.account)){
-      console.log("o error ta aqui")
-      console.log(bodys)
       res.status(200).render('cabinet/catchs', alertDatas);
     }else{
       const results = await Actions.set(datas, null, true);

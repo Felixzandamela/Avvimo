@@ -58,9 +58,16 @@ mongoose.connect(DATABASE).then(async() => {
 
 const jsonParser = bodyParser.json();
 var urlencodedParser = bodyParser.urlencoded({ extended: true })
-const protoAccess = {handlebars: allowInsecurePrototypeAccess(Handlebars)};
+const handlebarsOptions = {
+  handlebars: allowInsecurePrototypeAccess(Handlebars),
+  helpers: {
+    breakLine: function(texto) {
+      return texto.replace(/\n/g, '<br>');
+    }
+  }
+};
 
-app.engine('handlebars', engine(protoAccess));
+app.engine('handlebars', engine(handlebarsOptions));
 app.set('view engine', 'handlebars');
 app.set('views', './views');
 app.use(express.static(path.join(__dirname,"public")))
@@ -116,14 +123,21 @@ const body = {
   page:0,
   
 }
-const {DepositsActions,getTransaction} = require("./middlewares/transactions-actions");
+const {DepositsActions,getTransactions} = require("./middlewares/transactions-actions");
 
 async function gj (){
-  const h = await getFleets("admin","deposits","6947f2f526d71b0f52f58de4")
- 
+  const body = {
+    page:0,
+      date: "",
+      owner: "",
+      status: "",
+      _id: ""
+    }
+  const h = await getTransactions("admin",body, "withdrawals")
+ console.log(h.datas.datas)
 }
 
-
+gj()
 
 
 app.use(helmet());

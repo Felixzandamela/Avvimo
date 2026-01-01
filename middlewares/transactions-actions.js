@@ -23,14 +23,14 @@ const statusMap = {
 };
 
 function errorMsgs(type, collectionKey, statusKey) {
-  const title = coll(collectionKey).title[0];
+  const title = !coll(collectionKey)? collectionKey : coll(collectionKey).title[0];
   const statusText = statusMap[statusKey] || statusKey;
   const messages = {
     cantProcess: `Este ${title} já não pode ser processado.`,
     empty: `${title} não foi encontrado!`,
     default: `${title} não tem a opção ${statusText} na sua lista de status.`,
     errorAc: `Erro ao ${statusText} ${title}.`,
-    errorAcChild: `Erro ao atualizar ${statusKey} deste ${title}.`,
+    errorAcChild: `Erro ao atualizar ${title} deste ${coll(statusKey).title[0]}.`,
   };
   return messages[type] || "Erro desconhecido.";
 }
@@ -82,7 +82,7 @@ module.exports.DepositsActions = async function (body, internal) {
       };
 
       const updatedCommission = await Actions.update(commission._id, commissionData, true);
-      if (!updatedCommission) return errorMsgs("errorAcChild", "comissão", "deposits");
+      if (!updatedCommission) return errorMsgs("errorAcChild", "commissions", "deposits");
 
       const newBalance = await Actions.increment("users",commission.owner,"balance",commission.totalReceivable);
       if (!newBalance) return "Erro ao atualizar saldo.";
@@ -113,7 +113,7 @@ module.exports.DepositsActions = async function (body, internal) {
       };
 
       const updatedCommission = await Actions.update(commission._id, commissionData, true);
-      if (!updatedCommission) return errorMsgs("errorAcChild", "comissão", "deposits");
+      if (!updatedCommission) return errorMsgs("errorAcChild", "commissions", "deposits");
 
       return true;
     }
@@ -206,11 +206,11 @@ module.exports.getTransactions = async function(mode,body,type,user){
   }
   const query = mode === "cabinet" ? {owner:user._id} : null;
   const link = {path:`/cabinet/transactions/${type}`,queryString: body ? `${new URLSearchParams(body).toString()}` : ''};
-  let results = await Actions.get(type, query,["gateway"]);
+  const isAdmin = mode === "admin";
+  const isDeposit = type === "deposits";
+  let results = await Actions.get(type, query, ["gateway"]);
   let filteredData = [];
   if(results){
-    const isAdmin = mode === "admin";
-    const isDeposit = type === "deposits";
     for(let i in results){
       let transaction = results[i];
       const isIatured =  isDeposit && transaction.status === "EmProgresso" && formatDate(transaction.expireAt).secondsLength >= 0;
@@ -256,15 +256,15 @@ module.exports.getTransaction = async function( mode, type, _id){
   const isDeposit = type === "deposits";
   const populete = ["gateway","owner"];
   if(isDeposit){populete.push("fleet");};
-  
   let datas = await Actions.get(type, _id, populete);
-  console.log(datas)
   if(!datas){ 
     return{
       successed: false,
+      type:"error",
+      title:"Erro!",
       btnTitle: "Voltar atrás",
       redirectTo: null,
-      texts: "Essa transação esta indisponível"
+      texts: "Essa transação esta indisponível ou houve um erro ba busca"
     }
   }
   datas = await transformDatas(datas._doc,true);
@@ -274,7 +274,7 @@ module.exports.getTransaction = async function( mode, type, _id){
   const newTransactionDatas ={
     isAdmin: isAdmin,
     shows: msgsStatus(datas.status,type),
-    paymentInfo: /^(Pendente|Rejeitado)$/i.test(datas.status),
+    paymentInfo: isDeposit && /^(Pendente|Rejeitado)$/i.test(datas.status),
     [type]: true,
     transaction_type: type,
     type: coll(type).title[0],
@@ -295,7 +295,6 @@ module.exports.getTransaction = async function( mode, type, _id){
     {value: "Anular",action:"Anulado",icon:"bi bi-arrow-left-circle"}
   ];
   let transaction = objRevised(datas ,newTransactionDatas);
-  console.log(transaction)
   return{
     successed:true,
     btns: showBtns ? btnsArray : null ,

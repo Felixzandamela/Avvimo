@@ -24,7 +24,6 @@ auth.get("/",(req,res)=>{
   res.status(200).redirect("/auth/login");
 });
 
-
 auth.get('/login', (req, res)=>{
   res.status(200).render("auth/login",{quote:quote()});
 });
@@ -68,14 +67,14 @@ auth.post('/sign-up', urlencodedParser, async (req,res) =>{
   if(result.type == "error"){
     res.status(200).render("mains/cards-th",data);
   }else{
-    const item = await Actions.get("users",{email:bodys.email});
-    if( item ){
+    const item = await Actions.get("users",{email:bodys.email},null,true);
+    if(item){
       res.status(200).redirect(`/auth/send-verification?id=${item._id}`);
     }else{res.status(200).render("mains/cards-th",data);}
   }
 });
 
-auth.get("/send-verification", async (req, res) => {
+auth.get("/send-verification", urlencodedParser, async (req, res) => {
   const id = req.query.id;
   const owner = await Actions.get("users",id);
   const datas ={

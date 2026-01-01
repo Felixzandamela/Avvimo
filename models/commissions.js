@@ -31,14 +31,14 @@ const Commissions = new Schema({
     ref:"deposits"
   },
   account:{
-    type:Number,
+    type:String,
     required:true,
     default:"cashback"
   },
   gateway:{
     type: Schema.Types.ObjectId,
     required: true,
-    ref:"gateway"
+    ref:"gateways"
   },
   date:{
     type:Array,
