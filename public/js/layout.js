@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let iconCopys = document.querySelectorAll("#iconCopy");
   copyBtns.forEach((copyBtn, index)=>{
     copyBtn.addEventListener("click", ()=>{
-      if(copyBtn.id="both"){
+      if(copyBtn.id ==="both"){
         if(!window.navigator.share){copyNow(index);}
         else{
           navigator.share({
@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 } catch (error) {};
   try{
-    if(document.querySelectorAll(".updateProfile")){
+    if(document.querySelectorAll(".concatLink")){
       const updateProfiles = [...document.querySelectorAll(".updateProfile")];
       for(let h in updateProfiles){
         const c = updateProfiles[h].href;
@@ -145,12 +145,12 @@ document.addEventListener("DOMContentLoaded", function () {
   }catch(error){};
   
 const texts={
-    Comcluido:{
+    Concluido:{
     deposits: "Ao processar este depósito significa que você está prestes a adicionar o valor total do reembolso para este usuário.",
     withdrawals:"Ao processar esta retirada significa que você está prestes a enviar o dinheiro para uma conta eletrônica específica nesta retirada ou já enviou em off, e esta ação não será cancelada.",
     commissions:"Ao processar esta comissão significa que você está prestes a adicionar o valor da comissão para este usuário.",
   },
-  Emprogresso:{
+  EmProgresso:{
     deposits:"Tem certeza que deseja confirmar esse deposito?\nTenha certeza que este usuário enviou na plataforma o valor correspondente ou troque embaixo.",
     withdrawals:"",
     commissions:""

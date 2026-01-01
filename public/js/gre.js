@@ -43,7 +43,7 @@ submitBtn.addEventListener("click",()=>{
       }else if(fields[k].name == "accounts"){
         if(!fields[k].accessKey){
           empty.push({msg:"Selecione um metódo de pagamento", index: k});
-        }else if(fields[k].accessKey =="Vodacom" && !fields[k].value.match(/^8[45]\d{7}$/) || fields[k].accessKey =="Movitel" && !fields[k].value.match(/^8[67]\d{7}$/) || fields[k].accessKey =="Mcash" && !fields[k].value.match(/^8[23]\d{7}$/) || fields[k].accessKey =="Ponto24" && !fields[k].value.match(/^8[234567]\d{7}$/)){
+        }else if(/^(Vodacom|Mpesa|M-pesa)$/i.test(fields[k].accessKey) && !fields[k].value.match(/^8[45]\d{7}$/) || /^(E-mola|Emola|Movitel)$/i.test(fields[k].accessKey) && !fields[k].value.match(/^8[67]\d{7}$/) || /^(Mcash|M-cash|Tmcel)$/i.test(fields[k].accessKey) && !fields[k].value.match(/^8[23]\d{7}$/) || /^(Ponto24|Simo)$/i.test(fields[k].accessKey) && !fields[k].value.match(/^8[234567]\d{7}$/)){
           empty.push({msg:`Conta ${fields[k].accessKey.toLowerCase()} inválido`, index: k});
         }else if(fields[k].title == "withdraw"){
           if(document.querySelectorAll(".hasMadeDeposits")){

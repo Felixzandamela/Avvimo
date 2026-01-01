@@ -12,10 +12,9 @@ function getText (req){
 }
 
 module.exports = {
-  authUser: function(req, res, next) {
+  authentication: function(req, res, next) {
     if(!req.isAuthenticated() || !req.user) {
       const redirectTo = req.originalUrl;
-      console.log(redirectTo)
       storage.setItem("redirectTo", redirectTo);
       res.status(403).redirect('/auth/login');
     }else if(!req.user.verified){

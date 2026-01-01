@@ -47,7 +47,7 @@
       {{else}}
       {{#if datas.isAdmin}}
       {{else}}
-      {{#if datas.paymentyInfo}}
+      {{#if datas.paymentInfo}}
        <div class="padd10-a">
         <div class="p_payment">
           <p class="m5-a"><b>1.</b> Envie o dinheiro para a conta abaixo</p>
@@ -106,7 +106,7 @@
              
               {{#if isAdmin}}
               
-                <a href="/admin/transactions/deposits?owner={{datas.from}}" class="a a_default flex_e_c padd10-r m5-a">Ver a origem</a>
+              {{#if datas.from}}  <a href="/admin/transactions/deposits?owner={{datas.from}}" class="a a_default flex_e_c padd10-r m5-a">Ver a origem</a>{{/if}}
           <a href="/admin/users?_id={{datas.owner._id}}" class="a transaction_owner_details flex_s">
             <div class="transaction_owner_avatar">
               {{#if datas.owner.src}}

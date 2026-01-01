@@ -1505,9 +1505,10 @@ form_card_b{
 }
 .a.active .transaction_card .right i{transform: rotate(180deg);}
 .transaction_wrap.Rejeitado .left i, .left .Rejeitado, .transaction_wrap.Anulado .left i, .left .Anulado{color: var(--danger-color);}
-.transaction_wrap.Emprogresso .left i, .left .Emprogresso{color: #FFC107;}
-.transaction_wrap.Comcluido .left i, .left .Comcluido{color: var(--success-color);}
+.transaction_wrap.EmProgresso .left i, .left .EmProgresso{color: #FFC107;}
+.transaction_wrap.Concluido .left i, .left .Concluido{color: var(--success-color);}
 .transaction_wrap.Maduro .left i, .left .Maduro{ color: var(--main-color);}
+
 
 .a_action_wrap{
   padding: 5px;
@@ -1605,8 +1606,8 @@ form_card_b{
   padding: 10px;
   color:#fff ;
 }
-.a_action_li.Comcluido,
-.Comcluido.btn{
+.a_action_li.Concluido,
+.Concluido.btn{
   color:#fff;
   background: var(--success-color);
   border: 1.5px solid var(--success-color);
@@ -1615,7 +1616,7 @@ form_card_b{
   color: var(--danger-color);
   border: 1.5px solid var(--danger-color);
 }
-.a_action_li.Emprogresso,.Emprogresso.btn{
+.a_action_li.EmProgresso,.EmProgresso.btn{
   background:var(--warning-color);
   border: 1.5px solid var(--warning-color);
   color: #000;

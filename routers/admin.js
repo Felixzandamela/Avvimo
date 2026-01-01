@@ -2,24 +2,23 @@ const express = require("express");
 const admin = express.Router();
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({limit: '50mb', extended: true });
-const {asideLinks,transformDatas,sortByDays, objRevised, statusIcons, propertysLength,msgsStatus, formatDate} = require('../middlewares/utils');
+const {asideLinks,getTime,transformDatas,sortByDays, objRevised, statusIcons, propertysLength,msgsStatus, formatDate} = require('../middlewares/utils');
 const {pagination} = require('../middlewares/pagination');
 const {Actions} = require('../middlewares/action');
-const transactions = require('./transactions');
 const {getFleets} = require("../middlewares/getFleets");
-const {confirmDeposit} = require("../middlewares/transactions-actions");
+const {DepositsActions,CommissionsActions,WithdrawalsActions,getTransactions,getTransaction} = require("../middlewares/transactions-actions");
 const alertDatas = {
   type:"error",
   title:"Erro!",
   texts: "Houve um erro, por favor tente mais tarde. Se o erro persistir, por favor contacte-nos atrás dos nossos canaís.",
-  btnTitle: "Painel",
-  redirectTo: "/admin/dashboard"
+  btnTitle: "Voltar atrás",
+  redirectTo: null
 }
 
 const transTypes = {
-  deposits:"Deposíto",
+  deposits:"Deposítos",
   withdrawals:"Saques",
-  commissions:"Comissão"
+  commissions:"Comiss"
 }
 
 admin.get('/', (req, res) => {
@@ -76,7 +75,6 @@ admin.get('/:collection/action', urlencodedParser, async (req, res) => {
   if(type == "update" && !datas.item){
     const data = {
       texts:`Este ${collection} com id ${_id} está indisponível. Por favor tente mais tarde`,
-      btnTitle: "Voltar atrás",
       redirectTo: `/admin/${collection}`
     }
     const d = objRevised(alertDatas,data);
@@ -141,7 +139,6 @@ admin.get("/users/edit-profile", async(req,res)=>{
     const data = {
       texts:`Este usuarío com id ${_id} está indisponível. Por favor tente mais tarde`,
       redirectTo:"/admin/users",
-      btnTitle:"Voltar atrás"
     }
     const d = objRevised(alertDatas,data);
     res.status(404).render("cabinet/catchs",d);
@@ -215,47 +212,21 @@ admin.get("/reviews", urlencodedParser, async (req,res)=>{
   }
 });
 
+admin.get("/transactions/:type", urlencodedParser, async (req,res)=>{
+  const type = req.params.type;
+  const link = {path:`/admin/transactions/${type}`,queryString: req.query ? `${new URLSearchParams(req.query).toString()}` : ''};
+  const body = await transformDatas(req.query);
+  const result = await getTransactions("admin",body,type);
+  let datas = !result.successed ? objRevised(alertDatas, result) : result;
+  res.render( !datas.successed ? "cabinet/catchs" : "cabinet/transactions",datas);
+});
+
+
 admin.get("/transactions/:type/view",  urlencodedParser, async (req,res)=>{
   const {type} = req.params;
   const {_id} = req.query;
-  let datas = await Actions.get(type,_id,["fleet","gateway","owner"]);
-  if(datas){
-    const isDeposit = type === "deposits" && datas.status === "Emprogresso" && datas.expireAt.secondsLength >= 0;
-    const nesterDatas ={
-      isAdmin: true,
-      shows: msgsStatus(datas.status,type),
-      paymentyInfo: !/^(Anulado|Emprogresso|Comcluido)$/i.test(datas.status),
-      [type]: true,
-      transaction_type:type,
-      type: transTypes[type],
-      contact_us: /^(Rejeitado|Anulado)$/i.test(datas.status),
-    }
-    if(type === "deposits"){
-      nesterDatas.showsBtn = {
-        default: datas.status === "Pendente" && type === "deposits" && datas.gateway.paymentInstantly ? true : false,
-        status: datas.status === "Rejeitado" && type === "deposits" && datas.gateway.paymentInstantly ? true : false
-      }
-    }
-    const showBtns = /^(Comcluido|Anulado)$/i.test(datas.status) ||  datas.expireAt.secondsLength > 0 ;
-    
-    const btnsArray = [
-      {value: isDeposit === "Emprogresso"? "Confirmar" : "Processar", action: isDeposit ? isDeposit : "Comcluido", icon:"bi bi-check-circle"},
-      {value: "Rejeitar",action:"Rejeitado",icon:"bi bi-slash-circle"},
-      {value: "Anular",action:"Anulado",icon:"bi bi-arrow-left-circle"}
-    ];
-    let a =  await transformDatas(datas._doc,true);
-    a = objRevised(a,nesterDatas);
-   
-    res.render("cabinet/transactionCard",{ btns: !showBtns? null : btnsArray ,datas:a});
-  }else{
-    const g = {
-      btnTitle: "Voltar atrás",
-      redirectTo: null,
-      texts: "Essa transação esta indisponível"
-    }
-    const datas = objRevised(alertDatas,g);
-    res.render("cabinet/catchs",datas);
-  }
+  let datas = await getTransaction("admin", type, _id);
+  res.render(!datas.successed ? "cabinet/catchs" : "cabinet/transactionCard", datas);
 });
 
 admin.post("/transaction/:type/action", urlencodedParser, async(req,res)=>{
@@ -268,20 +239,22 @@ admin.post("/transaction/:type/action", urlencodedParser, async(req,res)=>{
     collection:"users",
     data:bodys
   }
-  switch(bodys.status){
-    case "Emprogresso":
-      if(type === "deposits"){
-        let results = await confirmDeposit(bodys);
-        console.log(results)
-      }
-    break;
+  const transactionsTypeMap ={
+    deposits: await DepositsActions(bodys),
+    commissions: await CommissionsActions(bodys),
+    withdrawals: await WithdrawalsActions(bodys)
+  }
+  if(/^(deposits|commissions|withdrawals)$/i.test(type)){
+    const result = transactionsTypeMap[type];
+    if(typeof result === "string"){
+      req.flash("error", result);
+    }
+      res.redirect(datas.redirect);
+  }else{
+    const newAlertDatas = objRevised(alertDatas,{texts: "Esse tipo de transacões não existe."});
+    res.render("cabinet/catchs", alertDatas);
   }
 });
-
-
-//admin.use('/transactions', transactions)
-
-
 
 
 module.exports = admin;

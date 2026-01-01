@@ -42,9 +42,9 @@
                 <div class="label_error"></div>
               </div>
             </div>
-            <input class="hasMadeDeposits" value="843434027" type="hidden"/>
-            <input class="hasMadeDeposits" value="843434028" type="hidden"/>
-            
+            {{#each accounts}}
+            <input class="hasMadeDeposits" value="{{account}}" type="hidden"/>
+            {{/each}}
             <form id="form" action="/cabinet/newwithdraw" method="post"  class="form_card_b flex_b f_card">
               <h4 class="padd10-a m5-a">Sumário</h4>
               <input id="amount" name="amount" type="hidden"/>

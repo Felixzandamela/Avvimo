@@ -27,6 +27,7 @@ const admin = require('./routers/admin');
 const {Actions} = require('./middlewares/action');
 const _host = process.env.HOST;
 const company = process.env.COMPANY;
+const {authentication} = require("./middlewares/authentication");
 
 const {asideLinks,transformDatas,_defineProperty} = require("./middlewares/utils");
 const {getFleets} = require("./middlewares/getFleets");
@@ -101,8 +102,8 @@ app.use('/admin', (req, res, next) => {
   next();
 });
 
-// Executar uma função em caminhos que começam com /api
-app.use('/cabinet', (req, res, next) => {
+
+app.use('/cabinet', authentication, (req, res, next) => {
   const isAdmin = false;
   res.locals.asideLinks = asideLinks("cabinet");
   res.locals.mode = "cabinet";
@@ -110,10 +111,20 @@ app.use('/cabinet', (req, res, next) => {
   next();
 });
 
-async function gb(){
-  console.log(await getFleets());
+const body = {
+  _id:"6947f2f526d71b0f52f58de4",
+  page:0,
+  
 }
-gb()
+const {DepositsActions,getTransaction} = require("./middlewares/transactions-actions");
+
+async function gj (){
+  const h = await getFleets("admin","deposits","6947f2f526d71b0f52f58de4")
+ 
+}
+
+
+
 
 app.use(helmet());
 app.use(

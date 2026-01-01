@@ -23,7 +23,7 @@
                 {{>_avatar}}
               {{/if}}
               <div>
-                <a href="/cabinet/edit-profile" class="a updateProfile">
+                <a href="/cabinet/edit-profile" class="a concatLink">
                   <div class="label_input_file br60 flex_c_c">
                     <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-camera-fill" view-box="0 0 16 16">
                       <path d="M10.5 8.5a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
@@ -35,7 +35,7 @@
               {{#if user.isBanned}}<div class="isBanned br60 flex_c_c"><i class="bi bi-exclamation"></i></div>{{/if}}
             </div>
           </div>
-          <div class="a_profile_name flex_c_c">{{user.name}} <a href="/cabinet/edit-profile" class="a updateProfile pdd10-l"><i class="bi bi-pen-fill"></i></a></div>
+          <div class="a_profile_name flex_c_c">{{user.name}} <a href="/cabinet/edit-profile" class="a concatLink pdd10-l"><i class="bi bi-pen-fill"></i></a></div>
         </div>
         <div class="balance-card-o">
           <div class="a_balance-card padd10-tb">
@@ -60,7 +60,7 @@
                       <div class="a_activity_p">{{#if user.phoneNumber}} {{user.phoneNumber}} {{else}} Ainda não fornecido {{/if}}</div>
                     </div>
                     
-                    <div class="btn_circle br60 flex_c_c"><a href="/cabinet/edit-profile" class="a updateProfile editNameBtn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="" viewBox="0 0 16 16"><path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/></svg></a></div>
+                    <div class="btn_circle br60 flex_c_c"><a href="/cabinet/edit-profile" class="a concatLink editNameBtn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="" viewBox="0 0 16 16"><path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/></svg></a></div>
                   </div>
                 </div>
                 <div class="flex_s a_activity create">

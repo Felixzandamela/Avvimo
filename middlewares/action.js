@@ -265,33 +265,32 @@ module.exports.Actions = (function () {
     },
     
     aggregate: async function(collection, match, field){
-      if (!validCollection(collection)) {
-        console.error('aggregate invalid collection:', collection);
-        return false;
-      }
-      if(typeof match !== "object" || !field){
-        console.error('aggregate matchs undefined:', match, field);
-        return false
-      }
-      try{
-        const Model = collections[collection];
-        const result = await Model.aggregate([
-          { $match: match},
-          { $group: {
-            _id: null,
-            total: { $sum: field },
-            count: { $sum: 1 }
-          }
-        }]).exec();
-        if(result){
-          return result[0];
-        }
-      } catch (error) {
-        console.error('aggregate error:', error);
-        return false;
-      }
-    },
-    
+  if (!validCollection(collection)) {
+    console.error('aggregate invalid collection:', collection);
+    return false;
+  }
+  if(typeof match !== "object"){
+    console.error('aggregate matchs undefined:', match, field);
+    return false
+  }
+  try{
+    const Model = collections[collection];
+    const result = await Model.aggregate([
+      { $match: match},
+      { $group: {
+        _id: "$fleet",
+        total: { $sum: field },
+      }}
+    ]).exec();
+    return result.reduce((acc, curr) => {
+      acc[curr._id] = curr.total;
+      return acc;
+    }, {});
+  } catch (error) {
+    console.error('aggregate error:', error);
+    return false;
+  }
+},
     return: function (e, t, d) {
       return {
         type: /^(exist|empty)/i.test(e) ? 'error' : e,

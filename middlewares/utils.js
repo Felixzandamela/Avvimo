@@ -57,6 +57,7 @@ const collections = {
     color: "var(--main-color-rgba)"
   }
 } 
+module.exports.coll = function(c){return collections[c];}
 
 function _defineProperty (obj,target={}){
   for(key in obj){
@@ -239,16 +240,16 @@ module.exports.sortByDays = function(a,b){return sortByDays(a,b);};
 
 module.exports.statusIcons = {
   Pendente:"bi bi-circle",
-  Enprogresso:"bi bi-clock",
-  Comcluido:"bi bi-check-circle",
+  EmProgresso:"bi bi-clock",
+  Concluido:"bi bi-check-circle",
   Rejeitado:"bi bi-slash-circle",
   Anulado:"bi bi-arrow-left-circle"
 }
 module.exports.msgsStatus = function(status, type){
   const shows = {
-    Comcluido:null,
+    Concluido:null,
     Pendente:texts[`${type}InQueueWarn`],
-    Emprogresso:type !== "deposits" ? null : texts.confirmedDepositWarn,
+    EmProgresso:type !== "deposits" ? null : texts.confirmedDepositWarn,
     Rejeitado: texts.rejectedPaymentWarn,
     Anulado:texts.voidedPaymentWarn
   }
@@ -383,11 +384,11 @@ const getYearlyChartdatas = (datas,language, type)=>{
           totalInThisMonth++
         }
       }else if(type === "earnings"){
-        if(/^(Comcluido)$/i.test(datas[d].status) && day === MonthAndYear){
+        if(/^(Concluido)$/i.test(datas[d].status) && day === MonthAndYear){
           totalInThisMonth +=  datas[d].income.default;
         }
       }else{
-        if(/^(Emprogresso|Comcluido)$/i.test(datas[d].status) && day === MonthAndYear){
+        if(/^(EmProgresso|Concluido)$/i.test(datas[d].status) && day === MonthAndYear){
           totalInThisMonth += datas[d].amount.default;
         }
       }
@@ -428,7 +429,7 @@ class CardBalance{
       language = language ? language : "pt-PT";
       let weekDays = ThisWeek(language);
       for(let i in datas){
-        datas[i] = await transformDatas(datas[i], true);
+        datas[i] = await transformDatas(datas[i]._doc, true);
         if(isUsers){
           total++;
           for(let h in weekDays){
@@ -436,7 +437,7 @@ class CardBalance{
           }
           if(formatDate(getTime().fullDate).onlyMonthAndYear === datas[i].date.onlyMonthAndYear){totalThisMonth++;}
         }else{
-          if(/^(Emprogresso|Comcluido)$/i.test(datas[i].status)){
+          if(/^(EmProgresso|Concluido)$/i.test(datas[i].status)){
             total+= datas[i].amount.default;
             for(let h in weekDays){
               if(datas[i].date.onlyDate === weekDays[h]){
@@ -478,7 +479,7 @@ class CardBalance{
         if(datas[i].field.default === "deposits"){
           const currentArray = datas[i].datas;
           for(let h in currentArray){
-            if(/^(Comcluido)$/i.test(currentArray[h].status)){
+            if(/^(Concluido)$/i.test(currentArray[h].status)){
               total += currentArray[h].income.default;
               for(let w in weekDays){
                 if(currentArray[h].date.onlyDate === weekDays[w]){totalThisWeek+= currentArray[h].income.default;}
@@ -520,6 +521,7 @@ class CardBalance{
     }
   }
 } // Classe para calcular o saldo e detalhes semanais, mensais e anuais
+
 module.exports.cardDatas = async function(datas,field,language){
   return new CardBalance(datas,field,language);
 }
