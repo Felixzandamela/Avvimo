@@ -33,10 +33,12 @@
     
       <div class="copyrights padd15-a flex_b_c">
         <div class="paragraph"><a href="/" class="a">{{company}} S.A <span id="year"></span></a>, Todos os direitos reservados</div>
-        <div class="flex_e_c"> 
-        <img src="/public/imgs/images.png" class="gates m5-l"/>
-        <img src="/public/imgs/images.png" class="gates m5-l"/>
-        <img src="/public/imgs/images.png" class="gates m5-l"/>
+        <div class="flex_e_c">
+          {{#if gateways}}
+          {{#each gateways}}
+        <img src="{{src}}" class="gates m5-l"/>
+        {{/each}}
+        {{/if}}
         </div>
       </div>
       </div>

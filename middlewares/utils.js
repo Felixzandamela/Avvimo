@@ -57,7 +57,9 @@ const collections = {
     color: "var(--main-color-rgba)"
   }
 } 
-module.exports.coll = function(c){return collections[c];}
+module.exports.coll = function(c){
+  return !collections[c]? c : collections[c];
+}
 
 function _defineProperty (obj,target={}){
   for(key in obj){
@@ -227,6 +229,14 @@ const transformDatas = async function(item,internal,nester){
 };
 module.exports.transformDatas = async function(item,internal,nester){return await transformDatas(item,internal,nester);}
 
+function filterByDate(item){
+  const d = {
+    month: formatDate(getTime().fullDate).onlyMonthAndYear,
+    today: formatDate(getTime().fullDate).onlyDate
+  }
+  return !d[item]? undefined : d[item];
+}
+module.exports.filterByDate = function(item){return filterByDate(item);}
 
 const sortByDays = (a,b) =>{
   if (a.date.secondsLength < b.date.secondsLength)
@@ -260,6 +270,7 @@ module.exports.flashs = function(e,t,c){
   const type= {
     set:{error:"Salvar",success:"Salvado"},
     update:{error:"Atualizar",success:"Atualizado"},
+    updateMany:{error:"Atualização em massa", success:"Atualizados"},
     delete:{error:"Deletar",success:"Deletado"},
     get:{error:"Buscar",success:"Encontrado"}
   }

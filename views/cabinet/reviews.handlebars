@@ -10,7 +10,7 @@
           <header class="a_sec_header padd5-a flex_b_c">
             <h1 class="page-title">Critícas</h1>
             <div class="">
-              <form method="get" action="/reviews" class="a_selection_wrap flex_wrap">
+              <form method="get" action="/admin/reviews" class="a_selection_wrap flex_wrap">
                 <input type="hidden" name="page" value="0"/>
                 <div class="a_selection">
                   <div accesskey="statusReviews" class="selection reviews select a_container br6-a">
@@ -64,12 +64,12 @@
           </div>
           
           <div class="a_bottom a_container flex_c_c">
-            <form method="post" action="/reviews/update">
+            <form method="post" action="/admin/reviews/update">
               <input type="hidden" class="ids" name="ids"/>
               <input type="hidden" value="false" name="makePublic"/>
               <button class="white-btn br4-a padd10-a">Inrevisar</button>
             </form>
-            <form method="post" action="/reviews/update">
+            <form method="post" action="/admin/reviews/update">
               <input type="hidden" class="ids" name="ids"/>
               <input type="hidden" value="true" name="makePublic"/>
               <button class="primary-btn br4-a padd10-a">Revisar</button>

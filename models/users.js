@@ -8,6 +8,11 @@ const Users = new Schema({
     required: false,
     default:0
   },
+  earned:{
+    type:Number,
+    required:false,
+    default:0
+  },
   name:{
     type:String,
     required: true,

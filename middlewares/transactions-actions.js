@@ -1,4 +1,4 @@
-const { getTime, objRevised, expireDay, coll, formatDate, sortByDays, statusIcons, transformDatas, msgsStatus} = require("./utils");
+const { getTime, objRevised, expireDay, coll, formatDate, sortByDays, statusIcons, transformDatas, msgsStatus,filterByDate} = require("./utils");
 const { Actions } = require("./action");
 const { pagination } = require('../middlewares/pagination');
 
@@ -23,14 +23,14 @@ const statusMap = {
 };
 
 function errorMsgs(type, collectionKey, statusKey) {
-  const title = !coll(collectionKey)? collectionKey : coll(collectionKey).title[0];
+  const title =  collectionKey? collectionKey : "";
   const statusText = statusMap[statusKey] || statusKey;
   const messages = {
     cantProcess: `Este ${title} já não pode ser processado.`,
     empty: `${title} não foi encontrado!`,
     default: `${title} não tem a opção ${statusText} na sua lista de status.`,
     errorAc: `Erro ao ${statusText} ${title}.`,
-    errorAcChild: `Erro ao atualizar ${title} deste ${coll(statusKey).title[0]}.`,
+    errorAcChild: `Erro ao atualizar ${title} deste ${statusKey}.`,
   };
   return messages[type] || "Erro desconhecido.";
 }
@@ -60,8 +60,8 @@ module.exports.DepositsActions = async function (body, internal) {
   if (bodyError) return bodyError;
 
   let deposit = await Actions.get("deposits", body._id, ["fleet"]);
-  if (!deposit) return errorMsgs("empty", "deposits");
-  if (/^(Concluido|Anulado)$/i.test(deposit.status)) return errorMsgs("cantProcess", "deposits");
+  if (!deposit) return errorMsgs("empty", "deposíto");
+  if (/^(Concluido|Anulado)$/i.test(deposit.status)) return errorMsgs("cantProcess", "deposíto");
 
   const datas = setDatas("deposits", body._id);
 
@@ -70,7 +70,7 @@ module.exports.DepositsActions = async function (body, internal) {
       const newDepositData = new Deposit(body, deposit.fleet);
       datas.data = newDepositData;
       const updatedDeposit = await Actions.update(deposit._id, datas, true);
-      if (!updatedDeposit) return errorMsgs("errorAc", "deposits", "EmProgresso");
+      if (!updatedDeposit) return errorMsgs("errorAc", "deposíto", "EmProgresso");
 
       let commission = await Actions.get("commissions", { from: updatedDeposit._id }, null, true);
       if (!commission) return true;
@@ -82,26 +82,25 @@ module.exports.DepositsActions = async function (body, internal) {
       };
 
       const updatedCommission = await Actions.update(commission._id, commissionData, true);
-      if (!updatedCommission) return errorMsgs("errorAcChild", "commissions", "deposits");
+      if (!updatedCommission) return errorMsgs("errorAcChild", "comissão", "deposíto");
 
-      const newBalance = await Actions.increment("users",commission.owner,"balance",commission.totalReceivable);
+      const newBalance = await Actions.increment("users",commission.owner,["balance", "earned"],commission.totalReceivable);
       if (!newBalance) return "Erro ao atualizar saldo.";
-
       return true;
     }
     case "Concluido": {
       datas.data = { status: "Concluido" };
       const updatedDeposit = await Actions.update(deposit._id, datas, true);
-      if (!updatedDeposit) return errorMsgs("errorAc", "deposits", "Concluido");
+      if (!updatedDeposit) return errorMsgs("errorAc", "deposíto", "Concluido");
 
-      const newBalance = await Actions.increment("users",deposit.owner,"balance",deposit.totalIncome);
+      const newBalance = await Actions.increment("users",deposit.owner,["balance", "earned"],deposit.totalIncome);
       if (!newBalance) return "Erro ao atualizar saldo.";
       return true;
     }
     case "Anulado": {
       datas.data = { status: "Anulado" };
       const updatedDeposit = await Actions.update(deposit._id, datas, true);
-      if (!updatedDeposit) return errorMsgs("errorAc", "deposits", "Anulado");
+      if (!updatedDeposit) return errorMsgs("errorAc", "deposíto", "Anulado");
 
       let commission = await Actions.get("commissions", { from: updatedDeposit._id }, null, true);
       if (!commission) return true;
@@ -113,19 +112,17 @@ module.exports.DepositsActions = async function (body, internal) {
       };
 
       const updatedCommission = await Actions.update(commission._id, commissionData, true);
-      if (!updatedCommission) return errorMsgs("errorAcChild", "commissions", "deposits");
-
+      if (!updatedCommission) return errorMsgs("errorAcChild", "comissão", "depósito");
       return true;
     }
     case "Rejeitado": {
       datas.data = { status: "Rejeitado" };
       const updatedDeposit = await Actions.update(deposit._id, datas, true);
-      if (!updatedDeposit) return errorMsgs("errorAc", "deposits", "Rejeitado");
-
+      if (!updatedDeposit) return errorMsgs("errorAc", "depósito", "Rejeitado");
       return true;
     }
     default:
-      return errorMsgs("default", "deposits", body.status);
+      return errorMsgs("default", "deposíto", body.status);
   }
 };
 
@@ -134,8 +131,8 @@ module.exports.CommissionsActions = async function (body, internal) {
   if (bodyError) return bodyError;
 
   let commission = await Actions.get("commissions", body._id);
-  if (!commission) return errorMsgs("empty", "commissions");
-  if (/^(Concluido|Anulado)$/i.test(commission.status)) return errorMsgs("cantProcess", "commissions");
+  if (!commission) return errorMsgs("empty", "comissão");
+  if (/^(Concluido|Anulado)$/i.test(commission.status)) return errorMsgs("cantProcess", "comissão");
 
   const datas = setDatas("commissions", body._id);
 
@@ -145,10 +142,10 @@ module.exports.CommissionsActions = async function (body, internal) {
     case "Rejeitado":
       commission.status = "Rejeitado";
       const updatedCommission = await Actions.update(commission._id, datas, true);
-      if (!updatedCommission) return errorMsgs("errorAc", "commissions", "Rejeitado");
+      if (!updatedCommission) return errorMsgs("errorAc", "comissão", "Rejeitado");
       return true;
     default:
-      return errorMsgs("default", "commissions", body.status);
+      return errorMsgs("default", "comissão", body.status);
   }
 };
 
@@ -157,19 +154,18 @@ module.exports.WithdrawalsActions = async function (body, internal) {
   if (bodyError) return bodyError;
 
   let withdrawal = await Actions.get("withdrawals", body._id);
-  if (!withdrawal) return errorMsgs("empty", "withdrawals");
-  if (/^(Concluido|Anulado)$/i.test(withdrawal.status)) return errorMsgs("cantProcess", "withdrawals");
+  if (!withdrawal) return errorMsgs("empty", "saque");
+  if (/^(Concluido|Anulado)$/i.test(withdrawal.status)) return errorMsgs("cantProcess", "saque");
 
   const datas = setDatas("withdrawals", body._id);
 
   if (body.status === "Rejeitado" || body.status === "Anulado") {
     withdrawal.status = body.status;
     const updatedWithdrawal = await withdrawal.save();
-    if (!updatedWithdrawal) return errorMsgs("errorAc", "withdrawals", body.status);
+    if (!updatedWithdrawal) return errorMsgs("errorAc", "saque", body.status);
 
-    const balanceUpdated = await Actions.decrement("users", withdrawal.owner, "balance", withdrawal.amount);
+    const balanceUpdated = await Actions.decrement("users", withdrawal.owner, ["balance"], withdrawal.amount);
     if (!balanceUpdated) return "Erro ao atualizar saldo.";
-
     return true;
   }
 
@@ -177,20 +173,13 @@ module.exports.WithdrawalsActions = async function (body, internal) {
     // implementar gateway de pagamento para enviar dinheiro ao usuário
     withdrawal.status = body.status;
     const updatedWithdrawal = await withdrawal.save();
-    if (!updatedWithdrawal) return errorMsgs("errorAc", "withdrawals", body.status);
+    if (!updatedWithdrawal) return errorMsgs("errorAc", "saque", body.status);
     return true;
   }
 
-  return errorMsgs("default", "withdrawals", body.status);
+  return errorMsgs("default", "saque", body.status);
 };
 
-function filterByDate(item){
-  const d = {
-    month: formatDate(getTime().fullDate).onlyMonthAndYear,
-    today: formatDate(getTime().fullDate).onlyDate
-  }
-  return !d[item]? undefined : d[item];
-}
 module.exports.getTransactions = async function(mode,body,type,user){
   if(!/^(deposits|commissions|withdrawals)/i.test(type)){ 
     return{
@@ -246,6 +235,7 @@ module.exports.getTransactions = async function(mode,body,type,user){
   return {
     type:type,
     successed: true,
+    [type]: true,
     title:coll(type).title[1],
     datas:pagination(filteredData,!body.page?0:body.page, link, true)
   }
@@ -264,7 +254,7 @@ module.exports.getTransaction = async function( mode, type, _id){
       title:"Erro!",
       btnTitle: "Voltar atrás",
       redirectTo: null,
-      texts: "Essa transação esta indisponível ou houve um erro ba busca"
+      texts: "Essa transação esta indisponível ou houve um erro na busca"
     }
   }
   datas = await transformDatas(datas._doc,true);
@@ -290,7 +280,7 @@ module.exports.getTransaction = async function( mode, type, _id){
   
   const showBtns = /^(Pendente|Rejeitado)$/i.test(datas.status) ||  datas.status === "EmProgresso" && datas.expireAt.secondsLength > 0 ;
   const btnsArray = [
-    {value: type !== "deposits"? "Processar" : isIatured && isAdmin ? "Processar" : "Confirmar", action: type !== "deposits"? "Concluido" : isIatured && isAdmin ? "Concluido" : "EmProgresso", icon:"bi bi-check-circle"},
+    {value: !isDeposit? "Processar" : isIatured && isAdmin ? "Processar" : "Confirmar", action: !isDeposit? "Concluido" : isIatured && isAdmin ? "Concluido" : "EmProgresso", icon:"bi bi-check-circle"},
     {value: "Rejeitar",action:"Rejeitado",icon:"bi bi-slash-circle"},
     {value: "Anular",action:"Anulado",icon:"bi bi-arrow-left-circle"}
   ];

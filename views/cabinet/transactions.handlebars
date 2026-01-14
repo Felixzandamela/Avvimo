@@ -44,6 +44,7 @@
             {{#if isAdmin}}
              {{else}}
             <div class="flex_c_c">
+              {{#if deposits}}
               <a href="/cabinet/fleets" class="a plus-fixed">
                 <div class="primary-btn  padd8-15 br4-a flex_c_c"> <p class="">Depositar</p>
                 <div class="btn_plus flex_c_c">
@@ -54,6 +55,31 @@
                 </div>
               </div>
             </a>
+              {{/if}}
+              
+              {{#if withdrawals}}
+              <a href="/cabinet/withdraw" class="a plus-fixed">
+                <div class="primary-btn  padd8-15 br4-a flex_c_c"> <p class="">Sacar</p>
+                <div class="btn_plus flex_c_c">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                    <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                  </svg>
+                </div>
+              </div>
+            </a>
+              {{/if}}
+              {{#if commissions}}
+              <div class="a plus-fixed">
+               <div id="both" class="primary-btn copyBtn padd8-15 br4-a flex_c_c"> 
+               <p class="">Convidar amigo</p>
+              <div  class="btn_plus flex_c_c">
+                  <i id="iconCopy" class="bi bi-link-45deg"></i>
+                </div>
+              </div>
+              </div>
+                <div class="valueToCopy">{{baseUrl}}/ref?upline={{user._id}}</div>
+              {{/if}}
           </div>
             {{/if}}
           </div>

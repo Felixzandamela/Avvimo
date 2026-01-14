@@ -1,5 +1,5 @@
 function check(input, type, index){
-  if(!input && !/^(phoneNumber|upline)$/i.test(type)){ return {msg:"Este campo não pode estar vazio",index:index}}
+  if(!input && !/^(phoneNumber|upline|stars)$/i.test(type)){ return {msg:"Este campo não pode estar vazio",index:index}}
   switch(type){
     case "email":
       return !input.match(/^[a-zA-Z][a-zA-Z0-9\-\_\.]+@[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}$/) ? {msg: "E-mail inválido!", index:index} : null;
@@ -23,6 +23,10 @@ function check(input, type, index){
     case "max":
       return  parseFloat(input) <= 0 ? {msg: "Valor maxímo inválido", index:index} : null;
     break;
+    case "text":
+      return input.length < 50 || input.length > 500 ? {msg:"A texto não pode der menos de 50 ou mais de 500 caracteres!", index:index}: null;
+    break;
+    
     default: 
     return null;
   }
@@ -66,6 +70,13 @@ submitBtn.addEventListener("click",()=>{
         if(fields[k].value && !fields[k].value.match(/^8[234567]\d{7}$/)){
           empty.push({msg:`Número de telefone inválido!`, index:k});
         }
+      }else if(fields[k].name == "stars"){
+        if(!fields[k].value){
+          shakeStars();
+          empty.push({msg:``, index:k});
+        }
+      }else if(fields[k].value.match(/<|>|<[a-z][\s\S]*>/i)){
+        empty.push({msg:"Tags html não são permitidos", index:k});
       }
       if(fields[k].id == "passwordA")doubleA.push(fields[k], k);
       if(fields[k].id == "passwordB")doubleB.push(fields[k], k);
@@ -91,6 +102,14 @@ submitBtn.addEventListener("click",()=>{
     document.getElementById('form').submit();
  }  
 });
+function shakeStars(){
+  const t_stars = document.getElementById("t_stars");
+  t_stars.classList.add("shakes");
+  setTimeout(()=>{
+    t_stars.classList.remove("shakes");
+  },500);
+}
+
 var inputs = document.querySelectorAll(".input");
 var errors = document.querySelectorAll(".label_error");
 inputs.forEach((input, key)=>{
@@ -126,3 +145,53 @@ try{
     });
   }
 }catch(error){};
+
+try{
+  if(document.querySelectorAll(".usedAccount")){
+    const usedAccounts = [...document.querySelectorAll(".usedAccount")];
+    usedAccounts.forEach((num)=>{
+      num.addEventListener("click",()=>{
+        document.getElementById("accounts").value = num.accessKey;
+        document.getElementById("account").value = num.accessKey;
+      })
+    });
+  }
+}catch(error){};
+
+try{
+  const  emojisExpressions = ["bi bi-emoji-neutral", "bi bi-emoji-frown", "bi bi-emoji-expressionless", "bi bi-emoji-smile", "bi bi-emoji-heart-eyes"];
+  const colorsArray = ["red","orange", "lightblue","lightgreen","gold"];
+  if(document.querySelectorAll(".star")){
+    const star = [...document.querySelectorAll(".new_star")];
+    const stars = document.getElementById("stars");
+    const init = parseInt(stars.value);
+    if(init > 0){updateRating(init - 1);}
+     star.forEach((star,index)=>{
+      star.addEventListener("click", ()=>updateRating(index))
+    });
+    function updateRating(i){
+      star.forEach((star, idx)=>{
+        if(idx < i + 1){
+          stars.value = idx + 1;
+          star.classList.add("active");
+        }else{
+          star.classList.remove("active");
+        }
+      });
+      const emoji = document.getElementById("emoji");
+      emoji.setAttribute("class" , emojisExpressions[i]);
+      emoji.style.color = colorsArray[i];
+    }
+  }
+  if(document.querySelector(".reviewText")){
+    const textarea = document.querySelector(".reviewText");
+    textarea.addEventListener("input",()=>{
+    const {name,value}= textarea;
+    if(value.length >= 20){
+    }
+    textarea.style.height = 'auto';
+    textarea.style.height = (textarea.scrollHeight) + 'px';
+  })
+  }
+  
+}catch(error){console.error(error)};

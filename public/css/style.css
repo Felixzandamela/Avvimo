@@ -15,7 +15,7 @@
   --hover-color:RGBA(49, 108, 255,0.20);
   --s-color: #a7a9ac;
   --border:RGBA(189,189,189,0.40);
-  --danger-color:red;
+  --danger-color:RGB(255,17,0);
   --success-color:#4CAF50;
   --warning-color:#FFC107;
 }
@@ -99,17 +99,62 @@ body {
 .a_default{text-decoration: none;color: var(--main-color);}
 .a_highlight{text-decoration: underline!important;}
 
+
+.play_btn {
+  animation: btn_pulse 2s infinite;
+}
+
+
+
 button,input{
  outline: none;
  border: 1.5px solid transparent;
  font-size: 0.9rem;
  font-family: var(--font-family);
 }
-button{user-select: none;}
+button{user-select: none;
+}
+button:hover{
+  animation: btn_pulse 2s ease-out;
+}
+#challengeMode:hover{
+animation: btn_pulse 1s;
+animation-timing-function: ease-in-out;
+ } 
+.play_btn {
+  animation: btn_pulse 2s infinite;
+}
+
+@keyframes btn_pulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 var(--main-color);
+    box-shadow: 0 0 0 0 var(--main-color);
+  }
+  70% {
+    -moz-box-shadow: 0 0 0 35px rgba(var(--main-color-rgba),0);
+    box-shadow: 0 0 0 35px rgba(var(--main-color-rgba),0);
+  }
+
+  100% {
+    -moz-box-shadow: 0 0 0 0 rgba(var(--main-color-rgba),0);
+    box-shadow: 0 0 0 0 rgba(var(--main-color-rgba),0);
+}
+
+  
+}
 input::placeholder{color: var(--s-color);}
 .primary-btn{background: var(--main-color);color: #fff;}
 
+
 .danger-btn{background: var(--danger-color);color: #fff;}
+.danger-transparent-btn{
+  color: var(--danger-color)!important;
+  font-weight: 600;
+  background: transparent;
+  border: 1.5px solid var(--danger-color);
+}
+.danger-transparent-btn:hover{background: RGBA(255,17,0,0.40)!important;}
+
 .update-btn{background: RGB(252,161,32);color:#000;}
 .default-btn{color: var(--border);}
 .white-btn{color:var(--main-color)!important; background:#fff;}
@@ -271,7 +316,9 @@ input::placeholder{color: var(--s-color);}
 }
 .bottom_link{text-align: center;}
 
-.input_card{position: relative;padding:20px 15px;}
+.input_card{position: relative;padding:20px 15px;
+  width: 100%;
+}
 .input_card button,.input_wrap{height: 48px;}
 
 .input_wrap,.input_wrap_textarea,
@@ -314,6 +361,21 @@ input::placeholder{color: var(--s-color);}
   position: absolute;
   line-height: 1;
   width:calc(100% - 50px)!important;
+}
+
+.textarea{
+  outline:none;
+  padding: 20px!important;
+  width:100%;
+  background: transparent;
+  color: currentColor;
+  font-family:var(--font-family);
+  min-height:70px;
+  max-height:170px;
+  caret-color: rgb(var(--main-color));
+  border:none;
+  white-space:pre-wrap;
+  font-weight:500;
 }
 
 @media screen and (min-width:768px){
@@ -742,20 +804,8 @@ input::placeholder{color: var(--s-color);}
   border-width:1.5px;
   border-style:solid;
   border-color: transparent;
-  font-family:"Prompt",Tahoma, Sans-Serif;
 }
 
-.pro-btns .deposits_btn{
-  background: RGB(5, 226, 126);
-  color: #fff;
-}
-
-.pro-btns .withdrawals-btn{
-  color: RGB(255,17,0)!important;
-  font-weight: 600;
-  background: transparent;
-}
-.pro-btns .withdrawals-btn:hover{background: RGBA(255,17,0,0.40)!important;}
 
 .a_prof_box_title{
   font-size: 0.75rem;
@@ -833,6 +883,9 @@ input::placeholder{color: var(--s-color);}
   width:100%;
 }
 
+.p_hidden{
+  display: none;
+}
 
 .page-title{
   font-size: 1.1rem;
@@ -970,6 +1023,9 @@ input::placeholder{color: var(--s-color);}
 }
 @media screen and (min-width:500px){
   .a_selection{max-width:140px;}
+  .p_hidden{
+    display: inline;
+  }
 }
 
 @media screen and (min-width:1200px){
@@ -2121,7 +2177,31 @@ input[type="checkbox"], input[type="radio"]{
 }
 .copyrights{border-top: 1px solid var(--border);}
 .copyrights .paragraph{font-size: 0.8rem;}
-.copyrights .gates{width: 35px;}
+.copyrights .gates{width: 32px;}
+ 
+ .popUp.alertBox{display: none;}
+ #stars{position: fixed;left: -150%;}
+ #emoji{
+   font-size:3rem;
+   
+ }
+ .t_stars{font-size: 2.2em;}
+ .t_stars i{margin: 0 5px;}
+ .t_stars, .review_name{color: var(--s-color);}
+.active.new_star{color: var(--main-color)}
+
+.shakes.t_stars{
+  animation: shake 0.3s infinite;
+  animation-delay: 0.9;
+}
+
+@keyframes shake{
+  0%{margin-left:0; color:red;}
+  25%{margin-left:20px; color:red;}
+  50%{margin-left:0; color:red;}
+  75%{margin-left:20px;color:red;}
+  100%{margin-left:0;color:red;}
+}
 
 @media screen and (min-width:1024px){
   .fo_card, .features-card{ width: 25%!important;}

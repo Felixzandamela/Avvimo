@@ -75,6 +75,19 @@ try{
   }
 }catch(error){};
 
+try{
+    if(document.querySelectorAll(".card_stars")){
+      const card_stars = document.querySelectorAll(".card_stars");
+      card_stars.forEach((item)=>{
+        const MAX_STARS = 5;
+        const fullStars = Math.floor(parseInt(item.accessKey));
+        const emptyStars = MAX_STARS - fullStars;
+        const stars = `${[...Array(fullStars)].map((_, index) => ('<i class="bi bi-star-fill filled m5-r" ></i>')).join('')} ${[...Array(emptyStars)].map((_, index) => ('<i class="bi bi-star-fill m5-r"></i>')).join('')}`
+        item.innerHTML = stars;
+      });
+    }
+  }catch(error){};
+ 
 const scrollToTop = document.getElementById("scrollToTop");
 const handleScroll = () => {
   if(document.getElementById("m-nav")){
@@ -87,6 +100,9 @@ const handleScroll = () => {
     scrollToTop.style.display = 'flex';
   } else {scrollToTop.style.display = 'none';}
 };
+if(document.getElementById("scrollToTop")){
 window.addEventListener('scroll', handleScroll);
 
 scrollToTop.addEventListener("click",function(){window.scrollTo(0,0);});
+  
+}

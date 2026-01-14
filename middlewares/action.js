@@ -97,17 +97,38 @@ module.exports.Actions = (function () {
         return callback ? null : this.return('error', 'update', datas);
       }
     },
+    updateMany: async function(ids,datas){
+      if (!ids || !datas || !datas.collection || !validCollection(datas.collection)) {
+        return this.return('error', 'updateMany', datas || {});
+      }
+      try{
+        const Model = collections[datas.collection];
+        let items = await Model.updateMany({ _id: { $in: ids } },
+        { $set: datas.data });
+        if(items){
+          return this.return('success', 'updateMany', datas);
+        }
+        return this.return('error', 'updateMany', datas);
+      }catch (error) {
+        console.error('updateMany error:', error);
+        return this.return('error', 'updateMany', datas);
+      }
+    },
 
     // increment field by val (use computed property)
-    increment: async function (collection, id, key, val) {
+    increment: async function (collection, id, keys, val) {
       if (!validCollection(collection)) return false;
       try {
-        const update = await collections[collection].findOneAndUpdate(
+        const update = {};
+        keys.forEach((key)=>{
+          update[key] = val
+        });
+        const result = await collections[collection].findOneAndUpdate(
           { _id: id },
-          { $inc: { [key]: val } },
+          { $inc: update },
           { new: true }
         ).exec();
-        return !!update;
+        return !!result;
       } catch (error) {
         console.error('increment error:', error);
         return false;
@@ -115,15 +136,19 @@ module.exports.Actions = (function () {
     },
 
     // decrement field by val
-    decrement: async function (collection, id, key, val) {
+    decrement: async function (collection, id, keys, val) {
       if (!validCollection(collection)) return false;
       try {
-        const update = await collections[collection].findOneAndUpdate(
+        const update = {};
+        keys.forEach((key)=>{
+          update[key] =  -Math.abs(val);
+        });
+        const result = await collections[collection].findOneAndUpdate(
           { _id: id },
-          { $inc: { [key]: -Math.abs(val) } },
+          { $inc: update},
           { new: true }
         ).exec();
-        return !!update;
+        return !!result;
       } catch (error) {
         console.error('decrement error:', error);
         return false;
@@ -265,8 +290,8 @@ module.exports.Actions = (function () {
     },
     
     aggregate: async function(collection, match, field){
-  if (!validCollection(collection)) {
-    console.error('aggregate invalid collection:', collection);
+      if (!validCollection(collection)) {
+        console.error('aggregate invalid collection:', collection);
     return false;
   }
   if(typeof match !== "object"){
@@ -290,7 +315,27 @@ module.exports.Actions = (function () {
     console.error('aggregate error:', error);
     return false;
   }
-},
+    },
+    bestMembers: async function(){
+      const Model = collections.users;
+      const result = await Model.find().sort({ earned: -1 }).limit(10);
+      const datas = [];
+      if(result){
+        for(let k in result){
+          const {name,src,online,earned} = result[k];
+          let memberMap = {
+            position:parseFloat(k)+1,
+            name:name,
+            online:online,
+            earned:earned,
+            src:src
+          }
+          const member = await transformDatas(memberMap,true);
+          datas.push(member);
+        }
+      }
+      return datas;
+    },
     return: function (e, t, d) {
       return {
         type: /^(exist|empty)/i.test(e) ? 'error' : e,

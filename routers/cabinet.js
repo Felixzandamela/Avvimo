@@ -10,7 +10,6 @@ const {pagination} = require('../middlewares/pagination');
 const {Actions} = require('../middlewares/action');
 const {getFleets} = require("../middlewares/getFleets");
 
-
 const alertDatas = {
   type:"error",
   title:"Erro!",
@@ -63,6 +62,8 @@ cabinet.get('/dashboard', async (req, res) => {
   }
   const renderCards = await performance();
   //console.log(renderCards)
+  
+  //const renderCards = null
   res.status(200).render("cabinet/dashboard",renderCards);
 });
 
@@ -75,8 +76,9 @@ cabinet.get("/deposit", urlencodedParser, async (req,res)=>{
   const {fleetId} = req.query;
   const fleet = await Actions.get("fleets",fleetId);
   const gateways = await Actions.get("gateways",{status:true});
+  const accounts = await getAccounts(req.user, false);
   if(fleet && gateways){
-    res.render("cabinet/new-deposit",{fleet:fleet,gateways:gateways});
+    res.render("cabinet/new-deposit",{accounts:accounts, fleet:fleet, gateways:gateways});
   }else{
     req.flash("Erro! Esta frota não está disponível");
     res.status(200).redirect("/fleets");
@@ -135,7 +137,7 @@ cabinet.post("/deposit", urlencodedParser, async (req,res)=>{
             datas.collection = "commissions";
             datas.data = commission;
             const results = await Actions.set(datas);
-            res.redirect(results.redirectTo);
+            res.redirect(datas.redirect);
           }else{
             res.redirect(datas.redirect);
           }
@@ -201,7 +203,7 @@ cabinet.post("/newwithdraw", urlencodedParser, async (req,res)=>{
       const results = await Actions.set(datas, null, true);
       console.log("results:", results)
       if(results){
-        const updateBalance = await Actions.decrement("users", withdraw.owner, 'balance', withdraw.amount);
+        const updateBalance = await Actions.decrement("users", withdraw.owner, ['balance'], withdraw.amount);
         if(!updateBalance){res.status(200).render('cabinet/catchs', alertDatas);}
         res.redirect(`/cabinet/transactions/withdrawals/view?_id=${results._id}`);
       }else{res.status(200).render('cabinet/catchs', alertDatas);}

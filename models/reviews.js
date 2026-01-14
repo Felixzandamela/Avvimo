@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const {getTime} = require('../middlewares/utils');
 const Schema = mongoose.Schema;
 const Reviews = new Schema({
   owner:{
@@ -14,11 +15,12 @@ const Reviews = new Schema({
   makePublic:{
     type:Boolean,
     required: true,
-    default:true
+    default:false
   },
   date:{
     type: Array,
-    required: true
+    required: true,
+    default: getTime().fullDate
   },
   text:{
     type:String,

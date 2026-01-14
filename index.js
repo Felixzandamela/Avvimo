@@ -96,6 +96,7 @@ app.use(async(req, res, next)=>{
   res.locals.error = req.flash("error");
   res.locals.baseUrl = `${req.protocol}://${_host}`;
   res.locals.company = company;
+  res.locals.gateways = await Actions.get("gateways", {status: true});
   res.locals.user = req.user? await transformDatas(_defineProperty(req.user._doc),true) : null;
   res.locals.storage = storage.getItem("dbStorage");
   next();
@@ -135,9 +136,11 @@ async function gj (){
     }
   const h = await getTransactions("admin",body, "withdrawals")
  console.log(h.datas.datas)
+ 
+ console.log(await getFleets())
 }
 
-gj()
+//gj()
 
 
 app.use(helmet());

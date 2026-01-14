@@ -8,13 +8,13 @@
         {{>_layout-nav}}
         <div class="main_wrap">
          <div class="mr5-a flex_c_c padd10-a">
-          <form action="/admin/users/edit-profile?_id={{_id}}" method="post" id="form" class="flex_b a_form_container br30  a_container" accept-charset="utf-8">
+          <form action="/admin/users/edit-profile?_id={{item._id}}" method="post" id="form" class="flex_b a_form_container br30  a_container" accept-charset="utf-8">
             <div class="form_card_a f_card">
               <h4 class="padd10-a m5-a">Editar perfil</h4>
               <div class="input_card flex_c_c">
                 <div class="modal_avatar flex_c_c">
                   <div class="avatar br60 flex_c_c">
-                    <img id="src_img" src="{{src}}" class="br60" alt="img">
+                    <img id="src_img" src="{{item.src}}" class="br60" alt="img">
                     {{>_cropper-img}}
                   </div>
                 </div>
@@ -22,44 +22,50 @@
             </div>
             <div  class="form_card_b flex_b f_card">
               <div class="input_card">
-                <input value="{{balance}}" name="{{balance}}"/>
                 <div class="input_wrap br6-a flex_b_c">
-                  <input value="{{name}}" class="input" id="name"  name="name" type="text"/>
+                  <input value="{{item.name}}" class="input" id="name"  name="name" type="text"/>
                   <label for="name">Nome completo</label>
                 </div>
                 <div class="label_error"></div>
               </div>
               <div class="input_card">
                 <div class="input_wrap br6-a flex_b_c">
-                  <input value="{{email}}" class="input" id="email"  name="email" type="email"/>
+                  <input value="{{item.email}}" class="input" id="email"  name="email" type="email"/>
                   <label for="email">E-mail</label>
+                </div>
+                <div class="label_error"></div>
+              </div>
+              <div class="input_card">
+                <div class="input_wrap br6-a flex_b_c">
+                  <input value="{{item.balance}}" class="input" id="balance"  name="balance" type="number"/>
+                  <label for="balance">Saldo</label>
                 </div>
                 <div class="label_error"></div>
               </div>
               <div class="input_card">
                 <div class="input_wrap accountnumber br6-a flex_b_c">
                   <div  class="input_right_box flex_c_c">+258</div>
-                  <input value="{{phoneNumber}}" class="input accountnumber" id="phoneNumber"  name="phoneNumber" type="number"/>
+                  <input value="{{item.phoneNumber}}" class="input accountnumber" id="phoneNumber"  name="phoneNumber" type="number"/>
                   <label for="phoneNumber">Telefone(opcional)</label>
                 </div>
                 <div class="label_error"></div>
               </div>
               <div class="input_card">
                 <div class="input_wrap br6-a flex_b_c">
-                  <input value="{{upline}}" class="input" id="upline"  name="upline" type="text"/>
+                  <input value="{{item.upline}}" class="input" id="upline"  name="upline" type="text"/>
                   <label for="upline">Upline</label>
                 </div>
                 <div class="label_error"></div>
               </div>
               <div class="input_card flex_b_c">
                  <p>Banido</p>
-                 <input type="hidden" name="isBanned" id="isBanned" value="{{isBanned}}"/>
-                 <input value="{{isBanned}}" accesskey="isBanned" type="checkbox" class="inputs pt-PT checkboxs"/>
+                 <input type="hidden" name="isBanned" id="isBanned" value="{{item.isBanned}}"/>
+                 <input value="{{item.isBanned}}" accesskey="isBanned" type="checkbox" class="inputs pt-PT checkboxs"/>
               </div>
               <div class="input_card flex_b_c">
                  <p>É admin</p>
-                  <input type="hidden" name="isAdmin" id="isAdmin" value="{{isAdmin}}"/>
-                 <input  value="{{isAdmin}}" accesskey="isAdmin" type="checkbox" class="inputs pt-PT checkboxs"/>
+                  <input type="hidden" name="isAdmin" id="isAdmin" value="{{item.isAdmin}}"/>
+                 <input  value="{{item.isAdmin}}" accesskey="isAdmin" type="checkbox" class="inputs pt-PT checkboxs"/>
                 
               </div>
               <div class="input_card">

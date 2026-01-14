@@ -6,6 +6,7 @@ const {asideLinks,getTime,transformDatas,sortByDays, objRevised, statusIcons, pr
 const {pagination} = require('../middlewares/pagination');
 const {Actions} = require('../middlewares/action');
 const {getFleets} = require("../middlewares/getFleets");
+const {getReviews} = require("../middlewares/getReviews");
 const {DepositsActions,CommissionsActions,WithdrawalsActions,getTransactions,getTransaction} = require("../middlewares/transactions-actions");
 const alertDatas = {
   type:"error",
@@ -134,8 +135,7 @@ admin.get("/users/edit-profile", urlencodedParser, async(req,res)=>{
   const {_id} = req.query;
   const item = await Actions.get("users",_id);
   if(item){
-    console.log(item)
-    res.render("cabinet/admin-edit-profile", item);
+    res.render("cabinet/admin-edit-profile", {item:item});
   }else{
     const data = {
       texts:`Este usuarío com id ${_id} está indisponível. Por favor tente mais tarde`,
@@ -162,55 +162,26 @@ admin.post("/users/edit-profile", urlencodedParser, async(req,res)=>{
   }
 });
 
-const c = [{
-  owner:{
-    src:"/imgs/avatar.png",
-    name:"Antonio",
-    email:"f@gmail"
-  },
-  stars:4,
-  _id:3,
-  text:"Eu nai",
-  makePublic:true,
-  date:["09","09",2025,"12:33:33"]
-},{
-  owner:{
-    name:"Antonio",
-    email:"f@gmail",
-    src:"/imgs/avatar.png",
-  },
-  stars:1,
-  _id:4,
-  text:"Eu nai",
-  makePublic:true,
-  date:["09","09",2025,"12:33:33"]
-},{
-  owner:{
-    name:"Antonio",
-    email:"f@gmail",
-    src:"/imgs/avatar.png",
-  },
-  stars:3,
-  _id:7,
-  text:"Eu nai",
-  makePublic:true,
-  date:["09","09",2025,"12:33:33"]
-}];
 admin.get("/reviews", urlencodedParser, async (req,res)=>{
   const link = {path:`/admin/reviews`,queryString: req.query ? `${new URLSearchParams(req.query).toString()}` : ''};
   const body = await transformDatas(req.query);
-  let querys = propertysLength(body) > 0 ? body : null;
+  const results = await getReviews("admin", body, link);
+  res.render("cabinet/reviews",{ datas: results});
+});
 
-  const results = await Actions.get("reviews", querys);
-  if(c){
-    for(let k in c){
-      c[k] = await transformDatas(c[k],true);
+admin.post("/reviews/update", urlencodedParser, async(req,res)=>{
+  const bodys = await transformDatas(req.body);
+  const datas = {
+    type: "updateMany",
+    redirect:`/admin/reviews`,
+    collection:"reviews",
+    data:{
+      makePublic: bodys.makePublic
     }
-    const datas= (pagination(c,!body.page?0:body.page, link, false));
-    res.render("cabinet/reviews",{ datas:datas});
-  }else{
-    res.render("cabinet/reviews",{ datas:null});
   }
+  const results = await Actions.updateMany(bodys.ids, datas);
+  req.flash(results.type, results.text);
+  res.redirect(results.redirect);
 });
 
 admin.get("/transactions/:type", urlencodedParser, async (req,res)=>{

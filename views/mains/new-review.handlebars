@@ -1,17 +1,10 @@
     <link rel="stylesheet" href="public/css/style.css">
-      <title>Criticas</title>
+      <title>Minha crítica</title>
       </head>
   <body class="">
     <main class="layout">
       
-       <div class="padd15-a">
-         <div class="a_container">
-            <h4>Top 10 melhores investidores</h4>
-            <div class="padd10-a">
-              
-            </div>
-         </div>
-       </div>
+       
     
         {{>_main-nav}}
         <header class="m-header flex_c_c a_container">
@@ -27,17 +20,17 @@
           <div class="header-contents">
             <h1 class="heading">Explora <span>o que dizem</span> sobre nós</h1>
             <p class="description padd15-tb">Algumas palavras sobre por que nos escolheram e aos nossos serviços. Saiba mais verificando avaliações de nossos clientes.</p>
-           <a href="http://localhost:8089/admin/reviews" class="a">
+           <a href="/new-review" class="a">
              <button class="primary-btn alertEvent br6-a padd15-a">Escreva uma crítica</button>
            </a>
                   </div>
         </div>
       </div>
     </header>
-   
+    {{#if datas}}
    <div class="padd10-a">
       <div  class="flex_wrap padd5-a">
-              {{#each datas.datas}}
+              {{#each datas}}
               <div class="flex_s padd10-a a_catalgo a_container br6-a">
                 <div class="a_catalgo_img">
                   <img src="{{owner.src}}" class="br60"/>
@@ -53,44 +46,36 @@
                 </div>
                 {{>_reviewView}}
               </div>
-               <div class="flex_s padd10-a a_catalgo a_container br6-a">
-                <div class="a_catalgo_img">
-                  <img src="{{owner.src}}" class="br60"/>
-                </div>
-                <div class="a_catalgo_body padd10-l flex_b">
-                  <div class="reviewViewBtn">
-                    <h4 class="eli">{{owner.name}}</h4>
-                    <div accesskey="{{stars.default}}" class="flex_s card_stars"></div>
-                    <p class="ellipsis_3_line m5-t">{{text}}</p>
-                    <h5 class="a_body_time padd10-t">{{date.fullDate}}</h5>
-                  </div>
-                  
-                </div>
-                {{>_reviewView}}
-              </div>
-           
               {{/each}}
             </div>
            
    </div>
+    {{else}}
+      {{>_empty_card}}
+    {{/if}}
+      
    {{>_footer}}
-  <div class="popUp alertBox  flex_c_c">
-  <form id="form" class="card_popup a_container">
+  <div class="popUp flex_c_c">
+  <form id="form" action="/new-review" method="post" class="card_popup a_container">
   <div class="modal_header padd15-a flex_b_c">
     <div class="flex_s_c modal">
-      <img class="br60 avatar" src="{{owner.src}}"/>
+      {{#if user.src}}
+      <img class="br60 avatar" src="{{user.src}}"/>
+      {{/if}}
       <div class="left padd10-l">
-        <h4>Giga-nos o seu feedback</h4>
-        <h5 class="ellipsis">{{user.name}}</h5>
+        <h4>Dá-nos o seu feedback</h4>
+        <h5 class="ellipsis review_name">{{user.name}}</h5>
       </div>
     </div>
-    <div class="flex_c_c br60 canselAlert btn_circle"><svg class="" fill="currentColor" opacity="1.0" baseProfile="full" width="24" height="24" viewBox="0 0 24.00 24.00"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg></div>
+    <div id="back" class="flex_c_c br60 btn_circle"><svg class="" fill="currentColor" opacity="1.0" baseProfile="full" width="24" height="24" viewBox="0 0 24.00 24.00"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg></div>
   </div>
   <div class="modal_body padd15-a">
     <div class="flex_c_c m5-b">
     <i id="emoji" class="bi bi-emoji-neutral"></i>
     </div>
-    <input class="input" type="hidde" id="stars" name="stars"/>
+    <input type="hidden" name="owner" value="{{user._id}}"/> 
+    <input type="hidden" name="_id" value="{{review._id}}"/> 
+    <input value="{{review.stars}}" class="input" type="hidde" id="stars" name="stars"/>
     <div id="t_stars" class="t_stars padd15-tb flex_c_c">
       <i class="bi bi-star-fill new_star"></i>
       <i class="bi bi-star-fill new_star"></i>
@@ -101,7 +86,7 @@
     <div class="label_error"></div>
     <div class="input_card">
       <div class="input_wrap_textarea br6-a flex_b_c">
-        <textarea  value="{{item.text}}" class="textarea reviewText input" id="text" rrows="1" name="text"></textarea>
+        <textarea autofocus="" value="{{review.text}}" class="textarea reviewText input" id="text" rrows="1" name="text">{{review.text}}</textarea>
         <label for="text">Critica</label>
       </div>
       <div class="label_error"></div>
@@ -114,54 +99,13 @@
 </div>
       
  </main>
-
-
-
-<svg width="200" height="200" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" >
-  <!-- Cabeça roxa animada -->
-  <path fill="#6747A6" id="head"
-    d="M30,15 Q10,40 30,75 Q65,85 75,50 Q85,30 60,20 Q50,15 30,15 Z"
-  >
-    
-  </path>
-  
-  <!-- Olhos grupo -->
-  <g id="eyes" transform="translate(25,30)">
-    <!-- Olho esquerdo -->
-    <g id="eye-left">
-      <!-- Branco do olho -->
-      <ellipse cx="15" cy="15" rx="10" ry="10" fill="white" />
-      <!-- Pupila animada -->
-      <circle cx="15" cy="15" rx="8" ry="8" fill="black" >
-        <animate attributeName="r" dur="3s" repeatCount="indefinite" values="6;0;6;6" keyTimes="0;0.1;0.15;1" />
-      </circle>
-    </g>
-    
-    <!-- Olho direito -->
-    <g id="eye-right" transform="translate(17 0)">
-      <!-- Branco do olho -->
-      <ellipse cx="15" cy="15" rx="10" ry="10" fill="white" />
-      <!-- Pupila animada -->
-      <circle cx="15" cy="15" fill="black" >
-        <animate attributeName="r" dur="3s" repeatCount="indefinite" values="6;0;6;6" keyTimes="0;0.1;0.15;1" />
-      </circle>
-    </g>
-  </g>
-  
-  <!-- Sobrancelhas -->
-  <rect x="25" y="25" width="15" height="5" ry="2" fill="#2B1B3A" />
-  <rect x="55" transform="rotate(45deg)" y="25" width="15" height="5" ry="2" fill="#2B1B3A" />
-  
-  <!-- Boca pequena -->
-  <ellipse cx="50" cy="67" rx="8" ry="4" fill="#2B1B3A" />
-</svg>
-```
-
+ 
+ 
 
  
-  <script type="text/javascript" src="public/js/gre.js"></script>
+  <script type="text/javascript" src="/js/gre.js"></script>
       <script type="text/javascript" src="/js/layout.js"></script>
-       <script src="public/js/index.js"></script>
+       <script src="/js/index.js"></script>
     
 
 

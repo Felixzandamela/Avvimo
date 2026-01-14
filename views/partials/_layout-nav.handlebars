@@ -13,7 +13,11 @@
         <div class="float_counter br4-a flex_c_c">8</div>
       </div>
       <div class="avatar a_toggle-profile m5-l flex_c_c br60">
+        {{#if user.src}}
         <img class="br60" src="{{user.src}}">
+        {{else}}
+          {{>_avatar}}
+        {{/if}}
         {{#if user.isBanned}}<div class="isBanned br60 flex_c_c"><i class="bi bi-exclamation"></i></div>{{/if}}
       </div>
     </div>

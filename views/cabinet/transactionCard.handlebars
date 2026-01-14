@@ -52,10 +52,10 @@
         <div class="p_payment">
           <p class="m5-a"><b>1.</b> Envie o dinheiro para a conta abaixo</p>
           <div class="flex_b_c m5-a">
-            <div class=""><b>Conta:</b> {{datas.account}}</div>
+            <div class=""><b>Conta:</b> {{datas.gateway.account}}</div>
             <div class="btn_copy copyBtn">
           <i id="iconCopy"  class="bi bi-copy"></i>
-          <div class="valueToCopy">{{datas.account}}</div>
+          <div class="valueToCopy">{{datas.gateway.account}}</div>
         </div>
           </div>
           <div class="flex_b_c m5-a">
@@ -106,7 +106,7 @@
              
               {{#if isAdmin}}
               
-              {{#if datas.from}}  <a href="/admin/transactions/deposits?owner={{datas.from}}" class="a a_default flex_e_c padd10-r m5-a">Ver a origem</a>{{/if}}
+              {{#if datas.from}}  <a href="/admin/transactions/deposits?page=0&owner={{datas.owner._id}}" class="a a_default flex_e_c padd10-r m5-a">Ver a origem</a>{{/if}}
           <a href="/admin/users?_id={{datas.owner._id}}" class="a transaction_owner_details flex_s">
             <div class="transaction_owner_avatar">
               {{#if datas.owner.src}}
@@ -141,7 +141,7 @@
                     <p id="parag"></p>
                   </div>
                 </div>
-                <form method="post" action="/admin/transaction/{{datas.transaction_type}}/action?_id={{datas._id}}" class="">
+                <form id="form" method="post" action="/admin/transaction/{{datas.transaction_type}}/action?_id={{datas._id}}" class="">
                   <div class="flex_e_c  m5-a">
                     <div>Valor</div>
                     <input type="hidden" name="_id" value="{{datas._id}}"/>
@@ -155,7 +155,7 @@
                  
                 <div class="flex_e padd10-t m5-a">
                   <button type="button" class="btn tcancel transparent-btn padd8-15 m5-r br4-a">Canselar</button>
-                  <button id="submitBtn"  class="btn padd8-15 m5-l br4-a"><div id="btnText">Continuar</div> {{>_minloader}}</button>
+                  <button id="submitBtn" type="button" class="btn padd8-15 m5-l br4-a"><div id="btnText">Continuar</div> {{>_minloader}}</button>
                 </div>
                  </form>
               </div>
@@ -195,4 +195,5 @@
       </section>
       {{>_profile}}
       <script type="text/javascript" src="/js/layout.js"></script>
+      <script type="text/javascript" src="/js/gre.js"></script>
     </main>
