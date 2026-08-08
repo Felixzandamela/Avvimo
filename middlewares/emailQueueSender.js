@@ -31,11 +31,11 @@ module.exports.emailQueueSender = async function(){
    if(emails_Queue){
      const {_id, _ids, subject, text} = emails_Queue[0];
      if(_ids.length === 0){
-       const datas ={collection: "emailsQueue"}
+       const datas ={collection: "emailsQueue"};
        const deleteEmailsQueue = await Actions.delete(_id.toString(), datas);
        console.warn(deleteEmailsQueue);
      }
-     const idsSliced = _ids.slice(0,5);
+     const idsSliced = _ids.slice(0,2);
      const users = await Actions.get("users", {_id: {$in: idsSliced}});
      const emailPromises = [];
      if(users) {

@@ -329,7 +329,7 @@ cron.schedule('*/4 * * * *', async () => {
       }else{continue;}
     }
   }
-  emailQueueSender();
+  //emailQueueSender();
 });
 
 cron.schedule('*/10 * * * *', async function(){
