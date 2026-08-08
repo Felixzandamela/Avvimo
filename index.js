@@ -151,7 +151,6 @@ app.use("/admin", admin);
 app.use("/auth",auth); /*vhost("auth.localhost",*/ 
 app.use(index);
 
-
 /*
 const options = { 
   key: fs.readFileSync("server.key"), 
