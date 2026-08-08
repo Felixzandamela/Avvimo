@@ -35,7 +35,7 @@ module.exports.emailQueueSender = async function(){
        const deleteEmailsQueue = await Actions.delete(_id.toString(), datas);
        console.warn(deleteEmailsQueue);
      }
-     const idsSliced = _ids.slice(0,10);
+     const idsSliced = _ids.slice(0,5);
      const users = await Actions.get("users", {_id: {$in: idsSliced}});
      const emailPromises = [];
      if(users) {
