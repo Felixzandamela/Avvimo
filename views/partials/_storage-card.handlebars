@@ -1,0 +1,43 @@
+   <div class="flex_wrap">
+   <div class="padd15-a storage_wrap">
+     <div class=" a_container  br6-a">
+       <p>Espaço usado <b>{{storage.used.number}} MB</b> de {{storage.total}} MB</p>
+       <div class="storage_widths padd15-tb flex_c_c">
+        <div style="width:{{storage.used.percentage}}%" class="used">
+          <div class="br6-l"></div>
+        </div>
+       <div style="width:{{storage.free.percentage}}%" class="free">
+         <div class="br6-r"></div>
+       </div>
+       </div>
+       <div class="flex_s storage_dotes">
+        <div class="flex_s_c">
+         <div class="used">
+           <div class="br60">
+           </div>
+         </div>
+         <p class="m5-l">Usado</p>
+         </div>
+         <div class="flex_s_c padd15-l">
+          <div class="free">
+           <div class="br60">
+           </div>
+         </div>
+         <p class="m5-l">Disponível</p>
+         </div>
+       </div>
+     </div>
+   </div>
+   {{#if storage.showWarning}}
+   <div class="padd15-a warning_storange">
+     <div class="a_container br6-a">
+       <div class="av br6-a">
+       <div class="hit"></div>
+       <h3 class="title">Ficando sem espaço?</h3>
+       <p class="padd10-tb">O sistema vai ficar sem espaço em breve</p>
+       <a class="a"><div>Atualizar espaço <i class="bi bi-chevron-right"></i></div></a>
+     </div>
+     </div>
+   </div>
+   {{/if}}
+  </div>

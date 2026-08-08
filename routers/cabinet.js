@@ -1,0 +1,274 @@
+const express = require("express");
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access');
+const {sendEmail} = require('../middlewares/sendEmail');
+const cabinet = express.Router();
+const bodyParser = require('body-parser');
+const urlencodedParser = bodyParser.urlencoded({ limit: '50mb',extended: true });
+const {transformDatas,getTime,objRevised,propertysLength,statusIcons,msgsStatus,formatDate,sortByDays,expireDay,cardDatas,concatURl} = require('../middlewares/utils');
+const {getTransactions,getTransaction,getAccounts, tooManyDeposits} = require("../middlewares/transactions-actions");
+const {pagination} = require('../middlewares/pagination');
+const {Actions} = require('../middlewares/action');
+const {getFleets} = require("../middlewares/getFleets");
+const {performance} = require("../middlewares/performances");
+const alertDatas = {
+  type:"error",
+  title:"Erro!",
+  texts: "Houve um erro, por favor tente mais tarde. Se o erro persistir, por favor contacte-nos atrás dos nossos canaís.",
+  btnTitle: "Voltar atrás",
+  redirectTo: null
+}
+const isGatawayCurrect = function(name,account){
+  return /^(Vodacom|Mpesa|M-pesa)$/i.test(name) && !account.match(/^8[45]\d{7}$/) || /^(E-mola|Emola|Movitel)$/i.test(name) && !account.match(/^8[67]\d{7}$/) || /^(Mcash|M-cash|Tmcel)$/i.test(name) && !account.match(/^8[23]\d{7}$/) || /^(Ponto24|SimoRede)$/i.test(name) && !account.match(/^8[234567]\d{7}$/);
+}
+cabinet.get("/", (req,res)=>{
+  res.redirect(301, "/cabinet/dashboard");
+  //res.redirect("/transactions/deposits/view?id=");
+});
+
+cabinet.get("/support", (req,res)=>{
+  const user = req.user;
+  const url = concatURl("support", `/?id=${user._id}&redirectedFrom=${req.headers.host}`);
+ // res.redirect(302, url);
+ res.render("cabinet/chat", {id:user._id})
+});
+
+cabinet.get('/dashboard', async (req, res) => {
+  const arryFields = ["deposits", "withdrawals", "commissions", "earnings"];
+  const renderCards = await performance(arryFields, req.user._id);
+  res.status(200).render("cabinet/dashboard",renderCards);
+});
+
+cabinet.get('/fleets', urlencodedParser, async (req, res) => {
+  const datas = await getFleets("cabinet");
+  res.status(200).render("cabinet/fleets",{fleets:datas});
+});
+
+cabinet.get("/deposit", urlencodedParser, async (req,res)=>{
+  const {fleetId} = req.query;
+  const fleet = await getFleets("cabinet", fleetId);
+  const gateways = await Actions.get("gateways",{status:true});
+  const accounts = await getAccounts(req.user, false);
+  if(fleet && gateways){
+    res.render("cabinet/new-deposit",{accounts:accounts, fleet:fleet, gateways:gateways});
+  }else{
+    req.flash("Erro! Esta frota não está disponível");
+    res.status(200).redirect("/fleets");
+  }
+});
+
+cabinet.post("/deposit", urlencodedParser, async (req,res)=>{
+  const bodys = await transformDatas(req.body);
+  const fleet = await getFleets("cabinet", bodys.fleet);
+  const [cashback] = await Actions.get("gateways",{name:"Cashback"});
+  
+  class Deposit{
+    constructor(body,fleet){
+      this.owner = req.user._id;
+      this.amount = body.amount;
+      this.income = (body.amount * (fleet.percentage /100));
+      this.totalIncome = this.amount + this.income;
+      this.fleet = fleet._id;
+      this.status = "Pendente";
+      this.account=body.account,
+      this.gateway= body.gateway
+      this.date = getTime().fullDate;
+      this.expireAt = expireDay(fleet.maturity);
+    }
+  }
+  
+  class Commission{
+    constructor(owner,from,cashback){
+      this.owner= owner;
+      this.amount= Math.round(from.amount * (5 / 100));
+      this.totalReceivable = this.amount;
+      this.fees = 0;
+      this.status = "Pendente";
+      this.from = from._id;
+      this.commissionedBy = from.owner;
+      this.gateway = cashback._id;
+      this.account = cashback.account;
+      this.date = getTime().fullDate;
+    }
+  }
+  
+  // if Pendente deposits queue > 3 and deposits confirmed <= 0 return
+  const isTooManyDepositsNotConfirmed = await tooManyDeposits(req.user._id);
+  if(isTooManyDepositsNotConfirmed){
+    req.flash("error","Você tem muitos depósitos pendentes, por favor confirma um dos seus depósitos!");
+    res.redirect("/cabinet/transactions/deposits");
+  }else if(req.user.isBanned){
+    const aler = objRevised(alertDatas, {title:"Desculpa", texts:"Sua conta encontra-se banido pra fazer essa operação", btnTitle:"Falar com suporte", redirectTo:`/cabinet/support?id=${req.user._id}`});
+    res.status(200).render('cabinet/catchs', aler);
+  }else{
+    if(fleet && cashback){
+      const deposit = new Deposit(bodys,fleet);
+      const datas = {
+        type:"set",
+        redirect:`/cabinet/fleets`,
+        collection:"deposits",
+        data: deposit
+      }
+      try{
+        const newDeposit = await Actions.set(datas, null, true);
+        if(newDeposit){
+          datas.redirect = `/cabinet/transactions/deposits/view?_id=${newDeposit._id}`;
+          if(req.user.upline){
+            const upline = await Actions.get("users",req.user.upline);
+              if(upline){
+              const commission =  new Commission(req.user.upline, newDeposit, cashback);
+              datas.collection = "commissions";
+              datas.data = commission;
+              const results = await Actions.set(datas);
+              res.redirect(datas.redirect);
+            }else{
+              res.redirect(datas.redirect);
+            }
+          }else{res.redirect(datas.redirect);}
+        }else{
+          req.flash("error", "Houve um erro ao processar deposíto");
+          res.redirect(datas.redirect);
+        }
+      }catch(error){
+        console.error(error);
+        req.flash("error", "Houve um erro internal ao processar deposíto");
+        res.redirect(datas.redirect);
+      }
+    }else{
+      req.flash("error", "Houve um erro ao buscar frota");
+      res.redirect("/cabinet/fleets");
+    }
+  }
+});
+
+cabinet.get("/withdraw", urlencodedParser, async (req,res)=>{
+  const gateways = await Actions.get("gateways",{status:true});
+  const accounts = await getAccounts(req.user, true);
+  if(gateways){
+    res.render("cabinet/new-withdraw",{gateways:gateways, accounts: accounts});
+  }else{
+    res.status(200).render("cabinet/catchs", alertDatas);
+  }
+});
+
+cabinet.post("/newwithdraw", urlencodedParser, async (req,res)=>{
+  const bodys = await transformDatas(req.body);
+  const user = req.user;
+  const accounts = await getAccounts(req.user, true);
+  const gateway = await Actions.get("gateways", bodys.gateway);
+  const withdrawals = await Actions.get("withdrawals", {status: {$in:["Pendente"]}, owner: req.user._id});
+  const account = accounts.filter((item)=>{if(item.account === `${bodys.account}` || `${item.account}` === bodys.account){return true;}});
+
+  class NewWithdraw{
+    constructor(body, user){
+      this.owner = user._id;
+      this.amount = !bodys.amount ? 0 :  parseFloat(bodys.amount);
+      this.fees =  Math.round(this.amount * (6 / 100));
+      this.totalReceivable = (this.amount - this.fees).toFixed(2);
+      this.status = "Pendente";
+      this.account = body.account,
+      this.gateway = body.gateway
+      this.date = getTime().fullDate;
+    }
+  }
+  const withdraw = new NewWithdraw(bodys, user);
+  const datas = {
+    type: "set",
+    redirect: `/cabinet/transactions/withdrawals`,
+    collection: "withdrawals",
+    data: withdraw
+  }
+  try{
+    if(bodys.amount > user.balance || bodys.amount  < 50 || account.length <= 0 ||  isGatawayCurrect(gateway.name, bodys.account)){
+      res.status(200).render('cabinet/catchs', alertDatas);
+    }else if(withdrawals){
+      const aler = objRevised(alertDatas, {title:"Desculpa", texts:"Você tem um saque pendente, por favor tenta mais tarde"});
+      res.status(200).render('cabinet/catchs', aler);
+    }else if(user.isBanned){
+      const aler = objRevised(alertDatas, {title:"Desculpa", texts:"Sua conta encontra-se banido pra fazer essa operação", btnTitle:"Falar com suporte", redirectTo:`/cabinet/support?id=${user._id}`});
+      res.status(200).render('cabinet/catchs', aler);
+    }else{
+      const results = await Actions.set(datas, null, true);
+      console.log("results:", results)
+      if(results){
+        const updateBalance = await Actions.decrement("users", withdraw.owner, ['balance'], withdraw.amount);
+        if(!updateBalance){res.status(200).render('cabinet/catchs', alertDatas);}
+        res.redirect(`/cabinet/transactions/withdrawals/view?_id=${results._id}`);
+      }else{res.status(200).render('cabinet/catchs', alertDatas);}
+    }
+  }catch(error){
+    console.log(error);
+    res.status(200).render('cabinet/catchs', alertDatas);
+  }
+});
+
+cabinet.get("/transactions", (req,res)=>{
+  res.redirect(301, "/cabinet/transactions/deposits");
+});
+
+cabinet.get("/transactions/:type", urlencodedParser, async (req,res)=>{
+  const type = req.params.type;
+  const link = {path:`/cabinet/transactions/${type}`,queryString: req.query ? `${new URLSearchParams(req.query).toString()}` : ''};
+  const body = await transformDatas(req.query);
+  const result = await getTransactions("cabinet",body,type,req.user);
+  let datas = !result.successed ? objRevised(alertDatas, result) : result;
+  res.render( !datas.successed ? "cabinet/catchs" : "cabinet/transactions",datas);
+});
+
+cabinet.get("/transactions/:type/view",  urlencodedParser, async (req,res)=>{
+  const {type} = req.params;
+  const {_id} = req.query;
+  let datas = await getTransaction("cabinet", type, _id);
+  res.render(!datas.successed ? "cabinet/catchs" : "cabinet/transactionCard", datas);
+});
+
+
+cabinet.get("/edit-profile", (req, res)=>{
+  res.render("cabinet/edit-profile");
+});
+
+cabinet.post("/edit-profile", urlencodedParser, async(req,res)=>{
+  const {_id} = req.query;
+  const bodys = await transformDatas(req.body);
+  const datas = {
+    type:"update",
+    redirect: "/cabinet/dashboard",
+    collection:"users",
+    data:bodys
+  }
+  const results = await Actions.update(_id,datas);
+  if(results){
+    req.flash(results.type, results.text);
+    res.redirect(302,results.redirect);
+  }
+});
+
+cabinet.post("/account_action", urlencodedParser, async(req,res)=>{
+  const bodys = await transformDatas(req.body);
+  const {_id,type} = bodys;
+  const datas = {
+    type:"update",
+    redirect: `/cabinet/dashboard`,
+    collection: "users",
+    data:{inDeleteQueue:{status: type? true : false}}
+  }
+  const account = await Actions.get("users",_id);
+  if(account){
+    const results = await Actions.update(_id,datas);
+    const {type,text,redirect} = results;
+    if(results.type === "success" && datas.data.inDeleteQueue.status){
+      const send = await sendEmail(account, "requestdeleteaccount");
+    }
+    res.redirect(redirect);
+  }else{
+    req.flash("error", "Este usuarío não está disponível");
+    res.redirect(datas.redirect);
+  }
+});
+
+
+cabinet.get("/payment",  urlencodedParser, async(req, res)=>{
+  const {_id} = req.query;
+  console.log(_id)
+});
+
+module.exports = cabinet;

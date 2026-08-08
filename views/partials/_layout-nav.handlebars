@@ -1,0 +1,40 @@
+  <nav class="a_nav a_container flex_c_c">
+  <div class="a_nav_wrap flex_b_c">
+    <div class="flex_s_c">
+      <div class="a_btn_Nav"><div></div><div></div><div></div></div>
+    </div>
+    <div class="flex_c_c a_nav-item">
+      <div class="btn_circle m5-lr themeBtn flex_c_c br60">
+        <i class="bi bi-sun"></i>
+        <i class="bi bi-moon"></i>
+      </div>
+      <div class="btn_circle alertEvent m5-lr flex_c_c br60">
+        <i class="bi bi-bell"></i>
+        <div class="float_counter br60 flex_c_c"></div>
+      </div>
+      <div class="avatar a_toggle-profile m5-l flex_c_c br60">
+        {{#if user.src}}
+        <img class="br60" src="{{user.src}}" alt="avatar"/>
+        {{else}}
+          {{>_avatar}}
+        {{/if}}
+        {{#if user.isBanned}}<div class="isBanned br60 flex_c_c"><i class="bi bi-exclamation"></i></div>{{/if}}
+      </div>
+    </div>
+  </div>
+</nav>
+  <div class="a_alert alertBox flex_c_c">
+      <div class="a_alert_container a_container br6-a padd10-a">
+        <div class="a_alert_header padd10-lr padd10-b">
+           <h3>Indísponivel</h3>
+        </div>
+        <div class="padd10-a">
+          <p>Notificações seram implementados brevemente!</p>
+        </div>
+        <div class="a_alert_btns m5-a flex_e_c">
+           <div class="m5-a ">
+            <button class="primary-btn canselAlert br4-a">Ok!</button>
+          </div>
+        </div> 
+      </div>
+    </div>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avvimo</title>
+    <style type="text/css">
+    *{
+      margin: 0; 
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body{
+      margin: 0;
+      padding: 0;
+      font-family: Tahoma;
+      display:flex;
+      align-content: center;
+      justify-content: center;
+      line-height: 1.5;
+    }
+    .container{
+      max-width: 420px;
+      background: #f6f7fd;
+      height: max-content;
+    }
+    .email-logo{
+      color: #fff;
+      width: 100%;
+      font-size: 15px;
+      font-weight: 600;
+    }
+    footer{
+      background: #f6f7fd;
+      padding: 15px;
+      text-align: center;
+    }
+    a{
+      color: #000;
+      text-decoration: none;
+    }
+    .name{margin: 30px 20px 0 20px;}
+    button{
+      outline: none; 
+      border: none;
+    }
+    .email-text{
+      padding:10px 20px;
+      font-size: 12.5px;
+    }
+    .cordial-greetings{
+      margin: 20px;
+      font-size: 12px;
+    }
+    .email-title{margin: 10px 20px;}
+    .location{font-size: 12px;}
+    .logo-wrap{
+      padding: 10px;
+      background: #316CFF;
+      width: 100%;
+    }
+    .social-media button{
+      width:45px;
+      height: 45px;
+      margin: 2px;
+      border-radius: 60%;
+      background: #061b26;
+    }
+    .primary-color{
+      background: #316CFF;
+      color: #fff;
+    }
+    .btn-link{
+      padding:13px 20px;
+      border-radius: 3px ;
+      margin:30px 20px;
+    }
+    .img{
+      height: 40px;
+      max-width:150px;
+    }
+    .email-links button{
+      color: #316CFF;
+      margin: 10px 4px;
+      background-color: transparent;
+    }
+    .trigger-link{color: #316CFF;}
+    .location{margin: 20px 20px 0 20px;}
+    .email-copy-rights{
+      font-size: 12px;
+      margin:0 0 20px 0;
+    }
+    .body{
+      margin:0px 10px 10px 10px;
+      padding: 10px;
+      border-radius:0 0 10px 10px;
+      background:#fff;
+    }
+    .text_left{
+      text-align: left;
+      margin: 10px;
+      border-radius: 10px;
+      padding: 10px;
+      border: 1px solid #a7a9ac;
+    }
+    .text_left .email-text,.warning-a .email-text{
+      padding: 5px!important;
+      word-break: break-word;
+    }
+    .warning{color: red;}
+    .code{
+      font-size: 30px;
+      padding: 15px;
+      color: #316CFF;
+      text-align: center;
+    }
+    .warning-a{
+      text-align: left;
+      background: #FFF8E1;
+      color: #FFB300;
+      padding: 10px;
+      border-radius: 10px;
+      margin: 0 10px;
+      display: flex;
+    }
+    
+    .icon_l{
+      padding:5px 5px 5px 0;
+    }
+  </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <div class="email-logo">
+          <div style="text-align: center;" class="logo-wrap">
+            <img  class="img" src="{{logo}}" alt="logo" />
+          </div>
+        </div>
+      </div>
+      <div class="body">
+        <img width="100%" src="public/imgs/warning-ban.png"/>
+        <h3 class="email-title">{{name}}, evite ser bloqueado!</h3>
+        <div class="email-body">
+          <p class="email-text">Você tem depósitos pendentes ou rejetados.</p>
+          <p class="email-text">Evite ser bloqueado e conclua pelo menos um depósito.</p>
+        
+             <a class="" href="{{link}}" target="_blank">
+            <button class="btn-link primary-color">Ver depósitos</button>
+          </a>
+             <p class="cordial-greetings">Obrigado, atenciosamente equipe {{companyName}}.</p>
+        </div>
+      <footer>
+        <div class="location">{{location}} </div>
+        <p class="email-copy-rights">© Copyrights {{year}} {{companyName}}, Todos os direitos reservados.</p>
+        <div class="email-links">
+          <a class="" href="{{baseLink}}/">
+            <button>Casa</button>
+          </a>
+          <a class="" href="{{supportUrl}}">
+            <button>contacte-nos</button>
+          </a>
+          <a class="" href="{{baseLink}}/terms-condition">
+            <button>Termos</button>
+          </a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

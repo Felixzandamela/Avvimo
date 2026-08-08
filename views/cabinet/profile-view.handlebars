@@ -1,0 +1,136 @@
+
+    <title>Editar perfil</title>
+  </head>
+  <body>
+    <main id="layout" class="layout flex_b">
+     {{>_aside}}
+      <section class="a_sec">
+        {{>_layout-nav}}
+        <div class="main_wrap">
+         <div class="mr5-a flex_c_c padd10-a">
+          <div id="form" class="flex_b a_form_container br30  a_container" accept-charset="utf-8">
+            <div class="form_card_a f_card">
+                <div class="">
+        <div class="a_avatar_card flex_c_c">
+          <div class="avatar_box">
+            <div class="avatar m5-l flex_c_c br60">
+              {{#if item.src}}
+              <img class="br60" src="{{item.src}}" alt="avatar"/> 
+              {{else}}
+                {{>_avatar}}
+              {{/if}}
+              <div>
+                <a href="/admin/users/a-edit-profile?_id={{item._id}}" class="a flex_c_c">
+                  <div class="label_input_file br60 flex_c_c">
+                     <i class="bi bi-camera-fill"></i>
+                  </div>
+                  </a>
+              </div>
+              {{#if item.isBanned}}<div class="isBanned br60 flex_c_c"><i class="bi bi-exclamation"></i></div>{{/if}}
+            </div>
+          </div>
+          <div class="a_profile_name flex_c_c">{{item.name}} <a href="/admin/users/a-edit-profile?_id={{item._id}}" class="a pdd10-l"><i class="bi bi-pen-fill"></i></a></div>
+        </div>
+        <div class="balance-card-o">
+          <div class="a_balance-card padd10-tb">
+            <div class="title">Saldo disponível</div>
+            <p>MZN {{item.balance.numberSeparotor.b}}</p>
+            <div class="title">Total ganhos</div>
+            <h3>{{item.earned.numberSeparotor.b}}</h3>
+          </div>
+        </div>
+         </div>
+            </div>
+            <div  class="form_card_b flex_b f_card">
+              <div class="a_prof_box padd15-t">
+          <div class="a_prof_box_title">Informação de usuário</div>
+          <div class="padd10-a"> 
+            <div class="flex_s a_activity system padd15-t">
+            <div class="flex_c_c a_activity_icon br60"><i class="bi bi-envelope"></i></div>
+            <div class="">
+              <p>Email</p>
+              <div class="a_activity_p">{{item.email}}</div>
+            </div>
+          </div>
+            <div class="flex_s a_activity system">
+            <div class="flex_c_c a_activity_icon br60"><i class="bi bi-telephone"></i></div>
+                  <div style="width:100%;" class="flex_b">
+                    <div class="">
+                      <p>Número de Telefone</p>
+                      <div class="a_activity_p">{{#if item.phoneNumber}} {{item.phoneNumber}} {{else}} Ainda não fornecido {{/if}}</div>
+                    </div>
+                  </div>
+                </div>
+            <div class="flex_s a_activity delete">
+                  <div class="flex_c_c a_activity_icon br60"><i class="bi bi-calendar2-date"></i></div>
+                  <div class="">
+                    <p>Membro desde</p>
+                    <div class="a_activity_p">{{item.date.fullDate}}</div>
+                  </div>
+                </div>
+            <div class="flex_s a_activity update">
+                  <div class="flex_c_c a_activity_icon br60"><i class="bi bi-fingerprint"></i></div>
+                  <div style="width:100%;" class="flex_b">
+                  <div class="">
+                    <p>ID do perfil</p>
+                    <div class="a_activity_p flex_b_c">
+                      <div>{{item._id}}</div>
+                    </div>
+                  </div>
+                  <div class="btn_copy copyBtn btn_circle br60 flex_c_c">
+                        <i id="iconCopy"  class="bi bi-copy"></i>
+                      </div>
+                      <div class="valueToCopy">{{item._id}}</div>
+                  </div>
+                </div>
+                <div class="flex_s a_activity create">
+                  <div class="flex_c_c a_activity_icon br60"><i class="bi bi-person-hearts"></i></div>
+                  <div style="width:100%;" class="flex_b">
+                  <div class="">
+                    <p>Upline</p>
+                    <div class="a_activity_p flex_b_c">
+                      <div>{{#if item.upline}}{{item.upline}}{{else}}Sem upline{{/if}}</div>
+                    </div>
+                  </div>
+                  {{#if item.upline}}
+                  <div class="btn_copy copyBtn btn_circle br60 flex_c_c">
+                        <i id="iconCopy"  class="bi bi-copy"></i>
+                      </div>
+                      <div class="valueToCopy">{{item.upline}}</div>
+                      {{/if}}
+                  </div>
+                </div>
+                 <div class="flex_s a_activity system">
+                  <div class="flex_c_c a_activity_icon br60"><i class="bi bi-nintendo-switch"></i></div>
+                  <div class="">
+                    <p>Admin</p>
+                    <div class="a_activity_p">{{#if item.isAdmin}}Sim{{else}}Não{{/if}}</div>
+                  </div>
+                </div>
+                <div class="flex_s a_activity approve">
+                  <div class="flex_c_c a_activity_icon br60"><i class="bi bi-person-check"></i></div>
+                  <div class="">
+                    <p>Conta verificado</p>
+                    <div class="a_activity_p">{{#if item.verified}}Sim{{else}}Não{{/if}}</div>
+                  </div>
+                </div>
+                <div class="flex_s a_activity delete">
+                  <div class="flex_c_c a_activity_icon br60"> <i class="bi bi-calendar4-event"></i> </div>
+                  <div class="">
+                    <p>Agendado pra deletar</p>
+                    <div class="a_activity_p">{{#if item.inDeleteQueue.status}}{{item.inDeleteQueue.date.fullDate}}{{else}}Não{{/if}}</div>
+                  </div>
+                </div>
+          </div>
+        </div>   
+       
+            </div>
+          </div>
+        </div>
+        </div>
+        <script type="text/javascript" src="/js/gre.js"></script>
+      </section>
+        {{>_profile}}
+      <script type="text/javascript" src="/js/layout.js"></script>
+    </main>
+  </body>

@@ -1,0 +1,90 @@
+  
+    <title>Newsletter</title>
+  </head>
+  <body>
+    <main id="layout" class="layout flex_b">
+     {{>_aside}}
+      <section class="a_sec">
+           {{>_layout-nav}}
+        <div class="main_wrap">
+          <header class="a_sec_header">
+            <div class="padd5-lr a_container">
+            <div class="features-header padd10-a">
+              <h1 class="title">Emails</h1>
+              <p class="features-paragraph m5-tb">Envia emails pra usúarios, emails de marketing, etc...</p>
+            
+            </div>
+            <div class="vertical_btns_card">
+              <div class="vertical_btns">
+              <div class="vertical_btns_wrap">
+                <a href="/{{mode}}/e-mails/send" class="a vertical_btn"><div class="btn padd5-lr flex_c_c"><i class="bi bi bi-envelope-arrow-up m5-r"></i>Enviar</div></a>
+                <a href="/{{mode}}/e-mails/models" class="a vertical_btn"><div class="btn padd5-lr flex_c_c"><i class="bi bi bi-envelope-heart m5-r"></i>Favoritos</div></a>
+              </div>
+              </div>
+            </div>
+            </div>
+        </header>
+
+                 <div  class="padd15-a flex_wra">
+          <form id="form" method="post" class="a_container br10-a padd10-a" action="/admin/e-mails/send-new">
+            <input type="hidden" name="name" id="acname"/>
+            <input type="hidden" name="value" id="acvalue"/>
+            
+            <div class="input_card">
+                <div class="input_wrap br6-a flex_b_c">
+                  <input class="input accountnumber" id="prevalue" type="text"/>
+                  <label for="prevalue">Enviar para</label>
+                  <div  class="input_left_box flex_c_c">
+    <div class="btn_circle flex_c_c br60">
+     <i class="bi bi-chevron-down"></i>
+      <div class="a_c_menu a_container_br">
+        <div id="all" accesskey="all" class="padd5-a selectEmailers">Todos</div>
+        <div id="notMadeDeposit" accesskey="notMadeDeposit" class="padd5-a selectEmailers">Todos que ainda não depositaram</div>
+        <div id="madeDeposit" accesskey="madeDeposit" class="padd5-a selectEmailers">Todos que depositaram</div>
+        <div id="isAdmin" accesskey="true" class="padd5-a selectEmailers">Admins apenas</div>
+        <div id="verified" accesskey="true" class="padd5-a selectEmailers">Usúarios verificados</div>
+        <div id="verified" accesskey="false" class="padd5-a selectEmailers">Usúarios não verificados</div>
+        <div id="isBanned" accesskey="false" class="padd5-a selectEmailers">Usúarios bannidos</div>
+      </div>
+    </div>
+  </div>
+                </div>
+                <div class="label_error"></div>
+              </div>
+            
+             <div class="input_card">
+                <div class="input_wrap br6-a flex_b_c">
+                  <input class="input" id="subject" type="text" name="subject"/>
+                  <label for="subject">Assunto</label>
+                </div>
+                <div class="label_error"></div>
+              </div>
+            
+          <div id="input_card" class="input_card">
+      <div class="input_wrap_textarea br6-a flex_b_c">
+        <textarea value="" class="textarea reviewText input" id="email-text" rows="1" name="emailText"></textarea>
+        <label for="email-text">Email</label>
+      </div>
+  
+      <div class="label_error"></div>
+    </div>
+     
+            <div class="input_card">
+                <button id="submitBtn" type="button" class="br6-a primary-btn"><div id="btnText">Continuar</div>{{>_minloader}}</button>
+              
+              </div>
+          </form>
+        </div>
+    
+        <div class="padd5-a flex_wrap">
+          
+        </div>
+        
+   
+     
+        </div>
+      </section>
+    {{>_profile}}
+      <script type="text/javascript" src="/js/gre.js"></script>
+      <script type="text/javascript" src="/js/layout.js"></script>
+    </main>

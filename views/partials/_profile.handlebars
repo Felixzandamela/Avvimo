@@ -1,0 +1,214 @@
+ <section id="a_sec_profile" class="a_sec_profile">
+    <div class="a_container">
+      <div class="a_header_profile flex_b_c">
+        <div class="a_toggle-profile a_back_btn flex_c_c">
+                <svg fill="currentColor" opacity="1.0" base-profile="full" width="26" height="26" view-box="0 0 24.00 24.00"><path d="M20 11v2H7.99l5.505 5.505-1.414 1.414L4.16 12l7.92-7.92 1.414 1.415L7.99 11H20z" /></svg>
+              </div>
+        <div class="pro-btns flex_c_c">
+          {{#if isAdmin}}
+          <a href="/cabinet" class="a"><button class="primary-btn br4-a">Cabinet</button></a>
+          {{else}}
+          <a href="/cabinet/withdraw" class="a"><button class="danger-transparent-btn br4-a">Sacar</button></a>
+          <a href="/cabinet/fleets" class="a"><button class="primary-btn br4-a">Depositar</button></a>
+          {{/if}}
+        </div>
+      </div>
+      <div class="a_profile_wrap">
+        <div class="a_avatar_card flex_c_c">
+          <div class="avatar_box">
+            <div class="avatar m5-l flex_c_c br60">
+              {{#if user.src}}
+              <img class="br60" src="{{user.src}}" alt="avatar"/> 
+              {{else}}
+                {{>_avatar}}
+              {{/if}}
+              <div>
+                <a href="/cabinet/edit-profile" class="a concatLink flex_c_c">
+                  <div class="label_input_file br60 flex_c_c">
+                     <i class="bi bi-camera-fill"></i>
+                  </div>
+                  </a>
+              </div>
+              {{#if user.isBanned}}<div class="isBanned br60 flex_c_c"><i class="bi bi-exclamation"></i></div>{{/if}}
+            </div>
+          </div>
+          <div class="a_profile_name flex_c_c">{{user.name}} <a href="/cabinet/edit-profile" class="a concatLink pdd10-l"><i class="bi bi-pen-fill"></i></a></div>
+        </div>
+        <div class="balance-card-o">
+          <div class="a_balance-card padd10-tb">
+            <div class="title">Saldo disponível</div>
+            <p>MZN {{user.balance.numberSeparotor.b}}</p>
+          </div>
+        </div>
+        {{#unless isAdmin}}
+        <div class="flex_c_c">
+          {{#if user.isAdmin}}
+          <a href="/admin/dashboard" class="a">
+            <button class="transparent-btn-br br4-a flex_c_c padd8-15">Ir para admin 
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-bar-right" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M4.146 3.646a.5.5 0 0 0 0 .708L7.793 8l-3.647 3.646a.5.5 0 0 0 .708.708l4-4a.5.5 0 0 0 0-.708l-4-4a.5.5 0 0 0-.708 0M11.5 1a.5.5 0 0 1 .5.5v13a.5.5 0 0 1-1 0v-13a.5.5 0 0 1 .5-.5"/>
+              </svg>
+            </button>
+            {{/if}}
+          </a>
+        </div>
+        {{/unless}}
+        <div class="a_prof_box padd15-t">
+          <div class="a_prof_box_title">Informação de usuário</div>
+          <div class="padd10-a"> 
+            <div class="flex_s a_activity system padd15-t">
+            <div class="flex_c_c a_activity_icon br60"><i class="bi bi-envelope"></i></div>
+            <div class="">
+              <p>Email</p>
+              <div class="a_activity_p">{{user.email}}</div>
+            </div>
+          </div>
+            <div class="flex_s a_activity system">
+            <div class="flex_c_c a_activity_icon br60"><i class="bi bi-telephone"></i></div>
+                  <div style="width:100%;" class="flex_b">
+                    <div class="">
+                      <p>Número de Telefone</p>
+                      <div class="a_activity_p">{{#if user.phoneNumber}} {{user.phoneNumber}} {{else}} Ainda não fornecido {{/if}}</div>
+                    </div>
+                    
+                    <div class="btn_circle br60 flex_c_c"><a href="/cabinet/edit-profile" class="a concatLink editNameBtn"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="" viewBox="0 0 16 16"><path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001z"/></svg></a></div>
+                  </div>
+                </div>
+            <div class="flex_s a_activity delete">
+                  <div class="flex_c_c a_activity_icon br60"><i class="bi bi-calendar2-date"></i></div>
+                  <div class="">
+                    <p>Membro desde</p>
+                    <div class="a_activity_p">{{user.date.fullDate}}</div>
+                  </div>
+                </div>
+            <div class="flex_s a_activity update">
+                  <div class="flex_c_c a_activity_icon br60"><i class="bi bi-fingerprint"></i></div>
+                  <div style="width:100%;" class="flex_b">
+                  <div class="">
+                    <p>ID do perfil</p>
+                    <div class="a_activity_p flex_b_c">
+                      <div>{{user._id}}</div>
+                    </div>
+                  </div>
+                  <div class="btn_copy copyBtn btn_circle br60 flex_c_c">
+                        <i id="iconCopy"  class="bi bi-copy"></i>
+                      </div>
+                      <div class="valueToCopy">{{user._id}}</div>
+                  </div>
+                </div>
+            <div class="flex_s a_activity create">
+                  <div class="flex_c_c a_activity_icon br60"><i class="bi bi-person-hearts"></i></div>
+                  <div style="width:100%;" class="flex_b">
+                  <div class="">
+                    <p>Upline</p>
+                    <div class="a_activity_p flex_b_c">
+                      <div>{{#if user.upline}}{{user.upline}}{{else}}Sem upline{{/if}}</div>
+                    </div>
+                  </div>
+                  {{#if user.upline}}
+                  <div class="btn_copy copyBtn btn_circle br60 flex_c_c">
+                        <i id="iconCopy"  class="bi bi-copy"></i>
+                      </div>
+                      <div class="valueToCopy">{{user.upline}}</div>
+                      {{/if}}
+                  </div>
+                </div>
+                <div class="flex_s a_activity approve">
+                  <div class="flex_c_c a_activity_icon br60"><i class="bi bi-person-check"></i></div>
+                  <div class="">
+                    <p>Conta verificado</p>
+                    <div class="a_activity_p">{{#if user.verified}}Sim{{else}}Não{{/if}}</div>
+                  </div>
+                </div>
+                <div class="flex_s a_activity delete">
+                  <div class="flex_c_c a_activity_icon br60"> <i class="bi bi-calendar4-event"></i> </div>
+                  <div class="">
+                    <p>Agendado pra deletar</p>
+                    <div class="a_activity_p">{{#if user.inDeleteQueue.status}}{{user.inDeleteQueue.date.fullDate}}{{else}}Não{{/if}}</div>
+                  </div>
+                </div>
+          
+          </div>
+        </div>   
+        <div class="a_prof_box">
+          <div class="flex_b_c a_prof_box_title">Configurações</div>
+          <div class="padd10-a">
+            <a href="/auth/request-reset-password?email={{user.email}}" class="a">
+              <div class="flex_s center a_activity">
+                <div class="flex_c_c a_activity_icon"><i class="bi bi bi-lock"></i></div>
+                  <div class="pdd10-l">
+                    <p>Trocar senha</p>
+                  </div>
+              </div>
+            </a>
+            <div class="alertEvent">
+              <div class="flex_s center a_activity delete">
+                <div class="flex_c_c a_activity_icon"><i class="bi bi-box-arrow-right"></i></div>
+                  <div class="pdd10-l"><p>Sair</p></div>
+                </div>
+              </div>
+            {{#unless user.inDeleteQueue.status}}
+              <div class="alertEvent">
+                  <div class="flex_s center a_activity delete">
+                    <div class="flex_c_c a_activity_icon">
+                      <i class="bi bi-box-a"></i>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-trash3" viewBox="0 0 16 16">
+              <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5M11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47M8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5"/>
+            </svg>
+                    </div>
+                    <div class="pdd10-l"><p>Deletar conta</p></div>
+                  </div>
+                  </div>
+            {{/unless}}
+          </div>
+        </div>
+      </div>
+    </div>
+          <form action="/auth/logout" method="get" class="a_alert alertBox flex_c_c">
+      <div class="a_alert_container a_container br6-a padd10-a">
+        <div class="a_alert_header padd10-lr padd10-b">
+           <h3>Sair?</h3>
+        </div>
+        <div class="padd10-a">
+          <p></p>
+           <div class="a_alert_warning flex_s br4-a padd10-a">
+            <i class="bi bi-exclamation-square"></i>
+            <p>Tens certeza que deseja sair?</p>
+          </div>
+        </div>
+        <div class="a_alert_btns m5-a flex_e_c">
+          <div class="m5-a">
+            <button type="button" class="transparent-btn canselAlert br4-a">Canselar</button>
+          </div>
+           <div class="m5-a ">
+            <button class="danger-btn br4-a">Sair</button>
+          </div>
+        </div> 
+      </div>
+    </form>
+     <form action="/cabinet/account_action" method="post" class="a_alert alertBox flex_c_c">
+       <input type="hidden" value="{{user._id}}" name="_id"/>
+       <input type="hidden" value="true" name="type"/>
+      <div class="a_alert_container a_container br6-a padd10-a">
+        <div class="a_alert_header padd10-lr padd10-b">
+           <h3>Deletar conta</h3>
+        </div>
+        <div class="padd10-a">
+          <p></p>
+           <div class="a_alert_warning flex_s br4-a padd10-a">
+            <i class="bi bi-exclamation-square"></i>
+            <p>Tens certeza que deseja deletar sua conta?</br>
+            Sua conta será agendado para ser deletado permanentimente após passar 30 dias, isso inclui todos os seus dados.</p>
+          </div>
+        </div>
+        <div class="a_alert_btns m5-a flex_e_c">
+          <div class="m5-a">
+            <button type="button" class="transparent-btn canselAlert br4-a">Canselar</button>
+          </div>
+           <div class="m5-a ">
+            <button type="submit" class="danger-btn br4-a">Deletar</button>
+          </div>
+        </div> 
+      </div>
+    </form>
+  </section>

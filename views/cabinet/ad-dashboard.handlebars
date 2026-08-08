@@ -1,0 +1,79 @@
+    <script src="/js/highcharts.js"></script>
+    <title>Painel</title>
+  </head>
+  <body>
+    <main id="layout" class="layout flex_b">
+      {{>_aside}}
+      <section class="a_sec">
+        {{>_layout-nav}}
+        <div class="main_wrap">
+          <header class="a_sec_header flex_b_c padd5-lr">
+              <h1 class="page-title">Painel</h1>
+            
+        </header>
+
+         
+        <div class="padd5-a flex_wrap">
+           {{#each cards}}
+            <div class="padd10-a a_card_wrap">
+            <div class="a_card a_container br6-a padd15-a">
+          <div class="a_box_header flex_b">
+             <div class="a_box_num m5-b">{{total.numberUnits}}<span></span></div>
+            
+            <div style="background:rgba({{color}},0.20); color:rgb({{color}});" class="a_box_icon flex_c_c br60">
+            <i class="{{percentageDetails.fieldIcon}}"></i>
+          </div>
+          </div>
+          <div class="flex_b">
+          <div class="a_box_in">
+            <div class="a_box_title padd5-b">{{field.external}}({{datas.length}})</div>
+            <div class="percentage">
+            <div class="br4-a {{percentageDetails.arrow}} flex_s_c"><i class="bi bi-graph-{{percentageDetails.arrow}}-arrow m5-r"></i>{{percentageDetails.percentage}}%</div>
+            <p class="padd5-t">{{#if percentageDetails.period}}Esta semana{{else}}Este mês{{/if}} <span class="p_span"> ({{percentageDetails.total.numberSeparotor.b}})</span></p>
+          </div>
+          </div>
+          <div class="a_box_in">
+          <div accesskey='{{last12Months}}' class="a_box_chart"></div>
+          </div>
+        </div>
+      </div>
+        
+      </div>
+          {{/each}}
+        </div>
+        
+        <div class="padd15-a wrap-c">
+      <div class="a_container br6-a">
+          <div class="wrap_header flex_b_c padd15-a">
+            <div class="a_box_icon m5-r flex_c_c br60"><i class="bi bi-currency-dollar"></i></div>
+            <div class="left m5-l">
+              <div class="flex_b">
+                <h3 class="title">{{chart.field.external}}</h3>
+                <div class="percentage">
+                  <div class="br4-a {{chart.percentageDetails.arrow}} flex_s_c"><i class="bi bi-graph-{{chart.percentageDetails.arrow}}-arrow m5-r"></i>{{chart.percentageDetails.percentage}}%</div>
+                </div>
+              </div>
+              <div class="flex_b">
+              <div class="amount">{{chart.total.numberUnits}} MZN</div>
+                 <p class="">{{#if chart.percentageDetails.period}}Esta semana{{else}}Este mês{{/if}}</p>
+              </div>
+            </div>
+          </div>
+        
+        <div  class="chart_wrap padd10-a">
+           <div id="earns_tool" class="chart_tool m5-a"></div>
+          <div title="{{user.name}}" accesskey='{{chart.last12Months}}' class="chart"></div>
+        </div>
+      </div>
+    </div>
+   
+   
+       
+      {{#if storage}}
+        {{>_storage-card}}
+        {{/if}}
+        </div>
+      </section>
+      {{>_profile}}
+      <script type="text/javascript" src="/js/layout.js"></script>
+    </main>

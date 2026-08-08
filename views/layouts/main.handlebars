@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#293042" />
+  <meta name="autor" content="Avvimo"/>
+  <meta property="og:url" content="{{baseUrl}}/">
+  <meta property="og:site_name" content="Avvimo">
+  <meta property="og:image" content="{{baseUrl}}/imgs/money.jpeg">
+  <meta property="twitter:image" content="{{baseUrl}}/imgs/money.jpeg">
+  <link rel="icon" type="image/x-icon" href="/imgs/logo1.png">
+  <link rel="shortcut icon" href="/imgs/logo1.png">
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/avvimo.js"></script>
+  <meta name="description" content="Junta-se a maior plataforma de investimentos online">
+  <meta property="og:description" content="Junta-te a maior plataforma de investimentos online">
+  <meta name="keywords" content="Investimentos, Dinheiro gratis, Como ganhar dinheiro online, Ganhar dinheiro">
+  <meta property="og:title" content="Avvimo:Faça sua renda extra online">
+  
+  {{{body}}}
+  {{#if error}}
+  <div id="alert_card" class="alert_card">
+    <div class="alert_body a_container br4-a padd10-a">
+      <div class="alert_header flex-sb"><div></div>
+      <button class="close-alert-btn  btn_circle br60 a_container"><i class="bi bi-x"></i></button>
+      </div>
+      <div class="alert_msg flex_s">
+        <i class="bi bi-exclamation-circle"></i>
+        <p class="padd10-l">{{error}}</p>
+      </div>
+    </div>
+  </div>
+  {{/if}}
+  {{#if success}}
+  <div id="alert_card" class="alert_card">
+    <div class="alert_body a_container br4-a padd10-a">
+      <div class="alert_header flex-sb"><div></div>
+      <button class="close-alert-btn  btn_circle br60 a_container"><i class="bi bi-x"></i></button>
+      </div>
+      <div class="alert_msg flex_s">
+        <i class="bi bi-check2-circle"></i>
+        <p class="padd10-l">{{success}}</p>
+      </div>
+    </div>
+  </div>
+  {{else}}
+  {{/if}}
+  <div id="scrollToTop" class="scrollToTop br4-a flex_c_c"><i class="bi bi-arrow-up"></i></div>
+  <script src="/js/index.js"></script>
+  </body>
+<html>
