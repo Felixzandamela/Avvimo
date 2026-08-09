@@ -301,7 +301,12 @@ admin.post("/e-mails/send-new", urlencodedParser, async (req, res) => {
 });   
   
 const cron = require('node-cron');
-cron.schedule('*/4 * * * *', async () => {
+cron.schedule('* * * * *', async () => {
+  console.log(7)
+  emailQueueSender();
+});
+/*
+cron.schedule('* * * * *', async () => {
   const depositsToUpdate = await Actions.get("deposits", {status:{ $in: ["EmProgresso", "Pendente"]}});
   const prop = function(result,_id,status){
     if(result){console.log( `deposits: ${_id} ${status}`);}
@@ -329,10 +334,9 @@ cron.schedule('*/4 * * * *', async () => {
       }else{continue;}
     }
   }
-  emailQueueSender();
 });
 
-cron.schedule('*/10 * * * *', async function(){
+cron.schedule('* * * * *', async function(){
   const usersTodelete = await Actions.get("users",{inDeleteQueue:true});
   if(usersTodelete){
     for(let b in usersTodelete){
@@ -376,5 +380,5 @@ cron.schedule('0 8 * * 2', async () => {
     }
   }
 });
-
+*/
 module.exports = admin;
