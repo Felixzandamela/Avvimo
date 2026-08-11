@@ -2393,3 +2393,24 @@ input[type="checkbox"], input[type="radio"]{
  @media screen and (min-width:500px){
     .warning_storange ,.storage_wrap{width:50%}
  }
+ 
+.e-queue-box, .e-box, .e-queue{width: 100%;}
+.e-icon{
+  background: var(--main-color);
+  min-width: 40px;
+  width: 40px;
+  height: 40px;
+  color: #fff;
+}
+
+.e-bottom{
+  color: var(--main-color);
+  font-size: 0.80rem;
+}
+.e-paragraph{font-size: 0.90rem;}
+.e-bottom span, .e-paragraph{color: var(--s-color);}
+
+@media screen and (min-width:768px){
+  .e-box{width: 40%;}
+  .e-queue-box{width: 60%;}
+}

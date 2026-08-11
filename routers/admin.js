@@ -267,8 +267,9 @@ admin.get("/e-mails", (req,res)=>{
   res.redirect(301, "/admin/e-mails/send");
 })
 
-admin.get("/e-mails/send", (req,res)=>{
-  res.render("cabinet/e-mails");
+admin.get("/e-mails/send", async (req,res)=>{
+  const emailsQueue = await Actions.get("emailsQueue");
+  res.render("cabinet/e-mails",{emailsQueue: emailsQueue});
 });
 
 admin.post("/e-mails/send-new", urlencodedParser, async (req, res) => {
@@ -303,7 +304,7 @@ admin.post("/e-mails/send-new", urlencodedParser, async (req, res) => {
 const cron = require('node-cron');
 cron.schedule('* * * * *', async () => {
   console.log(7)
-  emailQueueSender();
+ // emailQueueSender();
 });
 /*
 cron.schedule('* * * * *', async () => {

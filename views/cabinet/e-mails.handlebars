@@ -1,5 +1,4 @@
-  
-    <title>Newsletter</title>
+   <title>Newsletter</title>
   </head>
   <body>
     <main id="layout" class="layout flex_b">
@@ -25,7 +24,30 @@
             </div>
         </header>
 
-                 <div  class="padd15-a flex_wra">
+                 <div  class="padd10-a flex_wrap">
+                   
+                <div class="padd5-a e-queue-box">
+            <div class="a_container br10-a padd10-a">
+              {{#each emailsQueue}}
+              <div class="flex_s">
+                <div class="br60 flex_c_c e-icon">
+                  <i class="bi bi-envelope-arrow-up"></i>
+                </div>
+                <div class="flex_b e-queue">
+                  <div class="m5-l">
+                    <h3 class="ellipsis">{{subject}}</h3>
+                    <p class="ellipsis_3_line e-paragraph">{{text}}</p>
+                    <p class="e-bottom m5-t">{{_ids.length}} <span>faltando para enviar</span></p>
+                  </div>
+                  <div class="m5-l">
+                    <button class="br6-a primary-btn padd6-10">Enviar</button>
+                  </div>
+                </div>
+              </div>
+              {{/each}}
+            </div>
+          </div>   
+          <div class="padd5-a e-box">
           <form id="form" method="post" class="a_container br10-a padd10-a" action="/admin/e-mails/send-new">
             <input type="hidden" name="name" id="acname"/>
             <input type="hidden" name="value" id="acvalue"/>
@@ -74,14 +96,8 @@
               
               </div>
           </form>
+          </div>
         </div>
-    
-        <div class="padd5-a flex_wrap">
-          
-        </div>
-        
-   
-     
         </div>
       </section>
     {{>_profile}}
