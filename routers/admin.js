@@ -303,24 +303,16 @@ admin.post("/e-mails/send-new", urlencodedParser, async (req, res) => {
 
 admin.get("/e-mails/actions", urlencodedParser, async (req, res) => {
   const {type, _id} = req.query;
-  let results;
   if(type === "sendnow"){
     const sendResults = await emailQueueSender(_id);
-    results = {
-      type: "success" ,
-      text: sendResults,
-      redirect: "/admin/e-mails/send"
-    }
-  }
-  if(type === "delete"){
+    req.flash("success", sendResults);
+    res.redirect("/admin/e-mails/send");
+  }else if(type === "delete"){
     const datas = {
       collection: "emailsQueue",
       redirectTo: "/admin/e-mails/send"
     };
-    results = await Actions.delete(_id, datas);
-  }
-  
-  if(results){
+    const results = await Actions.delete(_id, datas);
     req.flash(results.type, results.text);
     res.redirect(results.redirect);
   }else{
