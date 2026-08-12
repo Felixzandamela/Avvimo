@@ -301,7 +301,7 @@ admin.post("/e-mails/send-new", urlencodedParser, async (req, res) => {
   }
 });
 
-admin.get("/emails/actions", urlencodedParser, async (req, res) => {
+admin.get("/e-mails/actions", urlencodedParser, async (req, res) => {
   //const {type, _id} = req.query;
   console.log(8)
   
