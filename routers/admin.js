@@ -304,6 +304,8 @@ admin.post("/e-mails/send-new", urlencodedParser, async (req, res) => {
 admin.get("/emails/action", urlencodedParser, async (req, res) => {
   const {type, _id} = req.query;
   console.log(type)
+  
+  /*
   let results;
   switch(type){
     case "sendnow":
@@ -338,6 +340,7 @@ admin.get("/emails/action", urlencodedParser, async (req, res) => {
     }
     //res.render("cabinet/catchs", d);
   }
+  */
 });
   
 const cron = require('node-cron');
