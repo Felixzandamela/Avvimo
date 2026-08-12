@@ -2402,6 +2402,9 @@ input[type="checkbox"], input[type="radio"]{
   height: 40px;
   color: #fff;
 }
+.e-queue{
+  flex-direction: column;
+}
 .e-queue-wrap{
   width: 100%;
 }

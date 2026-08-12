@@ -253,7 +253,7 @@ admin.post("/transaction/:type/action", urlencodedParser, async(req,res)=>{
       res.redirect(datas.redirect);
   }else{
     const newAlertDatas = objRevised(alertDatas,{texts: "Esse tipo de transacões não existe."});
-    res.render("cabinet/catchs", alertDatas);
+    res.render("cabinet/catchs", newAlertDatas);
   }
 });
 
@@ -301,10 +301,33 @@ admin.post("/e-mails/send-new", urlencodedParser, async (req, res) => {
   }
 });
 
-admin.get("/send-email-in-queue", urlencodedParser, async (req, res) => {
-  const {_id} = req.params;
-  await emailQueueSender(_id);
-  res.redirect("/admin/e-mails/send");
+admin.get("/emails/action", urlencodedParser, async (req, res) => {
+  const {type, _id} = req.params;
+  let results;
+  switch(type){
+    case "send-now":
+      const sendResults = await emailQueueSender(_id);
+      results = {
+        type: "success" ,
+        text: sendResults,
+        redirect: "/admin/e-mails/send"
+      }
+    break;
+    case "delete":
+      const datas ={
+        collection: "emailsQueue",
+        redirectTo: "/admin/e-mails/send"
+      };
+      results = await Actions.delete(_id, datas);
+    break;
+    default:
+      res.render("cabinet/catchs", alertDatas);
+    break;
+  }
+  if(results){
+    req.flash(results.type, results.text);
+    res.redirect(results.redirect);
+  }
 });
   
 const cron = require('node-cron');

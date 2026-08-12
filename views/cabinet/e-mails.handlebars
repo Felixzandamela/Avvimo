@@ -39,10 +39,35 @@
                     <p class="ellipsis_3_line e-paragraph">{{text}}</p>
                     <p class="e-bottom m5-t">{{_ids.length}} <span>faltando para enviar</span></p>
                   </div>
-                  <div class="m5-l">
-                    <a class="a" href="/admin/send-email-in-queue?id={{_id}}">
-                      <button class="br6-a primary-btn padd6-10">Enviar</button>
+                  <div class="padd10-t flex_e">
+                    <button class="br6-a oEvent danger-transparent-btn padd6-10 m5-r">Deletar<i class="bi bi-trash padd10-l"></i></button>
+                    <a class="a" href="/admin/emails/action?type=send-now&_id={{_id}}">
+                      <button class="br6-a primary-btn padd6-10 m5-l">Enviar <i class="bi bi-chevron-right padd10-l"></i></button>
                     </a>
+                    
+                    <form action="/admin/emails/action?type=delete&_id={{_id}}" method="get" class="a_alert alertO flex_c_c">
+      <div class="a_alert_container a_container br6-a padd10-a">
+        <div class="a_alert_header padd10-lr padd10-b">
+           <h3>Deletar email?</h3>
+        </div>
+        <div class="padd10-a">
+          <p></p>
+           <div class="a_alert_warning flex_s br4-a padd10-a">
+            <i class="bi bi-exclamation-square"></i>
+            <p>Ao deletar este email os (<b>{{_ids.length}}</b>) usuaríos não receberão este email!</p>
+          </div>
+        </div>
+        <div class="a_alert_btns m5-a flex_e_c">
+          <div class="m5-a">
+            <button type="button" class="transparent-btn canselO br4-a">Canselar</button>
+          </div>
+           <div class="m5-a ">
+            <button class="danger-btn br4-a">Deletar</button>
+          </div>
+        </div> 
+      </div>
+    </form>
+
                   </div>
                 </div>
               </div>

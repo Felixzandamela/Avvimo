@@ -32,9 +32,8 @@ module.exports.emailQueueSender = async function(_id){
    if(emails_Queue){
      const {_id, _ids, subject, text} = emails_Queue[0];
      if(_ids.length === 0){
-       const datas ={collection: "emailsQueue"};
-       const deleteEmailsQueue = await Actions.delete(_id.toString(), datas);
-       console.warn(deleteEmailsQueue);
+       const results = await deleteEmailsQueue(_id);
+       return results;
      }
      const idsSliced = _ids.slice(0,10);
      const users = await Actions.get("users", {_id: {$in: idsSliced}});
@@ -52,7 +51,12 @@ module.exports.emailQueueSender = async function(_id){
        }
        await Promise.all(emailPromises);
        await db.emailsQueue.findByIdAndUpdate(_id, {$pull: { _ids: { $in: idsSliced }}, new: true });
-       console.warn(`${idsSliced} deleted to email queue`);
+       return `${idsSliced.length} emails enviados e removidos da lista de espera.`;
      }
    }
+ }
+ async function deleteEmailsQueue(_id){
+   const datas ={collection: "emailsQueue"};
+   const results = await Actions.delete(_id.toString(), datas);
+   return "Email em espera removido!"
  }
