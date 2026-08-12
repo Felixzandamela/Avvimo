@@ -302,10 +302,7 @@ admin.post("/e-mails/send-new", urlencodedParser, async (req, res) => {
 });
 
 admin.get("/e-mails/actions", urlencodedParser, async (req, res) => {
-  //const {type, _id} = req.query;
-  console.log(8)
-  
-  /*
+  const {type, _id} = req.query;
   let results;
   switch(type){
     case "sendnow":
@@ -338,10 +335,8 @@ admin.get("/e-mails/actions", urlencodedParser, async (req, res) => {
       btnTitle: "Voltar atrás",
       redirectTo: null
     }
-    //res.render("cabinet/catchs", d);
+    res.render("cabinet/catchs", alertDatas);
   }
-  */
-  res.render("cabinet/e-mails")
 });
   
 const cron = require('node-cron');
