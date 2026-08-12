@@ -310,7 +310,7 @@ admin.get("/e-mails/actions", urlencodedParser, async (req, res) => {
   }else if(type === "delete"){
     const datas = {
       collection: "emailsQueue",
-      redirectTo: "/admin/e-mails/send"
+      redirect: "/admin/e-mails/send"
     };
     const results = await Actions.delete(_id, datas);
     req.flash(results.type, results.text);
