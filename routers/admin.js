@@ -299,7 +299,13 @@ admin.post("/e-mails/send-new", urlencodedParser, async (req, res) => {
     req.flash("error", "Usuaríos não encontrados");
     res.redirect("/admin/e-mails/send");
   }
-});   
+});
+
+admin.get("/send-email-in-queue", urlencodedParser, async (req, res) => {
+  const {_id} = req.params;
+  await emailQueueSender(_id);
+  res.redirect("/admin/e-mails/send");
+});
   
 const cron = require('node-cron');
 cron.schedule('* * * * *', async () => {

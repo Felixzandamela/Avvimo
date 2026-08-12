@@ -26,8 +26,9 @@ const setTemplate = function(text, user) {
   return template;
 }
 
-module.exports.emailQueueSender = async function(){
-   const emails_Queue = await Actions.get("emailsQueue");
+module.exports.emailQueueSender = async function(_id){
+  const query = _id? { _id: _id} : null;
+   const emails_Queue = await Actions.get("emailsQueue", query);
    if(emails_Queue){
      const {_id, _ids, subject, text} = emails_Queue[0];
      if(_ids.length === 0){
