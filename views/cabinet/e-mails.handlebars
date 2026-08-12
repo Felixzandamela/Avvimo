@@ -46,7 +46,7 @@
                       <button class="br6-a primary-btn padd6-10 m5-l">Enviar <i class="bi bi-chevron-right padd10-l"></i></button>
                     </a>
                     
-                    <form action="/admin/e-mails/actions?type=delete&_id={{_id}}" method="get" class="a_alert alertO flex_c_c">
+                    <div class="a_alert alertO flex_c_c">
       <div class="a_alert_container a_container br6-a padd10-a">
         <div class="a_alert_header padd10-lr padd10-b">
            <h3>Deletar email?</h3>
@@ -63,11 +63,13 @@
             <button type="button" class="transparent-btn canselO br4-a">Canselar</button>
           </div>
            <div class="m5-a ">
+             <a href="/admin/e-mails/actions?type=delete&_id={{_id}}" class="a">
             <button class="danger-btn br4-a">Deletar</button>
+            </a>
           </div>
         </div> 
       </div>
-    </form>
+    </div>
 
                   </div>
                 </div>
