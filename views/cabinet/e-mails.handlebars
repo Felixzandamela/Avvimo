@@ -28,6 +28,7 @@
                    
                 <div class="padd5-a e-queue-box">
             <div class="a_container br10-a padd10-a">
+              {{#if emailsQueue}}
               {{#each emailsQueue}}
               <div class="flex_s">
                 <div class="br60 flex_c_c e-icon">
@@ -72,6 +73,9 @@
                 </div>
               </div>
               {{/each}}
+              {{else}}
+              {{>_empty_card}}
+              {{/if}}
             </div>
           </div>   
           <div class="padd5-a e-box">

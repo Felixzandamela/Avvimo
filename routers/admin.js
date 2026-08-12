@@ -304,37 +304,26 @@ admin.post("/e-mails/send-new", urlencodedParser, async (req, res) => {
 admin.get("/e-mails/actions", urlencodedParser, async (req, res) => {
   const {type, _id} = req.query;
   let results;
-  switch(type){
-    case "sendnow":
-      const sendResults = await emailQueueSender(_id);
-      results = {
-        type: "success" ,
-        text: sendResults,
-        redirect: "/admin/e-mails/send"
-      }
-    break;
-    case "delete":
-      const datas ={
-        collection: "emailsQueue",
-        redirectTo: "/admin/e-mails/send"
-      };
-      results = await Actions.delete(_id, datas);
-    break;
-    default:
-      results = null;
-    break;
+  if(type === "sendnow"){
+    const sendResults = await emailQueueSender(_id);
+    results = {
+      type: "success" ,
+      text: sendResults,
+      redirect: "/admin/e-mails/send"
+    }
   }
+  if(type === "delete"){
+    const datas = {
+      collection: "emailsQueue",
+      redirectTo: "/admin/e-mails/send"
+    };
+    results = await Actions.delete(_id, datas);
+  }
+  
   if(results){
     req.flash(results.type, results.text);
     res.redirect(results.redirect);
   }else{
-    const d = {
-      type:"error",
-      title:"Erro!",
-      texts: "Houve um erro, por favor tente mais tarde. Se o erro persistir, por favor contacte-nos atrás dos nossos canaís.",
-      btnTitle: "Voltar atrás",
-      redirectTo: null
-    }
     res.render("cabinet/catchs", alertDatas);
   }
 });

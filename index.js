@@ -130,7 +130,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/admin', (req, res, next) => {
+app.use('/admin', authAdmin, (req, res, next) => {
   const isAdmin = true;
   res.locals.asideLinks = asideLinks("admin");
   res.locals.mode = "admin";
