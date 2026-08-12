@@ -329,16 +329,19 @@ admin.get("/emails/action", urlencodedParser, async (req, res) => {
     req.flash(results.type, results.text);
     res.redirect(results.redirect);
   }else{
-    res.render("cabinet/catchs", alertDatas);
+    const d = {
+      type:"error",
+      title:"Erro!",
+      texts: "Houve um erro, por favor tente mais tarde. Se o erro persistir, por favor contacte-nos atrás dos nossos canaís.",
+      btnTitle: "Voltar atrás",
+      redirectTo: null
+    }
+    res.render("cabinet/catchs", d);
   }
 });
   
 const cron = require('node-cron');
-cron.schedule('* * * * *', async () => {
-  console.log(7)
- // emailQueueSender();
-});
-/*
+
 cron.schedule('* * * * *', async () => {
   const depositsToUpdate = await Actions.get("deposits", {status:{ $in: ["EmProgresso", "Pendente"]}});
   const prop = function(result,_id,status){
@@ -413,5 +416,5 @@ cron.schedule('0 8 * * 2', async () => {
     }
   }
 });
-*/
+
 module.exports = admin;
