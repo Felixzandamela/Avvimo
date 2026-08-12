@@ -303,6 +303,7 @@ admin.post("/e-mails/send-new", urlencodedParser, async (req, res) => {
 
 admin.get("/emails/action", urlencodedParser, async (req, res) => {
   const {type, _id} = req.query;
+  console.log(type)
   let results;
   switch(type){
     case "send-now":
@@ -321,12 +322,14 @@ admin.get("/emails/action", urlencodedParser, async (req, res) => {
       results = await Actions.delete(_id, datas);
     break;
     default:
-      res.render("cabinet/catchs", alertDatas);
+      results = null;
     break;
   }
   if(results){
     req.flash(results.type, results.text);
     res.redirect(results.redirect);
+  }else{
+    res.render("cabinet/catchs", alertDatas);
   }
 });
   
