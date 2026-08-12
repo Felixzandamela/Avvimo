@@ -306,7 +306,7 @@ admin.get("/emails/action", urlencodedParser, async (req, res) => {
   console.log(type)
   let results;
   switch(type){
-    case "send-now":
+    case "sendnow":
       const sendResults = await emailQueueSender(_id);
       results = {
         type: "success" ,
@@ -336,7 +336,7 @@ admin.get("/emails/action", urlencodedParser, async (req, res) => {
       btnTitle: "Voltar atrás",
       redirectTo: null
     }
-    res.render("cabinet/catchs", d);
+    //res.render("cabinet/catchs", d);
   }
 });
   
