@@ -2402,7 +2402,9 @@ input[type="checkbox"], input[type="radio"]{
   height: 40px;
   color: #fff;
 }
-
+.e-queue-wrap{
+  width: 100%;
+}
 .e-bottom{
   color: var(--main-color);
   font-size: 0.80rem;
