@@ -302,7 +302,7 @@ admin.post("/e-mails/send-new", urlencodedParser, async (req, res) => {
 });
 
 admin.get("/emails/action", urlencodedParser, async (req, res) => {
-  const {type, _id} = req.params;
+  const {type, _id} = req.query;
   let results;
   switch(type){
     case "send-now":
