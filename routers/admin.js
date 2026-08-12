@@ -341,6 +341,7 @@ admin.get("/emails/actiong", async (req, res) => {
     //res.render("cabinet/catchs", d);
   }
   */
+  res.render("cabinet/e-mails")
 });
   
 const cron = require('node-cron');
