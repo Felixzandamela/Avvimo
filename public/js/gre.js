@@ -32,6 +32,9 @@ function check(input, type, index){
     case "vcode":
       return input.length !== 6 ? {msg:"O código deve ter 6 digítos", index:index} : null;
     break;
+    case "dates":
+      return !/^(0|[1-9]|10|11)\s(0[1-9]|[12][0-9]|3[01])(-(0[1-9]|[12][0-9]|3[01]))?$/.test(input)? {msg:"Data inválido", index: index} : null;
+    break;
     default: 
     return null;
   }

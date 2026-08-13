@@ -242,7 +242,7 @@ const containHtml = /<[a-z][\s\S]*>/i;
 const defineValue = function(key,value,internal){
   if(!value && !internal){return}
   else if(typeof value === "string" && !!value.match(containHtml) && !internal){return
-  }else if(/^(account|phoneNumber)$/i.test(key)){return value;
+  }else if(/^(account|phoneNumber|dates)$/i.test(key)){return value;
   }else if(key === "ids"){return value.split(">>>");
   }else if(/^(date|expireAt)$/i.test(key)){
     if(internal){return Array.isArray(value) && value.length > 0 ? formatDate(value) : null;
@@ -461,15 +461,25 @@ const scheduleEvents =[
   },
     {
     src:"/imgs/aniver.jpg",
-    date:"3 19",
+    date:"7 10-18",
     message:"Promoçao",
     percentage: 30,
   },
 ];
+
+function compareEvent (schedule, today){
+  const [eventMonth, eventDay] = schedule.split(" ");
+  const [todayMonth, todayDay] = today.split(" ");
+  const [start, end] = eventDay.split("-").map(Number);
+  if(eventMonth !== todayMonth){return false}
+  if(end){return Number(todayDay) >= start && Number(todayDay) <= end;}
+  return Number(todayDay) === start;
+}
+
 module.exports.getScheduleEvent = function (){
   let currentEvent = null;
   for(let event of scheduleEvents){
-    if(event.date === getTime().onlyMonthAndDate){
+    if(compareEvent(event.date, getTime().onlyMonthAndDate)){
       currentEvent = event;
     }
   }

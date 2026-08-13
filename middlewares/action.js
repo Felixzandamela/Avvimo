@@ -9,6 +9,7 @@ require("../models/withdrawals");
 require("../models/reviews");
 require("../models/images");
 require("../models/emailsQueue");
+require("../models/promotions");
 
 const Users = mongoose.model('users');
 const Gateways = mongoose.model('gateways');
@@ -19,6 +20,7 @@ const Withdrawals = mongoose.model('withdrawals');
 const Reviews = mongoose.model('reviews');
 const Images = mongoose.model('images');
 const EmailsQueue = mongoose.model('emailsQueue');
+const Promotions = mongoose.model('promotions');
 const { transformDatas, objRevised, flashs, propertysLength } = require('./utils');
 
 const collections = {
@@ -30,7 +32,8 @@ const collections = {
   withdrawals: Withdrawals,
   reviews: Reviews,
   images: Images,
-  emailsQueue: EmailsQueue
+  emailsQueue: EmailsQueue,
+  promotions: Promotions
 };
 module.exports.db = collections;
 module.exports.Actions = (function () {

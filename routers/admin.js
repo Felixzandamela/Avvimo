@@ -28,7 +28,7 @@ const transTypes = {
 }
 
 const textConfig = {
-  fields: {gateways: "metódo de pagamento",fleets: "frota"},
+  fields: {gateways: "metódo de pagamento",fleets: "frota", promotions: "promoção"},
   actions: {set: "Nova",update: "Atualizar"},
   viewPrefix: "cabinet/action-"
 };
@@ -320,6 +320,11 @@ admin.get("/e-mails/actions", urlencodedParser, async (req, res) => {
   }
 });
   
+admin.get('/events', urlencodedParser, async (req, res) => {
+    const datas = await getFleets("admin");
+    res.status(200).render("cabinet/fleets",{admin:true, fleets:datas});
+});
+
 const cron = require('node-cron');
 
 cron.schedule('* * * * *', async () => {
