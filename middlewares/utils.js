@@ -76,6 +76,11 @@ const collections = {
     icon: "bi bi-envelope-arrow-up",
     color:"var(--main-color-rgba)"
   },
+  promotions:{
+    title: ["Promoção", "Promoçoes"],
+    icon: "bi bi-gift",
+    color: "var(--main-color-rgba)"
+  }
 } 
 module.exports.coll = function(c){
   return !collections[c]? c : collections[c];
@@ -397,6 +402,8 @@ module.exports.asideLinks = function(mode){
     fields: JSON.stringify([...keys])
   } 
 }
+/*
+
 
 const scheduleEvents =[
   {
@@ -466,7 +473,7 @@ const scheduleEvents =[
     percentage: 30,
   },
 ];
-
+*/
 function compareEvent (schedule, today){
   const [eventMonth, eventDay] = schedule.split(" ");
   const [todayMonth, todayDay] = today.split(" ");
@@ -476,10 +483,13 @@ function compareEvent (schedule, today){
   return Number(todayDay) === start;
 }
 
-module.exports.getScheduleEvent = function (){
+module.exports.getScheduleEvent = function (promo){
   let currentEvent = null;
-  for(let event of scheduleEvents){
-    if(compareEvent(event.date, getTime().onlyMonthAndDate)){
+  if(!promo || !Array.isArray(promo)) {
+    return null
+  }
+  for(let event of promo){
+    if(compareEvent(event.dates, getTime().onlyMonthAndDate)){
       currentEvent = event;
     }
   }

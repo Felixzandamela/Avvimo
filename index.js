@@ -94,6 +94,7 @@ app.use(flash());
 app.use(async(req, res, next)=>{
   const arryFields = ["users"];
   const affiliatesCard =  req.user? await performance(arryFields, req.user._id) : null;
+  const promotions = await Actions.get("promotions");
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
   res.locals.baseUrl = `${_protocal}${_host}`;
@@ -101,7 +102,7 @@ app.use(async(req, res, next)=>{
   res.locals.gateways = await Actions.get("gateways", {status: true});
   res.locals.user = req.user? await transformDatas(_defineProperty(req.user._doc),true) : null;
   res.locals.affiliates = affiliatesCard ? affiliatesCard.cards[0] : null;
-  res.locals.events = getScheduleEvent();
+  res.locals.events = getScheduleEvent(promotions);
   res.locals.storage = storage.getItem("dbStorage");
   next();
 });

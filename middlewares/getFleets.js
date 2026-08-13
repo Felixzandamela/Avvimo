@@ -2,7 +2,8 @@ const {Actions} = require("./action");
 const {objRevised,transformDatas, getScheduleEvent} = require("./utils");
 module.exports.getFleets = async function(mode, _id){
   let query = mode === "admin" ? null : {status: true};
-  const isPromotion = getScheduleEvent();
+  const promotions = await Actions.get("promotions");
+  const isPromotion = getScheduleEvent(promotions);
   let fleets = null;
   if(_id){
     fleets = await Actions.get("fleets",_id+"");
