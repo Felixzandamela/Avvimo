@@ -61,6 +61,11 @@ admin.get("/gateways", async (req,res)=>{
   res.status(200).render("cabinet/gateways", {gateways:datas});
 });
 
+admin.get('/promotions', urlencodedParser, async (req, res) => {
+  const datas = await Actions.get("promotions");
+  res.status(200).render("cabinet/promotions",{promotions:datas});
+});
+
 admin.get('/:collection/action', urlencodedParser, async (req, res) => {
   const type = !req.query.type ? "set" : req.query.type;
   const _id = !req.query._id ? "" : req.query._id;
@@ -319,11 +324,6 @@ admin.get("/e-mails/actions", urlencodedParser, async (req, res) => {
   }else{
     res.render("cabinet/catchs", alertDatas);
   }
-});
-  
-admin.get('/events', urlencodedParser, async (req, res) => {
-    const datas = await Actions.get("promotions");
-    res.status(200).render("cabinet/promotions",{admin:true, promotions:datas});
 });
 
 const cron = require('node-cron');
