@@ -406,78 +406,7 @@ module.exports.asideLinks = function(mode){
     fields: JSON.stringify([...keys])
   } 
 }
-/*
 
-
-const scheduleEvents =[
-  {
-    src:"/imgs/ano_novo.jpg",
-    date:"0 01",
-    message:"Ano novo",
-    percentage: 15,
-  },
-  {
-    src:"/imgs/3_fev.jpg",
-    date:"1 03",
-    message:"Dia dos Heróis Moçambicanos",
-    percentage: 5,
-  },
-  {
-    src:"/imgs/aniver.jpg",
-    date:"1 08",
-    message:"Dia de Aniversário de Avvimo S.A",
-    percentage: 30,
-  },
-  {
-    src:"/imgs/7_abril.jpg",
-    date:"3 08",
-    message:"Dia da Mulher Moçambicana",
-    percentage: 7,
-  },
-  {
-    src:"/imgs/1_maio.jpg",
-    date:"4 01",
-    message:"Dia Internacional dos Trabalhadores",
-    percentage: 10,
-  },
-  {
-    src:"/imgs/25_junho.jpg",
-    date:"5 25",
-    message:"Dia da Independência Nacional",
-    percentage: 25,
-  },
-  {
-    src:"/imgs/7_set.jpg",
-    date:"8 07",
-    message:"Dia da Vitória",
-    percentage: 7,
-  },
-  {
-    src:"/imgs/25_set.jpg",
-    date:"8 25",
-    message:"Dia das Forças Armadas",
-    percentage: 25,
-  },
-  {
-    src:"/imgs/4_outubro.jpg",
-    date:"9 04",
-    message:"Dia da Paz e Reconciliação",
-    percentage: 10,
-  },
-  {
-    src:"/imgs/Natal.jpg",
-    date:"11 25",
-    message:"Natal",
-    percentage: 25,
-  },
-    {
-    src:"/imgs/aniver.jpg",
-    date:"7 10-18",
-    message:"Promoçao",
-    percentage: 30,
-  },
-];
-*/
 function compareEvent (schedule, today){
   const [eventMonth, eventDay] = schedule.split(" ");
   const [todayMonth, todayDay] = today.split(" ");

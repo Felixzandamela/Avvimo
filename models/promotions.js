@@ -3,7 +3,8 @@ const Schema = mongoose.Schema;
 const Promotions = new Schema({
   src:{
     type:String,
-    required:false
+    required:false,
+    default: "/imgs/aniver.jpg"
   },
   name:{
     type: String,
