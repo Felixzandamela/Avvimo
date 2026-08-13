@@ -35,7 +35,7 @@ module.exports.emailQueueSender = async function(_id){
        const results = await deleteEmailsQueue(_id);
        return results;
      }
-     const idsSliced = _ids.slice(0,10);
+     const idsSliced = _ids.slice(0,20);
      const users = await Actions.get("users", {_id: {$in: idsSliced}});
      const emailPromises = [];
      if(users) {
