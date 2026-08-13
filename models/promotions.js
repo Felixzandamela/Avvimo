@@ -10,7 +10,7 @@ const Promotions = new Schema({
     required:true
   },
   percentage:{
-    type:String,
+    type: Number,
     required:true
   },
   dates:{

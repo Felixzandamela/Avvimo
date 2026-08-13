@@ -389,6 +389,10 @@ module.exports.asideLinks = function(mode){
       title: "Emails",
       link: "/admin/e-mails",
       icon: "bi bi-envelope-at"
+    },{
+      title: "Promoçōes",
+      link: "/admin/promotions",
+      icon: "bi bi-gift"
     }
   ];
   const asideLinks = mode !== "admin" ? defaultAsideLinks : [...defaultAsideLinks,...adminAsideLinks];

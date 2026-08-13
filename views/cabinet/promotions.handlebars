@@ -1,0 +1,85 @@
+   <title>Promoçoēs</title>
+  </head>
+  <body>
+    <main id="layout" class="layout flex_b">
+      {{>_aside}}
+      <section class="a_sec">
+        {{>_layout-nav}}
+        <div class="main_wrap">
+        <header class="a_sec_header padd5-lr flex_b_c">
+          <h1 class="page-title">Promoçoēs</h1>
+          <div class="flex_c_c">
+            <a href="/admin/promotions/action?type=set" class="a plus-fixed">
+              <div class="primary-btn  padd8-15 br4-a flex_c_c"> <p class="">Nova Promoção</p>
+              <div class="btn_plus flex_c_c">
+                <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
+                  <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                  <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4"/>
+                </svg>
+              </div>
+              </div>
+            </a>
+          </div>
+        </header>
+        
+        {{#if promotions}}
+        <div class="padd10-a">
+          <div class="a_container br4-a padd10-a flex_wrap">
+            {{#each promotions}}
+            <div class="promotion_card padd10-a flex_s">
+              <div class="avatar m5-r">
+                <img class="br60" src="{{src}}"/>
+              </div>
+              <div class="promotion_body padd10-l">
+                <h4 class="ellipsis">{{name}}</h4>
+                <div class="flex_s_c s_color">
+                  <i class="bi bi-calendar"></i>
+                  {{dates}}
+                </div>
+                <div class="flex_e padd10-t">
+                  <div class="m5-r oEvent">
+                    <button class="danger-btn br4-a padd6-10">Deletar <i class="bi bi-trash m5-l"></i></button>
+                  </div>
+                  <div class="m5-l">
+                    <button class="update-btn br4-a padd6-10">Editar <i class="bi bi-pen m5-l"></i></button>
+                  
+                  </div>
+                </div>
+              </div>
+              <form action="/admin/promotions/action?type=delete&_id={{_id}}" method="post" class="a_alert alertO flex_c_c">
+      <div class="a_alert_container a_container br6-a padd10-a">
+        <div class="a_alert_header padd10-lr padd10-b">
+           <h3>Deletar Promoção {{name}}?</h3>
+        </div>
+        <div class="padd10-a">
+          <p></p>
+           <div class="a_alert_warning flex_s br4-a padd10-a">
+            <i class="bi bi-exclamation-square"></i>
+            <p>Ao deletar esta promoção não será possível reverter.</p>
+          </div>
+        </div>
+        <div class="a_alert_btns m5-a flex_e_c">
+          <div class="m5-a">
+            <button type="button" class="transparent-btn canselO br4-a">Canselar</button>
+          </div>
+           <div class="m5-a ">
+            <button class="danger-btn br4-a">Deletar</button>
+          </div>
+        </div> 
+      </div>
+    </form>
+
+            </div>
+            {{/each}}
+          </div>
+        </div>
+        {{else}}
+          {{>_empty_card}}
+        {{/if}}
+
+        </div>
+      </section>
+      {{>_profile}}
+      <script type="text/javascript" src="/js/layout.js"></script>
+    </main>
+  </body>

@@ -97,6 +97,7 @@ admin.post('/:collection/action', urlencodedParser,async (req, res) => {
   const {type,_id} = req.query;
   const collection = req.params.collection;
   const bodys = await transformDatas(req.body);
+  console.log(body)
   const datas = {
     type:type,
     redirect:`/admin/${collection}`,
@@ -321,8 +322,8 @@ admin.get("/e-mails/actions", urlencodedParser, async (req, res) => {
 });
   
 admin.get('/events', urlencodedParser, async (req, res) => {
-    const datas = await getFleets("admin");
-    res.status(200).render("cabinet/fleets",{admin:true, fleets:datas});
+    const datas = await Actions.get("promotions");
+    res.status(200).render("cabinet/promotions",{admin:true, promotions:datas});
 });
 
 const cron = require('node-cron');

@@ -140,6 +140,7 @@ input::placeholder{color: var(--s-color);}
 .transparent-btn-br{background: none;color: var(--main-color); 
   border: 1.5px solid var(--main-color);
 }
+.s_color{color: var(--s-color);}
 .transparent-btn:hover{background:var(--border);}
 .btn32{height:32px;}
 .btn_circle{
@@ -2421,3 +2422,14 @@ input[type="checkbox"], input[type="radio"]{
   .e-box{width: 40%;}
   .e-queue-box{width: 60%;}
 }
+
+.promotion_card .avatar{
+  height: 60px;
+  width: 60px;
+  min-width: 60px;
+}
+.promotion_card .avatar img{
+  height: 100%;
+  width: 100%;
+}
+.promotion_card, .promotion_body{width: 100%;}
