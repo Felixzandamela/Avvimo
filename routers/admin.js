@@ -101,8 +101,7 @@ admin.get('/:collection/action', urlencodedParser, async (req, res) => {
 admin.post('/:collection/action', urlencodedParser,async (req, res) => {
   const {type,_id} = req.query;
   const collection = req.params.collection;
-  const bodys = await transformDatas(req.body);
-  console.log(body)
+  const bodys = req.body? await transformDatas(req.body) : {};
   const datas = {
     type:type,
     redirect:`/admin/${collection}`,
