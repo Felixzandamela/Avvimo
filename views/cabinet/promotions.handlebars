@@ -28,13 +28,14 @@
             {{#each promotions}}
             <div class="promotion_card padd10-a flex_s">
               <div class="avatar m5-r">
+                {{#if active}} <div class="av_icon br60 flex_c_c"></div> {{/if}}
                 <img class="br60" src="{{src}}"/>
               </div>
               <div class="promotion_body padd10-l">
                 <h4 class="ellipsis">{{name}}</h4>
                 <div class="flex_s_c s_color">
-                  <i class="bi bi-calendar"></i>
-                  {{dates}}
+                  <i class="bi bi-calendar m5-r"></i>
+                  {{dates}} {{#if active}} <span class="active  m5-l">ativado</span>{{/if}}
                 </div>
                 <div class="flex_e padd10-t">
                   <div class="m5-r oEvent">

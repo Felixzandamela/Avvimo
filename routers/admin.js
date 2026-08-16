@@ -3,7 +3,7 @@ const admin = express.Router();
 const bodyParser = require('body-parser');
 const urlencodedParser = bodyParser.urlencoded({limit: '50mb', extended: true });
 const {sendEmail} = require('../middlewares/sendEmail');
-const {asideLinks,getTime,transformDatas,sortByDays, objRevised, statusIcons, propertysLength,msgsStatus, formatDate,cardDatas} = require('../middlewares/utils');
+const {asideLinks,getTime,transformDatas,sortByDays, objRevised, statusIcons, propertysLength,msgsStatus, formatDate,cardDatas,getScheduleEvent} = require('../middlewares/utils');
 const {pagination} = require('../middlewares/pagination');
 const {Actions,db} = require('../middlewares/action');
 const {getFleets} = require("../middlewares/getFleets");
@@ -62,8 +62,20 @@ admin.get("/gateways", async (req,res)=>{
 });
 
 admin.get('/promotions', urlencodedParser, async (req, res) => {
-  const datas = await Actions.get("promotions");
-  res.status(200).render("cabinet/promotions",{promotions:datas});
+  const promotions = await Actions.get("promotions");
+  const currentPromotion = getScheduleEvent(promotions);
+  const promotionsArray = [];
+  if(promotions){
+    for(let promotion of promotions){
+      if(promotion._id === currentPromotion._id){
+        const promotionOb = objRevised(promotion._doc, {active: true});
+        promotionsArray.push(promotionOb);
+        continue;
+      }
+      promotionsArray.push(objRevised(promotion._doc, {active: false}));
+    }
+  }
+  res.status(200).render("cabinet/promotions",{promotions: promotionsArray});
 });
 
 admin.get('/:collection/action', urlencodedParser, async (req, res) => {
