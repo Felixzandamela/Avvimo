@@ -23,19 +23,22 @@
         </header>
         
         {{#if promotions}}
-        <div class="padd15-a">
-          <div class="a_container br4-a padd10-a flex_wrap">
+        <div class="br4-a flex_wrap m5-a">
             {{#each promotions}}
-            <div class="promotion_card padd10-a flex_s">
+            <div class="promotion_card padd10-a">
+              <div class="flex_s a_container br6-a padd15-a">
               <div class="avatar m5-r">
                 {{#if active}} <div class="av_icon br60 flex_c_c"></div> {{/if}}
                 <img class="br60" src="{{src}}"/>
               </div>
               <div class="promotion_body padd10-l">
                 <h4 class="ellipsis">{{name}}</h4>
-                <div class="flex_s_c s_color">
-                  <i class="bi bi-calendar m5-r"></i>
-                  {{dates}} {{#if active}} <span class="active  m5-l">ativado</span>{{/if}}
+                <div class="flex_s_c">
+                  <div class="p-percents br4-a m5-r">+{{percentage}}</div>
+                  <div class="m5-l flex_s_c">
+                  <i class="bi bi-calendar4-week m5-r"></i>
+                  <p class="s_color">{{dates}} {{#if active}}<span class="active  m5-l">ativado</span></p>{{/if}}
+                  </div>
                 </div>
                 <div class="flex_e padd10-t">
                   <div class="m5-r oEvent">
@@ -48,6 +51,7 @@
                   </div>
                 </div>
               </div>
+            </div>
               <form action="/admin/promotions/action?type=delete&_id={{_id}}" method="post" class="a_alert alertO flex_c_c">
       <div class="a_alert_container a_container br6-a padd10-a">
         <div class="a_alert_header padd10-lr padd10-b">
@@ -74,7 +78,6 @@
             </div>
             {{/each}}
           </div>
-        </div>
         {{else}}
           {{>_empty_card}}
         {{/if}}
