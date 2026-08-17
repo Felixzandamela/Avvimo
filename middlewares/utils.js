@@ -228,6 +228,7 @@ const objRevised  = function(target, source) {
 module.exports.objRevised = function(datas,nester){return objRevised(datas,nester);};
 
 const isBoolean = function(data){
+  console.log(data)
   const boolean = {"false":false,"true":true,"null": null,"undefined" :undefined}
   return boolean[data];
 };
@@ -266,7 +267,7 @@ const transformDatas = async function(obj, internal, sObj) {
   const shouldMerg = typeof sObj === "object";
   const mergedObj = shouldMerg?  objRevised(obj, sObj) : obj;
   const result = {};
-  const ignoreKeys = /^(owner|fleet|gateway|_id|upline)$/i;
+  const ignoreKeys = /^(owner|fleet|gateway|_id|upline|from)$/i;
   for(const key in mergedObj){
     if(typeof mergedObj[key] === 'object' && !Array.isArray(mergedObj[key]) && !ignoreKeys.test(key)){
       result[key] = transformObject(mergedObj[key], internal);

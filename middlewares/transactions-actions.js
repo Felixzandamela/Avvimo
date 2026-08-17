@@ -251,6 +251,7 @@ module.exports.getTransaction = async function( mode, type, _id){
   const isDeposit = type === "deposits";
   const populete = ["gateway","owner"];
   if(isDeposit){populete.push("fleet");};
+  if(type === "commissions") {populete.push("from");};
   let datas = await Actions.get(type, _id, populete);
   if(!datas){ 
     return{
@@ -262,6 +263,7 @@ module.exports.getTransaction = async function( mode, type, _id){
       texts: "Essa transação esta indisponível ou houve um erro na busca"
     }
   }
+  
   datas = await transformDatas(datas._doc,true);
   const isPaymentInstantly = datas.gateway.paymentInstantly ? true : false;
   const isIatured = isDeposit && datas.status === "EmProgresso" && datas.expireAt.secondsLength >= 0;

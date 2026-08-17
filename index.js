@@ -106,7 +106,8 @@ app.use(async(req, res, next)=>{
   res.locals.storage = storage.getItem("dbStorage");
   next();
 });
-getFleets()
+
+
 /*
 app.use(helmet());
 app.use(

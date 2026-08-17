@@ -2443,3 +2443,14 @@ input[type="checkbox"], input[type="radio"]{
 .promotion_card .active{
   color:RGB(5, 226, 126);
 }
+
+.p-percents{
+  padding: 2px 6px;
+  background: var(--main-color);
+  color: #fff;
+  font-size: 0.80rem;
+  font-weight: 600;
+}
+.texts{
+  font-size: 0.80rem;
+}
