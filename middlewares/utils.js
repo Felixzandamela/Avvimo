@@ -228,7 +228,6 @@ const objRevised  = function(target, source) {
 module.exports.objRevised = function(datas,nester){return objRevised(datas,nester);};
 
 const isBoolean = function(data){
-  console.log(data)
   const boolean = {"false":false,"true":true,"null": null,"undefined" :undefined}
   return boolean[data];
 };
