@@ -65,15 +65,19 @@ admin.get('/promotions', urlencodedParser, async (req, res) => {
   const promotions = await Actions.get("promotions");
   const currentPromotion = getScheduleEvent(promotions);
   const promotionsArray = [];
-  
   if(promotions){
-    for(let promotion of promotions){
-      if(typeof currentPromotion === "object" && promotion._id === currentPromotion._id){
-        const promotionOb = objRevised(promotion._doc, {active: true});
-        promotionsArray.push(promotionOb);
-        continue;
+    if(!currentPromotion){
+      for(let promotion of promotions){
+        promotionsArray.push(objRevised(promotion._doc, {active: false}));
       }
-      promotionsArray.push(objRevised(promotion._doc, {active: false}));
+    }else{
+      for(let promotion of promotions){
+        if(promotion._id === currentPromotion._id){
+          promotionsArray.push(objRevised(promotion._doc, {active: true}));
+          continue;
+        }
+        promotionsArray.push(objRevised(promotion._doc, {active: false}));
+      }
     }
   }
   res.status(200).render("cabinet/promotions",{promotions: promotionsArray});
