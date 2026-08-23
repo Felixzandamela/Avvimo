@@ -326,7 +326,7 @@ admin.post("/e-mails/send-new", urlencodedParser, async (req, res) => {
 admin.get("/e-mails/actions", urlencodedParser, async (req, res) => {
   const {type, _id, limit} = req.query;
   if(type === "sendnow"){
-    const sendResults = await emailQueueSender(_id);
+    const sendResults = await emailQueueSender(_id, limit);
     req.flash("success", sendResults);
     res.redirect("/admin/e-mails/send");
   }else if(type === "delete"){
