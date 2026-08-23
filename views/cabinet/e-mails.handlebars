@@ -42,9 +42,14 @@
                   </div>
                   <div class="padd10-t flex_e">
                     <button class="br6-a oEvent danger-transparent-btn padd6-10 m5-r">Deletar<i class="bi bi-trash padd10-l"></i></button>
-                    <a class="a" href="/admin/e-mails/actions?type=sendnow&_id={{_id}}">
+                    <form action="admin/e-mails/actions" method="get">
+                      <input type="hidden" name="type" value="sendnow"/>
+                      <input type="hidden" name="_id" value="{{_id}}"/>
+                      <div  class="">
+                        <input name="limit" value="10"/>
+                      </div>
                       <button class="br6-a primary-btn padd6-10 m5-l">Enviar <i class="bi bi-chevron-right padd10-l"></i></button>
-                    </a>
+                    </form>
                     
                     <div class="a_alert alertO flex_c_c">
       <div class="a_alert_container a_container br6-a padd10-a">

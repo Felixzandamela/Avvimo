@@ -324,7 +324,7 @@ admin.post("/e-mails/send-new", urlencodedParser, async (req, res) => {
 });
 
 admin.get("/e-mails/actions", urlencodedParser, async (req, res) => {
-  const {type, _id} = req.query;
+  const {type, _id, limit} = req.query;
   if(type === "sendnow"){
     const sendResults = await emailQueueSender(_id);
     req.flash("success", sendResults);
@@ -341,6 +341,7 @@ admin.get("/e-mails/actions", urlencodedParser, async (req, res) => {
     res.render("cabinet/catchs", alertDatas);
   }
 });
+/*
 
 const cron = require('node-cron');
 
@@ -418,5 +419,5 @@ cron.schedule('0 8 * * 2', async () => {
     }
   }
 });
-
+*/
 module.exports = admin;
