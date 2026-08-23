@@ -50,9 +50,13 @@ module.exports.emailQueueSender = async function(_id, limit){
          }
          emailPromises.push(sendEmail(currentUserToEmail, "customized"));
        }
-       await Promise.all(emailPromises);
-       await db.emailsQueue.findByIdAndUpdate(_id, {$pull: { _ids: { $in: idsSliced }}, new: true });
-       return `${idsSliced.length} emails enviados e removidos da lista de espera.`;
+       try{
+         const promiseAll = await Promise.all(emailPromises);
+         await db.emailsQueue.findByIdAndUpdate(_id, {$pull: { _ids: { $in: idsSliced }}, new: true });
+         return `${idsSliced.length} emails enviados e removidos da lista de espera.`;
+       }catch(error){
+         return error;
+       }
      }
    }
  }
