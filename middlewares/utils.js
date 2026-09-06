@@ -173,17 +173,30 @@ const timeAgo=(date) => {
   return runningTime.unit < 1 ? texts.timeUnits[0] : [runningTime.time, currentTimeUnits, texts.ago].join(" ");
 }
 
+function getMonthName(mm, locale, sliced){
+  if(!mm){
+    console.warn("Mês não Definido");
+    return "Mês";
+  }
+  locale = !locale || typeof locale !== "string" ? "pt-PT" : locale; 
+  const date = new Date(0, mm), month = date.toLocaleString(locale ,{month:'long'});
+  const monthName = month.charAt(0).toUpperCase() + month.slice(1);
+  return sliced? monthName.slice(0,3) : monthName;
+}
+
+module.exports.getMonthName = function(mm, locale, sliced){
+  return getMonthName(mm, locale, sliced);
+}
+
 const formatDate=(d) =>{
-  const locales =["pt-PT","en-US"];
   const dataTime = d ? d : getTime().fullDate;
-  const date=new Date(0,dataTime[0]), monthName=date.toLocaleString(locales[0],{month:'long'});
-  const capitalizeMonth=monthName.charAt(0).toUpperCase() + monthName.slice(1);
-  const dateToTimer=`${date.toLocaleString(locales[1],{month:'long'})}, ${[dataTime[1], dataTime[2], dataTime[3]].join(' ')}`;
-  let runnintime=runningDays(new Date(dateToTimer));
+  const monthName = getMonthName(dataTime[0]);
+  const dateToTimer = `${getMonthName(dataTime[0], "en-US")}, ${[dataTime[1], dataTime[2], dataTime[3]].join(' ')}`;
+  let runnintime = runningDays(new Date(dateToTimer));
   return{
-    fullDate:`${capitalizeMonth}, ${[dataTime[1], dataTime[2],dataTime[3]].join(' ')}`,
-    onlyDate:`${capitalizeMonth}, ${[dataTime[1], dataTime[2]].join(' ')}`,
-    onlyMonthAndYear:`${[capitalizeMonth, dataTime[2]].join(' ')}`,
+    fullDate:`${monthName}, ${[dataTime[1], dataTime[2],dataTime[3]].join(' ')}`,
+    onlyDate:`${monthName}, ${[dataTime[1], dataTime[2]].join(' ')}`,
+    onlyMonthAndYear:`${[monthName, dataTime[2]].join(' ')}`,
     timeAgo:timeAgo(new Date(dateToTimer)),
     daysLength: runnintime.days,
     minutesLength: runnintime.minutes,

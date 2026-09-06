@@ -68,15 +68,17 @@ admin.get('/promotions', urlencodedParser, async (req, res) => {
   if(promotions){
     if(!currentPromotion){
       for(let promotion of promotions){
-        promotionsArray.push(objRevised(promotion._doc, {active: false}));
+        const p_dates = `${getMonthName(Number(promotion.dates.split(" ")[0]))} ${promotion.dates.split(" ")[1]}`;
+        promotionsArray.push(objRevised(promotion._doc, {dates: p_dates, active: false}));
       }
     }else{
       for(let promotion of promotions){
+        const p_dates = `${getMonthName(Number(promotion.dates.split(" ")[0]))} ${promotion.dates.split(" ")[1]}`;
         if(promotion._id === currentPromotion._id){
-          promotionsArray.push(objRevised(promotion._doc, {active: true}));
+          promotionsArray.push(objRevised(promotion._doc, {dates: p_dates, active: true}));
           continue;
         }
-        promotionsArray.push(objRevised(promotion._doc, {active: false}));
+        promotionsArray.push(objRevised(promotion._doc, {dates: p_dates, active: false}));
       }
     }
   }

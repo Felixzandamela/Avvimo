@@ -32,7 +32,7 @@ const _host = process.env.HOST;
 const company = process.env.COMPANY;
 const {authentication, authAdmin} = require("./middlewares/authentication");
 
-const {objRevised, asideLinks,transformDatas,_defineProperty,getScheduleEvent} = require("./middlewares/utils");
+const {objRevised, formatDate, asideLinks,transformDatas,_defineProperty,getScheduleEvent} = require("./middlewares/utils");
 const {getFleets} = require("./middlewares/getFleets");
 
 const DATABASE = process.env.DATABASE;
